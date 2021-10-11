@@ -284,12 +284,12 @@ return [
                 ],
                 [
                     'text' => 'Pedidos',
-                    'url'  => '#',
+                    'url'  => 'pedidos',
                     'icon' => 'fas fa-fw fa-clipboard-list',
                 ],
                 [
                     'text' => 'Ventas',
-                    'url'  => '#',
+                    'url'  => 'ventas',
                     'icon' => 'fas fa-fw fa-hand-holding-usd',
                 ],
             ],
