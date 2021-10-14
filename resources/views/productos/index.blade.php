@@ -17,21 +17,18 @@
 
 
 @if(Session::has('success'))
-<div class="card">
-    <div class="alert alert-success" role="alert">
+<div class="alert alert-success" role="alert">
     {{Session::get('success')}}
-    </div>
 </div>
 @endif
 @if ($errors-> any())
-<div class="class-card">
+
 @foreach ($errors->all() as $value)
 <div class="alert alert-danger" role="alert">   
-
     {{$value}}
     </div>
 @endforeach
-</div>
+
 @endif
 
 

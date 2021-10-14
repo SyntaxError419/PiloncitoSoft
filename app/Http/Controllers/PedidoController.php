@@ -36,7 +36,7 @@ class PedidoController extends Controller
     {
         $clientes=Cliente::all();
         $detalleventas=DetalleVenta::all();
-        $productos=Producto::all();
+        $productos=Producto::where('estado', '=',1)->get();
         return view('pedido.create', compact('clientes', 'productos', 'detalleventas'))
         ->with('clientes', $clientes, 'productos', $productos, 'detalleventas', $detalleventas);
     }
