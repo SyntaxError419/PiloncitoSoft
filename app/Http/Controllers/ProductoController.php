@@ -98,7 +98,7 @@ class ProductoController extends Controller
                 ]);
             }
             DB::commit();
-            return redirect('/productos')->withErrors('Producto crado');
+            return redirect('/productos')->with('success','Producto creado');
         } catch (Exception $e) {
             DB::rollBack();
             return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
