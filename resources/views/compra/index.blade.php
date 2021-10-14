@@ -14,7 +14,7 @@
 <body>
 <h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
-<a href="compras/create"  class="btn btn-primary mb-3">Crear compra</a>
+<a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
 
 @if(Session::has('success'))
@@ -61,11 +61,11 @@
 
             <form action="{{route ('compras.destroy',$compra->id)}}" method="POST"> 
 <!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
- -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-primary">Detalles</a>
+ -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
 
             @csrf
             @method('DELETE')
-            <button  type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+            <button  type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>  
 
             </form>
             

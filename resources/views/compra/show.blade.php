@@ -65,7 +65,7 @@
 
 
 <center>
-<a href="/compras" class="btn btn-secondary" >Volver</a>
+<a href="/compras" class="btn btn-secondary"><i class="fas fa-backward"></i></a>
 </center>
 </form>
 

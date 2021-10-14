@@ -16,7 +16,7 @@
 
 <h1 class="bg text-dark text-center mt">Gestión de Insumos</h1>
 
-<a href="insumos/create" class="btn btn-primary mb-3">Crear insumo</a>
+<a href="insumos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
       
         <table id="insumos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
@@ -53,11 +53,13 @@
                           <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }}>
                           <span class="slider round"></span>
                       </label>
-                      <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-primary">Detalles</a>
-                      <a href="/insumos/{{$insumo->id}}/edit" class="btn btn-sm btn-primary">Editar</a>         
+                      <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+                    
+                      <a href="/insumos/{{$insumo->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
+                     
                             @csrf
                             @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                       </form>                      
                    </td>  
                </tr>

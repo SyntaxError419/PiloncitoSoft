@@ -94,9 +94,8 @@
                     
                     </div>      
                     <hr>
-                    
-                    <a href="/compras" class="btn btn-secondary" tabindex="10">Cancelar</a>
-                    <button type="submit" class="btn btn-dark" tabindex="11">Guardar compra</button>
+                    <a href="/compras" class="btn btn-secondary" tabindex="10" style="float: left;"><i class="fas fa-backward"></i></a>
+                    <button style="float: right;" type="submit" class="btn btn-success" tabindex="11"><i class="fas fa-check"></i></button>
          </form>
         </div>
 

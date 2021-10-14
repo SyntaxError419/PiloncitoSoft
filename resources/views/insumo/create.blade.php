@@ -17,15 +17,15 @@
 
 <div class="mb-3">
     <label for="" class="form-label">Cantidad</label>
-    <input id="cantidad" name="cantidad" type="number"   class="form-control" tabindex="2"  required="required" >  
+    <input id="cantidad" name="cantidad" type="number"  value ="0"  class="form-control" tabindex="2"  required="required" >  
 </div>
 
 
 
 
 
-<a href="/insumos" class="btn btn-secondary" tabindex="3">Cancelar</a>
-<button type="submit" class="btn btn-primary" tabindex="4">Guardar</button>
+<a href="/insumos" class="btn btn-secondary" tabindex="3"style="float: left;"><i class="fas fa-backward"></i></a>
+<button style="float: right;" type="submit" class="btn btn-success" tabindex="4"><i class="fas fa-check"></i></button>
 
 </form>
     

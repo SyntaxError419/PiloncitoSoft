@@ -27,8 +27,8 @@
 
 
 
-<a href="/insumos" class="btn btn-secondary" >Cancelar</a>
-<button type="submit" class="btn btn-primary" >Guardar</button>
+<a href="/insumos" class="btn btn-secondary" style="float: left;"><i class="fas fa-backward"></i></a>
+<button style="float: right;" type="submit" class="btn btn-success" ><i class="fas fa-check"></i></button>
 
 </form>
 

@@ -38,7 +38,7 @@
 </div>
 
 
-<center><a href="/insumos" class="btn btn-secondary" >Volver</a></center>
+<a href="/insumos" class="btn btn-secondary" tabindex="3"style="float: left;"><i class="fas fa-backward"></i></a>
 
 
 </form>
