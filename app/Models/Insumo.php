@@ -25,4 +25,13 @@ class Insumo extends Model
             return $this->hasMany(Detallecompra::class, 'id_insumo');   
         } 
         
+    public function productos(){
+        return $this->belongsToMany(Producto::class, 'detallecompra','id_insumo','id_producto');
+        
+    }
+
+    public function Insumoproductos(){
+        return $this->belongsToMany(Insumoproductos::class, 'insumo_producto');
+        
+    }
 }

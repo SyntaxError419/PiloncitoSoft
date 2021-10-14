@@ -269,7 +269,7 @@ return [
         ],
         [
             'text' => 'Productos',
-            'url'  => '#',
+            'url'  => 'productos',
             'icon' => '',
             'label_color' => 'red',
         ],
@@ -279,7 +279,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Clientes',
-                    'url'  => '#',
+                    'url'  => 'clientes',
                     'icon' => 'fas fa-fw fa-user-tag',
                 ],
                 [
