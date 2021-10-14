@@ -97,7 +97,7 @@
 </div>
 </div>
 </div>
-<a href="/pedidos" class="btn btn-secondary">Cancelar</a> 
+<a href="/pedidos" class="btn btn-secondary"><i class="fas fa-backward"></i></a> 
 </div>
 </div>
 </div>

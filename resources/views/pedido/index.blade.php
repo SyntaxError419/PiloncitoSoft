@@ -15,7 +15,7 @@
 
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
-<a href="pedidos/create" class="btn btn-primary mb-3">Tomar pedido</a>
+<a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
 @if(Session::has('success'))
 <div>
@@ -87,14 +87,14 @@
                   <td>
                     <form action="{{ route('pedidos.destroy',$venta->id) }}" class="d-inline formulario-eliminar" method="POST">
                     
-                    <a href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success">Listo</a>
+                    <a href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
                     
-                    <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                     
-                    <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary">Detalles</a>
+                    <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
                           @csrf
                           @method('DELETE')
-                      <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                      <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                   </td>
                </tr>

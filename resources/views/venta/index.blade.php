@@ -53,7 +53,7 @@
                     @endif
                   </td>
                   <td>                  
-                    <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary">Detalles</a>
+                    <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
                   </td>
                </tr>
                @endforeach

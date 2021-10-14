@@ -72,8 +72,8 @@
                     </div>
                 </div>
                     <div>
-                        <a href="/pedidos" class="btn btn-danger" tabindex="6" style="float: left;">Cancelar</a>
-                        <button style="float: right;" type="submit" class="btn btn-success" tabindex="7">Tomar pedido</button>
+                        <a href="/pedidos" class="btn btn-secondary" tabindex="6" style="float: left;"><i class="fas fa-backward"></i></a>
+                        <button style="float: right;" type="submit" class="btn btn-success" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
                 </form>
             </div>
@@ -144,7 +144,7 @@
                             <td>$${objProducto.precioUnitario}</td>
                             <td>$${objProducto.subTotal}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminarProducto(${objProducto.idProducto})">Eliminar</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
