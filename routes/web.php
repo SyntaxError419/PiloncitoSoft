@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\CompraController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,3 +46,15 @@ Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getP
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+Route::resource('insumos','App\Http\Controllers\InsumoController');
+Route::resource('compras','App\Http\Controllers\CompraController');
+Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
+
+
+
+
+Route::get('/crearCompras',[CompraController::class,'createInsumo'])->name('crearCompra');
+Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');

@@ -257,12 +257,12 @@ return [
                 ],
                 [
                     'text' => 'Insumos',
-                    'url'  => '#',
+                    'url'  => 'insumos',
                     'icon' => 'fas fa-fw fa-cheese',
                 ],
                 [
                     'text' => 'Compras',
-                    'url'  => '#',
+                    'url'  => 'compras',
                     'icon' => 'fas fa-fw fa-boxes',
                 ],
             ],
