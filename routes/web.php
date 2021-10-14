@@ -32,6 +32,10 @@ Route::resource('pedidos', 'App\Http\Controllers\PedidoController');
 
 Route::resource('ventas', 'App\Http\Controllers\VentaController');
 
+Route::resource('clientes', 'App\Http\Controllers\ClienteController');
+
+Route::resource('productos', 'App\Http\Controllers\ProductoController');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('facImp', 'App\Http\Controllers\PedidoController@genCodRec')->name('genCodRec');
@@ -40,8 +44,16 @@ Route::get('cambioEstadoPago/pedidos/{venta}', 'App\Http\Controllers\PedidoContr
 
 Route::get('cambioEstadoPedido/pedidos/{venta}', 'App\Http\Controllers\PedidoController@cambioEstadoPedido')->name('pedidos.cambioEstadoPedido');
 
+Route::get('camStado', 'App\Http\Controllers\ClienteController@camStado')->name('camStado');
+
+Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('camtado');
+
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
+
+Route::get('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
