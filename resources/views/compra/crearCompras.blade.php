@@ -14,7 +14,7 @@
             <div class="mb-3">
     <label for="id_proveedor" class="form-label"  required="required" >Proveedor</label>
    
-    <select name="id_proveedor" id="id_proveedor"tabindex="1" >
+    <select  class="form-control"  name="id_proveedor" id="id_proveedor"tabindex="1" >
     <option value="">Seleccione un proveedor</option>
     @foreach ($proveedores as $proveedor)
         <option value="{{$proveedor-> id}}" >
@@ -41,7 +41,7 @@
     
                           <div class="form-group">
                             <label for="id_insumo">Insumo:</label>
-                                 <select name="id_insumo" id="id_insumo" tabindex="4">
+                                 <select  class="form-control" name="id_insumo" id="id_insumo" tabindex="4">
                                      <option value="">Seleccione el insumo</option>
                                       @foreach ($insumos as $insumo)
                                      <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
