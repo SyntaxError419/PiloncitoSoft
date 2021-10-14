@@ -51,7 +51,7 @@ h3, h4 {text-align: right}
                     </div>
                     
                     <div class="card-body">
-                        <table class="table bg-gray mt-2" style="border-radius: 5px;">
+                    <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px;"">
                             <thead>
                                 <tr>
                                     <th>Nombre producto</th>
@@ -59,7 +59,7 @@ h3, h4 {text-align: right}
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="cajaDetalle">
+                            <tbody class="table bg-white table-sm" id="cajaDetalle">
                         
                             </tbody>
                         </table>
