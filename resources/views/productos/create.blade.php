@@ -9,15 +9,14 @@ h4 {display: inline}
 h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
+<<h2 class="pt-3">Crear Producto</h2>
 <div class="card mt-4">
-    <div class="card-header mb-2">
-        Crear Producto
-    </div>
-    <div class="card-body">
-        <div class="card">
+    <div class="card-header">
+      
+        <div class="card-body">
             <form action="{{route ('guardarproducto')}}" method ="POST">
             @csrf
-                <div class="card-header">
+                
 
                 
                 <div class="row mb-3">
@@ -55,6 +54,8 @@ h3, h4 {text-align: right}
                         </div>
                         
                     </div>
+                </div>  
+            </div>      
                     
                     <div class="card-body">
                         <table class="table bg-gray mt-2" style="border-radius: 5px;">
@@ -73,7 +74,7 @@ h3, h4 {text-align: right}
                     </div>
                     <div>
                     <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
                     </div>
                 </form>
             
@@ -131,7 +132,7 @@ h3, h4 {text-align: right}
                             <td>${objInsumo.cantidad}</td>
                             
                             <td>
-                                <button type="button" class="btn btn-danger" onclick="eliminarInsumo(${objInsumo.idInsumo })">X</button>
+                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
