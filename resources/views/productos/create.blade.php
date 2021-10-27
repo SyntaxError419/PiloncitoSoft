@@ -132,11 +132,7 @@ h3, h4 {text-align: right}
                             <td>${objInsumo.cantidad}</td>
                             
                             <td>
-<<<<<<< HEAD
-                                <button type="button" class="btn btn-outline-danger" onclick="eliminarInsumo(${objInsumo.idInsumo })"><i class="fas fa-trash"></i></button>
-=======
                             <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
->>>>>>> origin/milena
                             </td>
                         </tr>
                     `);
