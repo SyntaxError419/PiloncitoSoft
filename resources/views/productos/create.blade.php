@@ -9,39 +9,44 @@ h4 {display: inline}
 h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
+<<h2 class="pt-3">Crear Producto</h2>
 <div class="card mt-4">
-    <div class="card-header mb-2">
-        Crear Producto
-    </div>
-    <div class="card-body">
-        <div class="card">
+    <div class="card-header">
+      
+        <div class="card-body">
             <form action="{{route ('guardarproducto')}}" method ="POST">
             @csrf
-                <div class="card-header">
+                
 
                 
-                    <div class="form-group">
-                    <div class="mb-3">
-                  <label for="" class="form-label">Nombre</label>
-                    <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
-                </div>
+                <div class="row mb-3">
+                        <div class="col">
+                            <label for="" class="form-label">Nombre</label>
+                            <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
+                        </div>
 
-                <div class="mb-3">
-                  <label for="" class="form-label">Precio</label>
-                  <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
+                        <div class="col">
+                            <label for="" class="form-label">Precio</label>
+                            <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
+                        </div>
                 </div>
-                        <label for="id_insumo" class="form-label">Insumo:</label>
-                            <select class="form-control" name="id_insumo" id="id_insumo">
-                                <option value="">Seleccione el insumo</option>
-                                @foreach($insumos as $i)
+                <div class="row mb-3">
+                        <div class="col">
+
+                            <label for="id_insumo" class="form-label">Insumo:</label>
+                                <select class="form-control" name="id_insumo" id="id_insumo">
+                                    <option value="">Seleccione el insumo</option>
+                                    @foreach($insumos as $i)
                                     <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
-                                @endforeach
-                            </select>
+                                    @endforeach
+                                </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="text" class="form-control" name="cantidad" id="cantidad">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="text" class="form-control" name="cantidad" id="cantidad">
+                            </div>
                         </div>
                         <div >
                            
@@ -49,6 +54,8 @@ h3, h4 {text-align: right}
                         </div>
                         
                     </div>
+                </div>  
+            </div>      
                     
                     <div class="card-body">
                     <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px;"">
@@ -67,7 +74,7 @@ h3, h4 {text-align: right}
                     </div>
                     <div>
                     <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
                     </div>
                 </form>
             
@@ -125,7 +132,11 @@ h3, h4 {text-align: right}
                             <td>${objInsumo.cantidad}</td>
                             
                             <td>
+<<<<<<< HEAD
                                 <button type="button" class="btn btn-outline-danger" onclick="eliminarInsumo(${objInsumo.idInsumo })"><i class="fas fa-trash"></i></button>
+=======
+                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
+>>>>>>> origin/milena
                             </td>
                         </tr>
                     `);
