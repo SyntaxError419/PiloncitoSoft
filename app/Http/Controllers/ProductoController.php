@@ -181,10 +181,12 @@ class ProductoController extends Controller
         $productos ->delete();
         return redirect('/productos');
     }
-    public function insudestroy($id)
+    public function insudestroy($id_Insumo,$id_Producto)
     {
-        
-        $insumoproductos=Insumoproducto::find($id);
+        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
+        $rs = mysqli_query($db, "SELECT (idIsumo)  FROM Insumoproducto WHERE idProducto=$id_Producto AND idInsumo=$id_Insumo");
+       
+        $insumoproductos=Insumoproducto::find($rs);
         $insumoproductos ->delete();
         
     }

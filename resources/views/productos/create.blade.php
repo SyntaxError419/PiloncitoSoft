@@ -20,28 +20,34 @@ h3, h4 {text-align: right}
                 <div class="card-header">
 
                 
-                    <div class="form-group">
-                    <div class="mb-3">
-                  <label for="" class="form-label">Nombre</label>
-                    <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
-                </div>
+                <div class="row mb-3">
+                        <div class="col">
+                            <label for="" class="form-label">Nombre</label>
+                            <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
+                        </div>
 
-                <div class="mb-3">
-                  <label for="" class="form-label">Precio</label>
-                  <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
+                        <div class="col">
+                            <label for="" class="form-label">Precio</label>
+                            <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
+                        </div>
                 </div>
-                        <label for="id_insumo" class="form-label">Insumo:</label>
-                            <select class="form-control" name="id_insumo" id="id_insumo">
-                                <option value="">Seleccione el insumo</option>
-                                @foreach($insumos as $i)
+                <div class="row mb-3">
+                        <div class="col">
+
+                            <label for="id_insumo" class="form-label">Insumo:</label>
+                                <select class="form-control" name="id_insumo" id="id_insumo">
+                                    <option value="">Seleccione el insumo</option>
+                                    @foreach($insumos as $i)
                                     <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
-                                @endforeach
-                            </select>
+                                    @endforeach
+                                </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="text" class="form-control" name="cantidad" id="cantidad">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="text" class="form-control" name="cantidad" id="cantidad">
+                            </div>
                         </div>
                         <div >
                            

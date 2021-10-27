@@ -56,4 +56,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
-Route::get('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
+    
+

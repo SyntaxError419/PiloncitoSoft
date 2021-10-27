@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<h1 class="bg text-dark text-center mt">Gestión de Productos</h1>
+<h1 class="bg text-dark text-center pt-2">Gestión Productos</h1>
 
 
 <body>
@@ -42,7 +42,7 @@
 <a href="productos/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>     
 <thead class="bg-primary text-white">
             <tr>
-                <th scope="col">Id</th>
+               
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Estado</th>
@@ -53,7 +53,7 @@
           <tbody>
               @foreach ($productos as $producto)
               <tr>
-                  <td>{{$producto->id}}</td>
+                  
                   <td>{{$producto->nombre}}</td>
                   <td>{{$producto->precio}}</td>
                

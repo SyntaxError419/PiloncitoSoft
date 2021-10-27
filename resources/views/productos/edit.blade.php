@@ -9,61 +9,69 @@ h4 {display: inline}
 h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
+
+<h2 class="pt-3">Editar Producto</h2>
 <div class="card mt-4">
-    <div class="card-header mb-2">
-        Editar Producto
-    </div>
-    <div class="card-body">
-        <div class="card">
+    <div class="card-header">
+      
+        <div class="card-body">
+        
             <form action="/productos/{{$productos->id}}" method ="POST">
             
                 @method('PUT')  
-                <div class="card-header">
+                
 
                 
-                    <div class="form-group">
-                    <div class="mb-3">
-                  <label for="" class="form-label">Nombre</label>
-                    <input id="nombre" name="nombre" class="form-control" value="{{$productos->nombre}}" tabindex="1" required="required">
-                </div>
-
-                <div class="mb-3">
-                  <label for="" class="form-label">Precio</label>
-                  <input id="precio" name="precio" type="number" step="any" class="form-control" value="{{$productos->precio}}" tabindex="2" required="required">
-                </div>
-                    
-                     <div class="mb-3">
-                        <label for="id_insumo" class="form-label">Insumo:</label>
-                            <select class="form-control" name="id_insumo" id="id_insumo">
-                                <option value="">Seleccione el insumo</option>
-                                @foreach($insumos as $i)
-                                    <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
-                                @endforeach
-                            </select>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="" class="form-label">Nombre</label>
+                            <input id="nombre" name="nombre" class="form-control" value="{{$productos->nombre}}" tabindex="1" required="required">
                         </div>
-                     </div>
                         
-                        <div class="form-group">
+                        <div class="col">
+                            <label for="" class="form-label">Precio</label>
+                            <input id="precio" name="precio" type="number" step="any" class="form-control" value="{{$productos->precio}}" tabindex="2" required="required">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="id_insumo" class="form-label">Insumo:</label>
+                                <select class="form-control" name="id_insumo" id="id_insumo">
+                                        <option value="">Seleccione el insumo</option>
+                                            @foreach($insumos as $i)
+                                        <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
+                                            @endforeach
+                                </select>
+                               
+                        </div>
+                        
+                        <div class="col">
                             <label for="cantidad">Cantidad</label>
                             <input type="text" class="form-control" name="cantidad" id="cantidad">
                         </div>
+                    </div>    
                         <div >
                            
                             <button type="button" id="agregarInsumo" class="btn btn-secondary mt" style="float: left;">Agregar</button>
                         </div>
                         
-                    </div>
                     
+                </div>
+    </div>
+    
                     <div class="card-body">
-                        <table class="table bg-gray mt-2" style="border-radius: 5px;">
+                    <table class="table bg-gray table-bordered shadow-lg mb-2" style="border-radius: 7px;">
                             <thead>
                                 <tr>
                                     <th>Insumo</th>
                                     <th>Cantidad</th>
+                                    <th>Acciones</th>
                                     
                                 </tr>
                             </thead>
-                            <tbody id="cajaDetalle">
+                            <tbody >
+                            <tbody class="table bg-white" id="cajaDetalle" >
                             
                   
                             @foreach ($insumoproductos as $in)
@@ -77,36 +85,36 @@ h3, h4 {text-align: right}
               
                             <td>
                            
-                        <form action="{{ route('insudestroy',$in->id) }}" class="d-inline formulario-eliminar" method="POST">
+                        <form action="{{ route('insudestroy',$in->id,$productos->id) }}" class="d-inline formulario-eliminar" method="POST">
                   
                         @csrf
                         @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                    </form>
-                  </form>                      
+                        <button type="submit" class="btn btn-sm btn-danger active"><i class="fas fa-trash"></i></button>
+                    
+                                      
                </td>
            </tr>
            @endforeach
            
                   
                   
-                            </tbody>
+                        </tbody>
                         </table>    
                             
                     </div>
 
-                    <tbody>
+                <tbody>
              
            </tbody>
-                 
+           </div>
                     <div>
                     <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
                     </div>
                 </form>
             
-        </div>
-    </div>
+        
+    
 @endsection
 
 @section('js')
@@ -164,7 +172,7 @@ h3, h4 {text-align: right}
                             
                             
                             <td>
-                                <button type="button" class="btn btn-sm btn-danger"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
@@ -197,4 +205,19 @@ h3, h4 {text-align: right}
             return index;
         }
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_insumo').select2();
+    });
+
+    </script>
+
+
+
+
+
+
 @endsection
