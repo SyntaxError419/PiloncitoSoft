@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<h1 class="bg text-dark text-center mt">Gestión de Clientes</h1>
+<h1 class="bg text-dark text-center pt-2">Gestión Clientes</h1>
 
 
 <body>
@@ -25,7 +25,7 @@
 <a href="clientes/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>     
 <thead class="bg-primary text-white">
             <tr>
-                <th scope="col">Id</th>
+                
                 <th scope="col">Nombre</th>
                 <th scope="col">Cedula</th>
                 <th scope="col">Direccion</th>
@@ -38,7 +38,7 @@
           <tbody>
               @foreach ($clientes as $cliente)
               <tr>
-                  <td>{{$cliente->id}}</td>
+                 
                   <td>{{$cliente->nombre}}</td>
                   <td>{{$cliente->cedula}}</td>
                   <td>{{$cliente->direccion}}</td>

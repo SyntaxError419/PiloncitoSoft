@@ -68,4 +68,6 @@ Route::get('/crearCompras',[CompraController::class,'createInsumo'])->name('crea
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
-Route::get('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
+    
+
