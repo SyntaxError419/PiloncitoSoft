@@ -122,15 +122,16 @@ class PedidoController extends Controller
     public function update(Request $request, $id)
     {
         $ventas= Venta::find($id);
-        
-        $ventas->id_cliente=$request->get('id_cliente');
+        $cedula=$request->get('id_cliente');
+        $idCliente = PedidoController::getCliente($cedula);
+        $ventas->id_cliente = $idCliente;
 
-        foreach ($request->id_producto as $key => $value) {
-            $ventas->detalleventa($id,$value, $request ->cantidad [$key]);
-        }
+        $ventas->pago = $request->get('pago');
+        $ventas->estado = $request->get('estado');
+        $ventas->formaPago = $request->get('formaPago');
 
         $ventas->save();
-        return redirect('/pedidos');
+        return redirect('pedidos')->with('editar', 'El pedido se ha modificado correctamente!');;
     }
 
     /**

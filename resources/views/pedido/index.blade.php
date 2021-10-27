@@ -109,6 +109,15 @@
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 
+@if(session('editar') == 'El pedido se ha modificado correctamente!')
+    <script>
+        Swal.fire(
+        'Modificado!',
+        'El pedido ha sido modificado.',
+        'success'
+        ) 
+    </script>
+@endif
 
 @if(session('cancelar') == 'El pedido se ha cancelado correctamente!')
     <script>
@@ -116,7 +125,7 @@
         '¡Cancelado!',
         'El pedido ha sido cancelado.',
         'success'
-        ) 
+        )
     </script>
 @endif
 @if(session('error') == 'El pedido no se ha podido cancelar!')
@@ -342,7 +351,7 @@
         e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
+            text: "¡No podrás revertir éste cambio!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

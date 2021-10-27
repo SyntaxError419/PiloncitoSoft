@@ -1,17 +1,25 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
-
-<div class="card mt-4">
-    <div class="card-header mb-2">
-        <h4>Pedido</h4>
+<style type="text/css">
+h1 {text-align: center}
+h2 {text-align: left}
+h3 {display: inline}
+h4 {display: inline}
+h3, h4 {text-align: right}
+.lcd{text-align: right}
+</style>
+<label class="pt-3">
+<h2>Tomar pedido</h2>
+</label>
     </div>
     <div class="card-body">
         <div class="card">
             <form id="myForm" action="/pedidos" method ="POST">
                 @csrf
                 <div class="card-header">
-                    <div class="form-group">
+                    <div class="row">
+                    <div class="col">
                         <label for="" class="form-label">Cliente:</label>
                         <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" list="id_cliente" name="id_cliente" placeholder="Seleccione el cliente" class="form-control" tabindex="1" required="required">
                         <datalist id="id_cliente">
@@ -20,7 +28,7 @@
                             @endforeach
                         </datalist>
                     </div>
-                    <div class="form-group">
+                    <div class="col">
                         <label for="" class="form-label">Forma de pago:</label>
                         <input list="formaPago" name="formaPago" placeholder="Seleccione el método de pago" class="form-control" tabindex="2" required="required">
                         <datalist id="formaPago">
@@ -28,7 +36,9 @@
                             <option value="Transferencia bancaria">
                         </datalist>
                     </div>
-                    <div class="form-group">
+                    </div>
+                    <div class="row mt-3">
+                    <div class="col">
                         <label for="id_producto" class="form-label">Producto:</label>
                             <select class="form-control" name="id_producto" id="id_producto" tabindex="3">
                                 <option value="">Seleccione el producto</option>
@@ -37,13 +47,12 @@
                                 @endforeach
                             </select>
                     </div>
-                        
-                    <div class="form-group">
+                    <div class="col">
                         <label for="cantidad">Cantidad:</label>
                         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="cantidad" id="cantidad" tabindex="5">
                     </div>                    
-                        
-                    <div class="lcd mt-2">
+                    </div>
+                    <div class="lcd mt-4">
                     <button type="button" id="agregarProducto" class="btn btn-secondary mt" style="float: left;" tabindex="5">Agregar</button>
                         <h3>Total: $</h3>
                         <h3 id="totalVenta"></h3>
@@ -55,7 +64,7 @@
                     </div>
                 </div>
                     <div class="card-body">
-                        <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px;"">
+                        <table class=" table-bordered table bg-gray shadow-lg mb-2" style="border-radius: 8px;"">
                             <thead>
                                 <tr>
                                     <th>Nombre producto</th>
@@ -66,7 +75,6 @@
                                 </tr>
                             </thead>
                             <tbody class="table bg-white table-sm" id="cajaDetalle">
-                        
                             </tbody>
                         </table>
                     </div>
@@ -76,8 +84,6 @@
                         <button style="float: right;" type="submit" class="btn btn-success" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
                 </form>
-            </div>
-        </div>
 @endsection
 
 @section('js')
@@ -144,7 +150,7 @@
                             <td>$${objProducto.precioUnitario}</td>
                             <td>$${objProducto.subTotal}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-danger active btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
@@ -175,13 +181,17 @@
             }
             return index;
         }
+        
     </script>
-<style type="text/css">
-h1 {text-align: center}
-h2 {text-align: left}
-h3 {display: inline}
-h4 {display: inline}
-h3, h4 {text-align: right}
-.lcd{text-align: right}
-</style>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_proveedor').select2();
+    });
+
+    $(document).ready(function() {
+        $('#id_producto').select2();
+    });
+    </script>
 @endsection

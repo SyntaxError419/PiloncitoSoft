@@ -9,6 +9,7 @@ h4 {display: inline}
 h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
+<h2 class="pt-3">Editar producto</h2>
 <div class="card mt-4">
     <div class="card-header mb-2">
         Editar Producto
