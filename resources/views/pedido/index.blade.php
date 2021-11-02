@@ -16,29 +16,6 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-
-@if(Session::has('success'))
-<div>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>{{Session::get('success')}}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</div>
-@endif
-@if ($errors-> any())
-<div>
-@foreach ($errors->all() as $value)
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>{{$value}}</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endforeach
-</div>
-@endif
       
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
@@ -102,8 +79,6 @@
            </tbody>
       </table>
 
-
-
 @section('js')
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
@@ -128,10 +103,21 @@
         )
     </script>
 @endif
+@if(session('guardo') == 'Se guardó el pedido')
+    <script>
+        Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Pedido creado exitosamente!',
+                showConfirmButton: false,
+                timer: 3500
+            })
+    </script>
+@endif
 @if(session('error') == 'El pedido no se ha podido cancelar!')
     <script>
         Swal.fire(
-        '¡Error!',
+        '¡Ups!',
         'El pedido no ha sido cancelado.',
         'error'
         ) 
@@ -367,7 +353,6 @@
 });
 
 </script>
-
 </body>
 </html> 
 @endsection

@@ -77,7 +77,7 @@ class PedidoController extends Controller
                 ]);
             }
             DB::commit();
-            return redirect('pedidos')->with('success','Se guardo el pedido');
+            return redirect('pedidos')->with('guardo','Se guardó el pedido');
         } catch (Exception $e) {
             DB::rollBack();
             return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
