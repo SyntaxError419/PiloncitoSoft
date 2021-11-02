@@ -7,6 +7,8 @@ use App\Models\Insumo;
 use App\Models\Proveedores;
 use App\Models\Detallecompra;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+
 
 
 class CompraController extends Controller
@@ -51,8 +53,7 @@ class CompraController extends Controller
     }
     public function save(Request $request){
 
-        if (count($request-> id_insumo)<1 || count($request ->cantidad)<1 /* || count($request ->iva)<1 
-        || count($request ->precio_unitario)<1 || count($request ->subtotal)<1  */ ){
+        if (count($request-> id_insumo)<1 || count($request ->cantidad)<1  ){
             return redirect('/compras')->withErrors('No se pudo guardar la compra.');
         }
         try {
@@ -85,10 +86,11 @@ class CompraController extends Controller
 
             DB::commit();
             return redirect('/compras')->with('success','Se guardo la compra');
-        } catch (Exception $e) {
+        } catch (QueryException $e) {
             DB::rollBack();
-            return redirect('/compras')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
-        }
+            return redirect('/compras')->withErrors('Ocurrio un error,el número de factura ya está registrado');
+
+    }  
 
 }
 
@@ -209,7 +211,28 @@ class CompraController extends Controller
     public function destroy($id)
     {
         $compra = Compra::find($id);
-        $compra ->delete();
-        return redirect('/compras');
+        if ($compra->estado == 1) {
+            return redirect('compras')->with('error', 'La compra no se ha podido cancelar!');    
+        }else {
+            $compra->update(['estado'=>0]); 
+            
+            return redirect('compras')->with('cancelar', 'La compra se ha cancelado correctamente!');
+        }
+    
+
+    }
+    
+    public function  camEstadoC(Request $request) 
+    {
+     
+    $ComprasUpdate = Compra::findOrFail($request->id)->update(['estado' => $request->estado]); 
+
+    if($request->estado == 0)  {
+        $newStatus = 'Cancelado';
+    }else{
+        $newStatus ='Activado';
+    }
+
+    return response()->json(['var'=>''.$newStatus.'']);
     }
 }

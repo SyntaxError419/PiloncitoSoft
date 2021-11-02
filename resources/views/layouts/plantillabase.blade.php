@@ -10,7 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/maquinawrite.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/switch.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cssGeneral.css') }} ">
-    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
       
   
