@@ -257,19 +257,19 @@ return [
                 ],
                 [
                     'text' => 'Insumos',
-                    'url'  => '#',
+                    'url'  => 'insumos',
                     'icon' => 'fas fa-fw fa-cheese',
                 ],
                 [
                     'text' => 'Compras',
-                    'url'  => '#',
+                    'url'  => 'compras',
                     'icon' => 'fas fa-fw fa-boxes',
                 ],
             ],
         ],
         [
             'text' => 'Productos',
-            'url'  => '#',
+            'url'  => 'productos',
             'icon' => '',
             'label_color' => 'red',
         ],
@@ -279,7 +279,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Clientes',
-                    'url'  => '#',
+                    'url'  => 'clientes',
                     'icon' => 'fas fa-fw fa-user-tag',
                 ],
                 [

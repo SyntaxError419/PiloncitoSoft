@@ -3,6 +3,7 @@
 @section('css')
 
 <link href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
 
 @endsection
 
@@ -13,48 +14,54 @@
 
 <body>
 
-<h1 class="bg text-dark text-center pt-3">Gestión de ventas</h1>
+<h1 class="bg text-dark text-center mt">Gestión de Insumos</h1>
 
-<h1 class="bg text-dark text-center pt-4"></h1>
+<a href="insumos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
       
-        <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+        <table id="insumos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
-            <tr>
-                <th scope="col">Id. Recibo</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Total</th>
-                <th scope="col">Forma de pago</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
-            </tr>
+          <tr> 
+      <th scope="col">Id</th>
+      <th scope="col">Nombre de insumo</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Acciones</th>
+
+
+    </tr>
           </thead>
           
           <tbody>
-              @foreach ($ventas as $venta)
+              @foreach ($insumos as $insumo)
               <tr>
-                  <td>{{$venta->id_recibo}}</td>
-                  <td>{{$venta->clientes->nombre}}</td>
-                  <td>{{$venta->fecha}}</td>
-                  <td>{{$venta->total}}</td>
-                  <td>{{$venta->formaPago}}</td>
-                  <td>
-                    @if($venta->estado == 0)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary">Por iniciar</a>
-                    @elseif($venta->estado == 1)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger">En proceso</a>
-                    @elseif($venta->estado == 2)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning">Por entregar</a>
-                    @elseif($venta->estado == 3)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
-                    @else
-                        <p>Entregado</p>
-                    @endif
-                  </td>
-                  <td>                  
-                    <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                  </td>
+                <td>{{$insumo->id}}</td>
+                <td>{{$insumo->nombre_insumo}}</td>
+                <td>{{$insumo->cantidad}}</td>
+                  <td id="resp{{ $insumo->id }}">
+                      @if($insumo->estado == 1)
+                      Activado
+                          @else
+                     Desactivado
+                      @endif
+                   </td>
+                   <td>
+
+                      <form action="{{ route('insumos.destroy',$insumo->id) }}" method="POST">
+                      
+                      <label class="switch">
+                          <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }}>
+                          <span class="slider round"></span>
+                      </label>
+                      <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+                    
+                      <a href="/insumos/{{$insumo->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
+                     
+                            @csrf
+                            @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                      </form>                      
+                   </td>  
                </tr>
                @endforeach
            </tbody>
@@ -70,15 +77,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
 
 
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaVentas = $('#ventas').DataTable({ 
-      "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-    language:{
+    tablaInsumos=$('#insumos').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+      language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -281,7 +287,31 @@
     },
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
+
+
     });
+    
+
+
+$('.mi_checkbox').change(function() {
+    //Verifico el estado del checkbox, si esta seleccionado sera igual a 1 de lo contrario sera igual a 0
+    var estado = $(this).prop('checked') == true ? 1 : 0; 
+    var id = $(this).data('id'); 
+        console.log(estado);
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        //url: '/StatusNoticia',
+        url: '{{ route('camEstado') }}',
+        data: {'estado': estado, 'id': id},
+        success: function(data){
+            $('#resp' + id).html(data.var); 
+            console.log(data.var)
+         
+          }
+    });
+})
       
 });
 </script>

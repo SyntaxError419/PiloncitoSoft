@@ -11271,7 +11271,9 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
   width: 250px;
   z-index: 1035;
 }
-
+.sidebar-dark-modificdada{
+  background-color: #B74429;
+}
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
   background-color: #343a40;
 }

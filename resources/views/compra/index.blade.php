@@ -1,7 +1,6 @@
 @extends('layouts.plantillabase')
 
 @section('css')
-
 <link href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
 @endsection
@@ -11,54 +10,70 @@
 <html>
 <head>
 
+
 <body>
+<h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
-<h1 class="bg text-dark text-center pt-3">Gestión de ventas</h1>
+<a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
-<h1 class="bg text-dark text-center pt-4"></h1>
 
-      
-        <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-          <thead class="bg-primary text-white">
-            <tr>
-                <th scope="col">Id. Recibo</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Total</th>
-                <th scope="col">Forma de pago</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          
-          <tbody>
-              @foreach ($ventas as $venta)
-              <tr>
-                  <td>{{$venta->id_recibo}}</td>
-                  <td>{{$venta->clientes->nombre}}</td>
-                  <td>{{$venta->fecha}}</td>
-                  <td>{{$venta->total}}</td>
-                  <td>{{$venta->formaPago}}</td>
-                  <td>
-                    @if($venta->estado == 0)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary">Por iniciar</a>
-                    @elseif($venta->estado == 1)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger">En proceso</a>
-                    @elseif($venta->estado == 2)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning">Por entregar</a>
-                    @elseif($venta->estado == 3)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
-                    @else
-                        <p>Entregado</p>
-                    @endif
-                  </td>
-                  <td>                  
-                    <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                  </td>
-               </tr>
-               @endforeach
-           </tbody>
-      </table>
+@if(Session::has('success'))
+<div class="card">
+    <div class="alert alert-success" role="alert">
+    {{Session::get('success')}}
+    </div>
+</div>
+@endif
+@if ($errors-> any())
+<div class="class-card">
+@foreach ($errors->all() as $value)
+<div class="alert alert-danger" role="alert">   
+
+    {{$value}}
+    </div>
+@endforeach
+</div>
+@endif
+
+<table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
+    <thead class="bg-primary text-white">  
+<tr> 
+      <th scope="col">Id</th>
+      <th scope="col">Numero de recibo</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Id_Proveedor</th>
+      <th scope="col">Total de la compra</th>
+      <th scope="col">Acciones</th>
+
+
+    </tr>
+</thead>
+<tbody>
+
+@foreach ($compras as $compra)
+    <tr>
+        <td>{{$compra->id}}</td>
+        <td>{{$compra->numReciboCompra}}</td>
+        <td>{{$compra->fecha}}</td>
+        <td>{{$compra->proveedores->nombrecontacto}}</td>
+        <td>${{$compra->totalcompra}}</td>
+        <td>
+
+            <form action="{{route ('compras.destroy',$compra->id)}}" method="POST"> 
+<!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
+ -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+
+            @csrf
+            @method('DELETE')
+            <button  type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>  
+
+            </form>
+            
+        </td>
+    </tr>
+    @endforeach
+</tbody>
+</table>
 
 
 
@@ -70,15 +85,13 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 
 
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaVentas = $('#ventas').DataTable({ 
-      "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-    language:{
+    tablaCompras=$('#compras').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+        language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -281,7 +294,30 @@
     },
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
+
     });
+    
+
+
+$('.mi_checkbox').change(function() {
+    //Verifico el estado del checkbox, si esta seleccionado sera igual a 1 de lo contrario sera igual a 0
+    var estado = $(this).prop('checked') == true ? 1 : 0; 
+    var id = $(this).data('id'); 
+        console.log(estado);
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        //url: '/StatusNoticia',
+        url: '{{ route('camEstado') }}',
+        data: {'estado': estado, 'id': id},
+        success: function(data){
+            $('#resp' + id).html(data.var); 
+            console.log(data.var)
+         
+          }
+    });
+})
       
 });
 </script>

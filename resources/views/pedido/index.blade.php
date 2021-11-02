@@ -15,30 +15,7 @@
 
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
-<a href="pedidos/create" class="btn btn-primary mb-3">Tomar pedido</a>
-
-@if(Session::has('success'))
-<div>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>{{Session::get('success')}}</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</div>
-@endif
-@if ($errors-> any())
-<div>
-@foreach ($errors->all() as $value)
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>{{$value}}</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endforeach
-</div>
-@endif
+<a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
       
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
@@ -87,14 +64,14 @@
                   <td>
                     <form action="{{ route('pedidos.destroy',$venta->id) }}" class="d-inline formulario-eliminar" method="POST">
                     
-                    <a href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success">Listo</a>
+                    <a href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
                     
-                    <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                     
-                    <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary">Detalles</a>
+                    <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
                           @csrf
                           @method('DELETE')
-                      <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                      <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                   </td>
                </tr>
@@ -102,13 +79,20 @@
            </tbody>
       </table>
 
-
-
 @section('js')
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 
+@if(session('editar') == 'El pedido se ha modificado correctamente!')
+    <script>
+        Swal.fire(
+        'Modificado!',
+        'El pedido ha sido modificado.',
+        'success'
+        ) 
+    </script>
+@endif
 
 @if(session('cancelar') == 'El pedido se ha cancelado correctamente!')
     <script>
@@ -116,13 +100,24 @@
         '¡Cancelado!',
         'El pedido ha sido cancelado.',
         'success'
-        ) 
+        )
+    </script>
+@endif
+@if(session('guardo') == 'Se guardó el pedido')
+    <script>
+        Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Pedido creado exitosamente!',
+                showConfirmButton: false,
+                timer: 3500
+            })
     </script>
 @endif
 @if(session('error') == 'El pedido no se ha podido cancelar!')
     <script>
         Swal.fire(
-        '¡Error!',
+        '¡Ups!',
         'El pedido no ha sido cancelado.',
         'error'
         ) 
@@ -342,7 +337,7 @@
         e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
+            text: "¡No podrás revertir éste cambio!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -358,7 +353,6 @@
 });
 
 </script>
-
 </body>
 </html> 
 @endsection

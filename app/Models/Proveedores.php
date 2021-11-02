@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proveedores extends Model
 {
+    
     use HasFactory;
+    public function compras(){
+        return $this->hasMany(Compra::class, 'id');
+        }
 }
