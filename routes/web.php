@@ -19,6 +19,8 @@ Route::get('/', function () {
     return view('auth.login');
 }); 
 
+Route::resource('proveedores','App\Http\Controllers\ProveedoresController');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dash', function () {
     return view('dash.index');
 

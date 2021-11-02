@@ -252,7 +252,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Proveedores',
-                    'url'  => '#',
+                    'url'  => 'proveedores',
                     'icon' => 'fas fa-fw fa-truck-loading',
                 ],
                 [
