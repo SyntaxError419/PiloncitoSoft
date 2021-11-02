@@ -1,107 +1,126 @@
 @extends('layouts.plantillabase')
 @section('contenido')
+<form action="{{ route('guardarCompra')}}" method ="POST">      
+@csrf
+
+
 <h2>Crear Compra</h2>
 
-<div class="card">
-    
-    <div class="card-body">
+<div class="card mt-4">
+    <div class="card-header">
 
-        <div class="card">
-        <form action="{{ route('guardarCompra')}}" method ="POST">      
-            <div class="card-header">
-            @csrf
+        <div class="card-body">
 
-            <div class="mb-3">
-    <label for="id_proveedor" class="form-label"  required="required" >Proveedor</label>
-   
-    <select  class="form-control"  name="id_proveedor" id="id_proveedor"tabindex="1" >
-    <option value="">Seleccione un proveedor</option>
-    @foreach ($proveedores as $proveedor)
-        <option value="{{$proveedor-> id}}" >
-        {{$proveedor-> nombrecontacto}}
-        </option>
-    @endforeach
-    </select>
+
+
+                    <div class="row mb-3">
+                                <div class="col">
+                                                    
+                                        <label for="id_proveedor" class="form-label "  >Proveedor</label>
+                                        <select  class="form-control mb-4"  name="id_proveedor" id="id_proveedor" tabindex="1"   required="required" >
+                                        <option value="">Seleccione un proveedor</option>
+                                        @foreach ($proveedores as $proveedor)
+                                            <option value="{{$proveedor-> id}} " >
+                                            {{$proveedor-> nombrecontacto}}
+                                            </option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                <div class="col">
+                                        <div class="mb-3 ">
+                                        <label for="" class="form-label">Numero de recibo </label>
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2"   required="required" >
+                                        </div>
+                                </div>
+                        </div>
+
+                                        <div class="mb-3">
+                                        <label for="" class="form-label">Fecha</label>
+                                        <input id="fecha" name="fecha" type="datetime-local"   class="form-control" tabindex="3"   required="required" >  
+                                        </div>
+            
         
-<div class="mb-3">
-    <label for="" class="form-label">Numero de recibo </label>
-    <input id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2" required="required" >  
-</div>
+                                    <h4>Agregar insumos</h4>
+                    <div class="row mb-3">
+                            <div class="col">
+                                                    
+
+                                <div class="form-group">
+                                    <label for="id_insumo">Insumo:</label>
+                                        <select  class="form-control" name="id_insumo" id="id_insumo" tabindex="4">
+                                            <option value="">Seleccione el insumo</option>
+                                            @foreach ($insumos as $insumo)
+                                            <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
+                                            @endforeach
+                                        </select>
+                                </div> 
+                            </div> 
+                        <div class="col">
+
+                                    <div class="form-group">
+                                            <label for="cantidad">Cantidad</label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad" tabindex="5">
+                                    </div>
+
+                                </div> 
+                    </div> 
+                    <div class="row mb-3">
+                            <div class="col">
+
+                                    <div class="form-group">
+                                            <label for="cantidad">Iva</label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva" tabindex="6">
+                                    </div>
+                            </div>
+                            <div class="col">
 
 
-    <div class="mb-3">
-    <label for="" class="form-label">Fecha</label>
-    <input id="fecha" name="fecha" type="datetime-local"   class="form-control" tabindex="3"   required="required" >  
-    </div>
-
-
-   <hr>
-    </div>
-    <h4>Agregar insumos</h4>
-    
-                          <div class="form-group">
-                            <label for="id_insumo">Insumo:</label>
-                                 <select  class="form-control" name="id_insumo" id="id_insumo" tabindex="4">
-                                     <option value="">Seleccione el insumo</option>
-                                      @foreach ($insumos as $insumo)
-                                     <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
-                                      @endforeach
-                                  </select>
-                         </div> 
-                 <div class="form-group">
-                        <label for="cantidad">Cantidad</label>
-                        <input type="text" class="form-control" name="cantidad" id="cantidad" tabindex="5">
-                 </div>
-
-                 <div class="form-group">
-                        <label for="cantidad">Iva</label>
-                        <input type="text" class="form-control" name="iva" id="iva" tabindex="6">
-                 </div>
-
-                 <div class="mb-3">
-                    <label for="" class="form-label">Precio Unitario </label>
-                    <input id="precio_unitario" name="precio_unitario" type="text" step="any" value="0" class="form-control" tabindex="7" required="required">  
-                </div>
-
-                    <hr>
-                    <button type="button" id="agregarInsumo" class="btn btn-secondary" tabindex="8">Agregar</button>
-        
-           
-             </div>
-                    <div class="card-body">
-                    <table class="table bg-gray table-bordered table-striped shadow-lg mb-4" style="border-radius: 7px;">
-                        <thead >
-                                <tr>
-                                    <th >Nombre insumo</th>
-                                    <th>Cantidad ingresada</th>
-                                    <th>Iva</th>
-                                    <th>Precio unitario</th>
-                                    <th>SubTotal</th>
-                                    <th>Total</th>
-                                    <th>Opciones</th>
-                                </tr>
-                        </thead>
-                        <tbody id="cajaDetalle">
-
-                        </tbody>
-                        <div class="mb-3">
-                          <h4 align="right">Total: $ <Span class="totalcompra"></Span></h4>
-                          <input type="hidden" id="totalcompra" name="totalcompra"   >  
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Precio Unitario </label>
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" value="0" class="form-control" tabindex="7" required="required">  
+                                    </div>
+                                </div>
                     </div>
-                    </table>
+                                <button type="button" id="agregarInsumo" class="btn btn-secondary" tabindex="8">Agregar</button>
+
+                
+                                </div> 
+                                <h5>Detalle de la compra</h5>        
+                                </div>
+
                     
-                    <hr>
-                    
-                    </div>      
-                    <hr>
-                    <a href="/compras" class="btn btn-secondary" tabindex="10" style="float: left;"><i class="fas fa-backward"></i></a>
-                    <button style="float: right;" type="submit" class="btn btn-success" tabindex="11"><i class="fas fa-check"></i></button>
-         </form>
+                            <div class="card-body">
+                                <table class="table bg-gray table-bordered table-striped shadow-lg mb-4" style="border-radius: 7px;">
+                                <thead >
+                                        <tr>
+                                            <th >Nombre insumo</th>
+                                            <th>Cantidad ingresada</th>
+                                            <th>Iva</th>
+                                            <th>Precio unitario</th>
+                                            <th>SubTotal</th>
+                                            <th>Total</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                </thead>
+                                <tbody id="cajaDetalle">
+
+                                </tbody>
+                                <div class="mb-3">
+                                <h4 align="right">Total: $ <Span class="totalcompra"></Span></h4>
+                                <input type="hidden" id="totalcompra" name="totalcompra"   >  
+                                </div>
+                                </table>
+                            
+                            
+                        </div>      
+                          
+            
         </div>
+        
+                <a href="/compras" class="btn btn-secondary" tabindex="10" style="float: left;"><i class="fas fa-backward"></i></a>
+                            <button style="float: right;" type="submit" class="btn btn-success" tabindex="11"><i class="fas fa-check"></i></button>
+</form>
 
-    </div>
-
-</div>
 
 
 
@@ -185,10 +204,10 @@ $('#agregarInsumo').click(function(){
             <input type="hidden" name="precio_unitario[]" value="${precio_unitario}">
             <input type="hidden" name="subtotal[]" value="${subtotal}">
             <input type="hidden" name="precio_total[]" value="${precio_total}">
-
+ 
             <td>${nombre_insumo}</td>
             <td>${cantidad}</td>
-            <td>${iva}</td>
+            <td>${iva*100}%</td>
             <td>$${precio_unitario}</td>
             <td>$${subtotal}</td>
             <td class="precioTotal">$${precio_total}</td>
@@ -236,6 +255,16 @@ function eliminarInsumo(id_insumo){
 
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#id_proveedor').select2();
+});
+
+$(document).ready(function() {
+    $('#id_insumo').select2();
+});
+</script>
 
 @endsection

@@ -38,11 +38,11 @@
 <table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
     <thead class="bg-primary text-white">  
 <tr> 
-      <th scope="col">Id</th>
       <th scope="col">Numero de recibo</th>
       <th scope="col">Fecha</th>
-      <th scope="col">Id_Proveedor</th>
+      <th scope="col">Proveedor</th>
       <th scope="col">Total de la compra</th>
+      <th scope="col">Estado</th>
       <th scope="col">Acciones</th>
 
 
@@ -52,14 +52,27 @@
 
 @foreach ($compras as $compra)
     <tr>
-        <td>{{$compra->id}}</td>
         <td>{{$compra->numReciboCompra}}</td>
         <td>{{$compra->fecha}}</td>
         <td>{{$compra->proveedores->nombrecontacto}}</td>
-        <td>${{$compra->totalcompra}}</td>
+        <td>${{number_format($compra->totalcompra)}}</td>
+        <td id="resp{{ $compra->id }}">
+                      @if($compra->estado == 1)
+                      Activado
+                          @else
+                     Desactivado
+                      @endif
+        </td>
+
+
+
         <td>
 
-            <form action="{{route ('compras.destroy',$compra->id)}}" method="POST"> 
+            <form action="{{route ('compras.destroy',$compra->id)}}"  class="d-inline formulario-eliminar" method="POST"> 
+            <label class="switch">
+                          <input data-id="{{ $compra->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $compra->estado ? 'checked' : '' }}>
+                          <span class="slider round"></span>
+             </label>
 <!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
  -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
 
@@ -86,7 +99,24 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 
-
+@if(session('cancelar') == 'La compra se ha cancelado correctamente!')
+    <script>
+        Swal.fire(
+        '¡Cancelado!',
+        'La compra ha sido cancelada.',
+        'success'
+        ) 
+    </script>
+@endif
+@if(session('error') == 'La compra no se ha podido cancelar!')
+    <script>
+        Swal.fire(
+        '¡Error!',
+        'La compra no ha sido cancelada.',
+        'error'
+        ) 
+    </script>
+@endif
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -309,7 +339,7 @@ $('.mi_checkbox').change(function() {
         type: "GET",
         dataType: "json",
         //url: '/StatusNoticia',
-        url: '{{ route('camEstado') }}',
+        url: '{{ route('camEstadoC') }}',
         data: {'estado': estado, 'id': id},
         success: function(data){
             $('#resp' + id).html(data.var); 
@@ -320,6 +350,25 @@ $('.mi_checkbox').change(function() {
 })
       
 });
+
+                $('.formulario-eliminar').submit(function(e){
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo eliminar la compra!',
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    })
+                });      
+
 </script>
 
 </body>

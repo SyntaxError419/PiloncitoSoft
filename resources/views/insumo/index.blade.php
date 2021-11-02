@@ -22,7 +22,6 @@
         <table id="insumos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
           <tr> 
-      <th scope="col">Id</th>
       <th scope="col">Nombre de insumo</th>
       <th scope="col">Cantidad</th>
       <th scope="col">Estado</th>
@@ -35,7 +34,6 @@
           <tbody>
               @foreach ($insumos as $insumo)
               <tr>
-                <td>{{$insumo->id}}</td>
                 <td>{{$insumo->nombre_insumo}}</td>
                 <td>{{$insumo->cantidad}}</td>
                   <td id="resp{{ $insumo->id }}">
@@ -47,7 +45,7 @@
                    </td>
                    <td>
 
-                      <form action="{{ route('insumos.destroy',$insumo->id) }}" method="POST">
+                      <form action="{{ route('insumos.destroy',$insumo->id) }}" class="d-inline formulario-eliminar"   method="POST">
                       
                       <label class="switch">
                           <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }}>
@@ -79,6 +77,24 @@
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
 
+@if(session('cancelar') == 'El insumo se ha cancelado correctamente!')
+    <script>
+        Swal.fire(
+        '¡Cancelado!',
+        'El Insumo ha sido cancelado.',
+        'success'
+        ) 
+    </script>
+@endif
+@if(session('error') == 'El insumo no se ha podido cancelar!')
+    <script>
+        Swal.fire(
+        '¡Error!',
+        'El Insumo no ha sido desactivado.',
+        'error'
+        ) 
+    </script>
+@endif
 
 
 <script type="text/javascript">
@@ -314,6 +330,24 @@ $('.mi_checkbox').change(function() {
 })
       
 });
+            $('.formulario-eliminar').submit(function(e){
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo eliminar el insumo!',
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    })
+                });      
+
 </script>
 
 </body>

@@ -19,8 +19,12 @@ class InsumoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $insumos =Insumo::all();
+    {   /* 
+        $insumos =Insumo::where('estado', '!=',0)->get();
+        $insumos =Insumo::all();}
+        */
+
+        $insumos =Insumo::orderBy('estado', 'ASC')->get();
         return view('insumo.index')->with ('insumos',$insumos);
         
     }
@@ -110,11 +114,7 @@ class InsumoController extends Controller
 
     
         $insumo= Insumo::find($id);
-            
         $insumo->nombre_insumo=$request->get('nombre_insumo');
-        $insumo->cantidad=$request->get('cantidad');
-
-
         $insumo->save();
         return redirect('/insumos');  
          }catch (QueryException $e) {
@@ -136,8 +136,15 @@ class InsumoController extends Controller
     public function destroy($id)
     {
         $insumo = Insumo::find($id);
-        $insumo ->delete();
-        return redirect('/insumos');
+        if ($insumo->estado == 1) {
+            return redirect('insumos')->with('error', 'El insumo no se ha podido cancelar!');    
+        }else {
+            
+            $insumo->delete();
+            return redirect('insumos')->with('cancelar', 'El insumo se ha cancelado correctamente!');
+        }
+    
+
     }
 
     public function  camEstado(Request $request) 

@@ -9,6 +9,10 @@
 @csrf   
 @method('PUT')
 
+<div class="card">
+        
+        <div class="card-header">
+                      
 <div class="mb-3">
     <label for="" class="form-label">Nombre del insumo </label>
     <input id="nombre_insumo" name="nombre_insumo" type="text" class="form-control"  value="{{$insumo-> nombre_insumo}}" disabled="true">  
@@ -38,8 +42,9 @@
 </div>
 
 
+</div>
+</div>
 <a href="/insumos" class="btn btn-secondary" tabindex="3"style="float: left;"><i class="fas fa-backward"></i></a>
-
 
 </form>
 

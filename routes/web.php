@@ -62,7 +62,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
 Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
-
+Route::get('estadoCamC', 'App\Http\Controllers\CompraController@camEstadoC')->name('camEstadoC');
 
 
 
