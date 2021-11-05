@@ -54,7 +54,7 @@ h3, h4 {text-align: right}
                     </div>
                     <div class="lcd mt-4">
                     <button type="button" id="agregarProducto" class="btn btn-secondary mt" style="float: left;" tabindex="5">Agregar</button>
-                        <h3>Total: $</h3>
+                        <h3>Total:</h3>
                         <h3 id="totalVenta"></h3>
                         <input name="totalVentaV" type="hidden" type="number" id="totalVentaV" value=0>
                         <div class="">
@@ -94,6 +94,11 @@ h3, h4 {text-align: right}
             $("form select P").each(function() { this.selectedIndex = 0 });
             $("form input[type=text]").each(function() { this.value = '' });
         }
+        const formatterDolar = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
 
         let arrayProductos = [];
         let objProducto = {};
@@ -102,7 +107,7 @@ h3, h4 {text-align: right}
             arrayProductos.forEach(function(objProducto) {
                 totalVenta+=(objProducto.subTotal);
             });
-            return new Intl.NumberFormat("en-IN").format(totalVenta);
+            return formatterDolar.format(totalVenta);
             }
         $(document).ready(function(){
             
@@ -124,7 +129,6 @@ h3, h4 {text-align: right}
                     });
                     let subTotal = cantidad*precioUnitario;
                     let indexProducto = getIndexProducto(idProducto);
-                    
 
                     if(indexProducto > -1){
                         $('#tr-'+idProducto).remove();
@@ -149,8 +153,8 @@ h3, h4 {text-align: right}
                             <input type=hidden name="subTotal[]" value="${ objProducto.subTotal}">
                             <td>${producto}</td>
                             <td>${objProducto.cantidad}</td>
-                            <td>$${new Intl.NumberFormat("en-IN").format(objProducto.precioUnitario)}</td>
-                            <td>$${new Intl.NumberFormat("en-IN").format(objProducto.subTotal)}</td>
+                            <td>${formatterDolar.format(objProducto.precioUnitario)}</td>
+                            <td>${formatterDolar.format(objProducto.subTotal)}</td>
                             <td>
                                 <button type="button" class="btn btn-danger active btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
                             </td>
