@@ -12,7 +12,7 @@ h3, h4 {text-align: right}
 <label class="pt-3">
 <h2>Tomar pedido</h2>
 </label>
-    </div>
+
     <div class="card-body">
         <div class="card">
             <form id="myForm" action="/pedidos" method ="POST">
@@ -30,11 +30,11 @@ h3, h4 {text-align: right}
                     </div>
                     <div class="col">
                         <label for="" class="form-label">Forma de pago:</label>
-                        <input list="formaPago" name="formaPago" placeholder="Seleccione el método de pago" class="form-control" tabindex="2" required="required">
-                        <datalist id="formaPago">
-                            <option value="Efectivo">
-                            <option value="Transferencia bancaria">
-                        </datalist>
+                        <select name="formaPago" placeholder="Seleccione el método de pago" class="form-control" tabindex="2" required="required">
+                            <option value="">Seleccione la forma de pago</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Transferencia bancaria">Transferencia bancaria</option>
+                        </select>    
                     </div>
                     </div>
                     <div class="row mt-3">
@@ -84,12 +84,14 @@ h3, h4 {text-align: right}
                         <button style="float: right;" type="submit" class="btn btn-success" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
                 </form>
+                
 @endsection
 
 @section('js')
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script> 
         function resetform() {
-            $("form select").each(function() { this.selectedIndex = 0 });
+            $("form select P").each(function() { this.selectedIndex = 0 });
             $("form input[type=text]").each(function() { this.value = '' });
         }
 
@@ -100,7 +102,7 @@ h3, h4 {text-align: right}
             arrayProductos.forEach(function(objProducto) {
                 totalVenta+=(objProducto.subTotal);
             });
-            return totalVenta;
+            return new Intl.NumberFormat("en-IN").format(totalVenta);
             }
         $(document).ready(function(){
             
@@ -147,8 +149,8 @@ h3, h4 {text-align: right}
                             <input type=hidden name="subTotal[]" value="${ objProducto.subTotal}">
                             <td>${producto}</td>
                             <td>${objProducto.cantidad}</td>
-                            <td>$${objProducto.precioUnitario}</td>
-                            <td>$${objProducto.subTotal}</td>
+                            <td>$${new Intl.NumberFormat("en-IN").format(objProducto.precioUnitario)}</td>
+                            <td>$${new Intl.NumberFormat("en-IN").format(objProducto.subTotal)}</td>
                             <td>
                                 <button type="button" class="btn btn-danger active btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
                             </td>

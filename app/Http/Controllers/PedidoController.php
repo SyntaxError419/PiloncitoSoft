@@ -178,39 +178,18 @@ class PedidoController extends Controller
 
 
    public function getCliente($cedula){
-    $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-    $rs = mysqli_query($db, "SELECT (id) AS id FROM clientes WHERE cedula=$cedula");
-    if ($row = mysqli_fetch_row($rs)) {
-        $id = trim($row[0]);}
+        $id=DB::table('clientes')->select('id')->where('cedula', '=', $cedula)->pluck('id')->first();
         return $id;
     }
-
-    public function getProducto($nombreProducto){
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT (id) AS id FROM productos WHERE nombre='$nombreProducto'");
-        if ($row = mysqli_fetch_row($rs)) {
-            $id = trim($row[0]);
-        }
-        return $id;
-    }
-
 
     public function getPrecioProducto(Request $request){
         $idProducto = $_REQUEST['idProducto'];
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT precio FROM productos WHERE id=$idProducto");
-        if ($row = mysqli_fetch_row($rs)) {
-            $id = trim($row[0]);
-        }
-        echo ($id);
+        $id=DB::table('productos')->select('precio')->where('id', '=', $idProducto)->pluck('precio')->first();
+        echo $id;
     }
 
     public function genCodRec(){
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT MAX(id) AS id FROM ventas");
-        if ($row = mysqli_fetch_row($rs)) {
-        $id = trim($row[0]);
-        }
+        $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
         if ($id == null) {$id = "EPF-000";}
         else {$id = "EPF-".($id+1);}
         return $id;

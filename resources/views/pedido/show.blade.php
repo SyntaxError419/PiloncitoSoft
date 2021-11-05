@@ -50,8 +50,7 @@
                         </div>
                         <div class="col">
                             <label for="" class="form-label">Total:</label>
-                            <input disabled="true" id="nombre" name="nombre" type="text" class="form-control" value="{{$ventas->total}}">
-                            <input type="hidden"  id="id_cliente" name="id_cliente"   class="form-control" value="{{$ventas->total}}">  
+                            <input disabled="true" id="nombre" name="nombre" type="text" class="form-control" value="${{number_format($ventas->total)}}">
                         </div>
                         </div>
                         </div>
@@ -75,8 +74,8 @@
                 <tr>
                     <td>{{$producto->nombre}}</td>
                     <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->cantidad}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario)}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total)}}</td>
                 </tr>
                 @endforeach
             </tbody>
