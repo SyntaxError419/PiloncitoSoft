@@ -108,8 +108,13 @@ class PedidoController extends Controller
     {
         $clientes=Cliente::all();
         $ventas=Venta::find($id);
+        if ($ventas->pago==1) {
+            return redirect('pedidos')->with('noEditar', 'Este pedido no se puede editar, ya está pago!');
+        }
+        else {
         $detalleventas=Detalleventa::where('id_venta',$id);
         return view('pedido.edit',compact('detalleventas', 'clientes'))->with('ventas',$ventas, 'clientes', $clientes);
+        }
     }
 
     /**

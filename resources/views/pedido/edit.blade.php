@@ -14,7 +14,7 @@
             <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Cliente:</label>
-                            <input list="id_cliente" id="nombre" name="id_cliente" type="text" class="form-control" value="{{$ventas->clientes->cedula}}">
+                            <input list="id_cliente" id="nombre" name="id_cliente" type="text" class="form-control" value="{{$ventas->clientes->cedula}}" required="required">
                             <datalist id="id_cliente">
                                 @foreach($clientes as $c)
                                 <option value="{{ $c->cedula }}">{{ $c->nombre }}</option>

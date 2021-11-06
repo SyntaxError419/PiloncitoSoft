@@ -90,7 +90,7 @@
         'Modificado!',
         'El pedido ha sido modificado.',
         'success'
-        ) 
+        )
     </script>
 @endif
 
@@ -120,7 +120,16 @@
         '¡Ups!',
         'El pedido no ha sido cancelado.',
         'error'
-        ) 
+        )
+    </script>
+@endif
+@if(session('noEditar') == 'Este pedido no se puede editar, ya está pago!')
+    <script>
+        Swal.fire(
+        '¡Ups!',
+        'Este pedido no se puede editar, ya está pago!',
+        'warning'
+        )
     </script>
 @endif
 
@@ -349,7 +358,8 @@
                 this.submit();
             }
         })
-    });      
+    });
+    
 });
 
 </script>

@@ -15,7 +15,7 @@ h3, h4 {text-align: right}
 
     <div class="card-body">
         <div class="card">
-            <form id="myForm" action="/pedidos" method ="POST">
+            <form id="myForm" action="/pedidos" method ="POST" class="tomarP">
                 @csrf
                 <div class="card-header">
                     <div class="row">
@@ -89,6 +89,9 @@ h3, h4 {text-align: right}
 
 @section('js')
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
     <script> 
         function resetform() {
             $("form select P").each(function() { this.selectedIndex = 0 });
@@ -107,9 +110,27 @@ h3, h4 {text-align: right}
             arrayProductos.forEach(function(objProducto) {
                 totalVenta+=(objProducto.subTotal);
             });
-            return formatterDolar.format(totalVenta);
+            return (totalVenta);
             }
         $(document).ready(function(){
+
+            $('.tomarP').submit(function(e){
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro de crear éste pedido?',
+                    text: "¡No podrás revertir éste cambio!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, deseo crear el pedido!',
+                    cancelButtonText: 'No crear pedido'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+            });
             
             $('#agregarProducto').click(function(){
                 if (parseInt($('#cantidad').val()) > 0 && $('#id_producto option:selected').val() != "") {
@@ -143,7 +164,7 @@ h3, h4 {text-align: right}
                         }
                         arrayProductos.push(objProducto);
                     }
-                    $('#totalVenta').text(getTotal());
+                    $('#totalVenta').text(formatterDolar.format(getTotal()));
                     $('#totalVentaV').val(getTotal());
                     $('#cajaDetalle').append(`
                         <tr id="tr-${objProducto.idProducto }">
@@ -170,7 +191,7 @@ h3, h4 {text-align: right}
                 arrayProductos.splice(index, 1);
                 //Borrar la fila del table
                 $('#tr-'+idProducto).remove();
-                $('#totalVenta').text(getTotal());
+                $('#totalVenta').text(formatterDolar.format(getTotal()));
                 $('#totalVentaV').val(getTotal());
             }
         }
