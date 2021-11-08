@@ -23,4 +23,8 @@ class Venta extends Model
         return $this->belongsToMany(Producto::class, 'detalleventas', 'id_venta', 'id_producto');   
     }
 
+    public function fechaestados(){
+        return $this->hasMany(Fechaestado::class, 'id');
+    }
+
 }

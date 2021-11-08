@@ -7,6 +7,7 @@ use App\Models\Venta;
 use App\Models\Detalleventa;
 use App\Models\Cliente;
 use App\Models\Producto;
+use App\Models\Fechaestado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -54,9 +55,10 @@ class VentaController extends Controller
     public function show($id)
     {
         $detalleventas =Detalleventa::where('id_venta',$id);
+        $fechaestados =Fechaestado::where('id_venta',$id)->get();
         $productos =Producto::find($id);
         $ventas =Venta::find($id);
-        return view('venta.show',compact('detalleventas'))->with('ventas',$ventas);
+        return view('venta.show',compact('detalleventas', 'fechaestados'))->with('ventas',$ventas,'fechaestado',$fechaestados);
     }
 
     /**

@@ -7,8 +7,11 @@ use App\Models\Venta;
 use App\Models\Detalleventa;
 use App\Models\Cliente;
 use App\Models\Producto;
+use App\Models\Fechaestado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+
+
 
 class PedidoController extends Controller
 {
@@ -52,12 +55,12 @@ class PedidoController extends Controller
         if (count($request-> idProducto)<1 || count($request ->cantidad)<1){
             return redirect('/pedidos')->withErrors('Realiza la venta correctamente.');
         }
+        $date = Carbon::now()->toDateTimeString();
         $cedula=$request->get('id_cliente');
         $idCliente = PedidoController::getCliente($cedula);
         $idRecibo = PedidoController::genCodRec();
         try {
             DB::beginTransaction();
-            $date = Carbon::now()->toDateTimeString();
                 $ventas = new Venta();
                 $ventas->id_recibo = $idRecibo;
                 $ventas->id_cliente = $idCliente; 
@@ -75,7 +78,18 @@ class PedidoController extends Controller
                     'precio_unitario' =>$request ->precioUnitario [$key],
                     'precio_total'=>$request ->subTotal [$key]
                 ]);
+                $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
+                $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
+                $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+                $insumosId = array_column($insumos->toArray(), 'id_insumo');
+                foreach ($insumosId as $keyy => $valuee) {
+                    DB::table('insumos')->where('id', '=', $valuee)->decrement('cantidad', $cantidadDecremento[$keyy]*(int)$request ->cantidad [$key]);
+                }
             }
+            fechaestado::create([
+                'id_venta'=>$ventas->id,
+                'fecha' =>$date
+            ]);
             DB::commit();
             return redirect('pedidos')->with('guardo','Se guardó el pedido');
         } catch (Exception $e) {
@@ -93,9 +107,10 @@ class PedidoController extends Controller
     public function show($id)
     {
         $detalleventas =Detalleventa::where('id_venta',$id);
+        $fechaestados =Fechaestado::where('id_venta',$id)->get();
         $productos =Producto::find($id);
         $ventas =Venta::find($id);
-        return view('pedido.show',compact('detalleventas'))->with('ventas',$ventas);
+        return view('pedido.show',compact('detalleventas', 'fechaestados'))->with('ventas',$ventas,'fechaestado',$fechaestados);
     }
 
     /**
@@ -126,6 +141,7 @@ class PedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $date = Carbon::now()->toDateTimeString();
         $ventas= Venta::find($id);
         $cedula=$request->get('id_cliente');
         $idCliente = PedidoController::getCliente($cedula);
@@ -134,8 +150,12 @@ class PedidoController extends Controller
         $ventas->pago = $request->get('pago');
         $ventas->estado = $request->get('estado');
         $ventas->formaPago = $request->get('formaPago');
-
         $ventas->save();
+        fechaestado::create([
+            'id_venta'=>$id,
+            'estado'=>$request->get('estado'),
+            'fecha' =>$date
+        ]);
         return redirect('pedidos')->with('editar', 'El pedido se ha modificado correctamente!');;
     }
 
@@ -148,10 +168,24 @@ class PedidoController extends Controller
     public function destroy($id)
     {
         $venta = Venta::find($id);
-        if ($venta->pago == 1) {
+        if ($venta->pago == 1 && $venta->estado > 0) {
             return redirect('pedidos')->with('error', 'El pedido no se ha podido cancelar!');    
         }else {
+
             $venta->update(['cancelado'=>1]); 
+            $productId=DB::table('detalleventas')->select('id_producto')->where('id_venta', '=', $venta->id)->get();
+            $productosId = array_column($productId->toArray(), 'id_producto');
+            $cantidad=DB::table('detalleventas')->select('cantidad')->where('id_venta', '=', $venta->id)->get();
+            $cantidadAum = array_column($cantidad->toArray(), 'cantidad');
+            foreach ($productosId as $key => $value) {
+                $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
+                $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
+                $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+                $insumosId = array_column($insumos->toArray(), 'id_insumo');
+                foreach ($insumosId as $keyy => $valuee) {
+                    DB::table('insumos')->where('id', '=', $valuee)->increment('cantidad', $cantidadDecremento[$keyy]*(int)$cantidadAum[$key]);
+                }
+            }
             return redirect('pedidos')->with('cancelar', 'El pedido se ha cancelado correctamente!');
         }
     }
@@ -160,23 +194,50 @@ class PedidoController extends Controller
 
     public function cambioEstadoPago (Venta $venta)
    {
+    $date = Carbon::now()->toDateTimeString();
         $venta->update(['estado'=>4]);
         $venta->update(['pago'=>1]);
-         return redirect()->back();    
+        fechaestado::create([
+            'id_venta'=>$venta->id,
+            'estado'=>4,
+            'fecha' =>$date
+        ]);
+         return redirect()->back();
    }
 
 
 
    public function cambioEstadoPedido (Venta $venta)
    {
+    $date = Carbon::now()->toDateTimeString();
         if($venta->estado == 0)  {
             $venta->update(['estado'=>1]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>1,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 1) {
             $venta->update(['estado'=>2]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>2,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 2){
             $venta->update(['estado'=>3]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>3,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 3){
             $venta->update(['estado'=>4]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>4,
+                'fecha' =>$date
+            ]);
         }else{}
         return redirect()->back();    
    }
