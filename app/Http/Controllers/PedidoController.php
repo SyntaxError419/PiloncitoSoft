@@ -52,49 +52,54 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        if (count($request-> idProducto)<1 || count($request ->cantidad)<1){
-            return redirect('/pedidos')->withErrors('Realiza la venta correctamente.');
+        if (($request-> idProducto)==null || ($request ->cantidad)==null){
+            return redirect('/pedidos/create')->with('malpedido', 'Realiza el pedido correctamente.');
         }
-        $date = Carbon::now()->toDateTimeString();
-        $cedula=$request->get('id_cliente');
-        $idCliente = PedidoController::getCliente($cedula);
-        $idRecibo = PedidoController::genCodRec();
-        try {
-            DB::beginTransaction();
-                $ventas = new Venta();
-                $ventas->id_recibo = $idRecibo;
-                $ventas->id_cliente = $idCliente; 
-                $ventas->fecha = $date;
-                $ventas->total = $request->get('totalVentaV');
-                if ($request->get('pago')!=null) {
-                $ventas->pago = $request->get('pago');}
-                $ventas->formaPago = $request->get('formaPago');
-            $ventas->saveOrFail();
-            foreach ($request->idProducto as $key => $value) {
-                detalleVenta::create([
-                    'id_venta'=>$ventas->id,
-                    'id_producto' =>$value,
-                    'cantidad' =>$request ->cantidad [$key],
-                    'precio_unitario' =>$request ->precioUnitario [$key],
-                    'precio_total'=>$request ->subTotal [$key]
-                ]);
-                $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
-                $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
-                $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
-                $insumosId = array_column($insumos->toArray(), 'id_insumo');
-                foreach ($insumosId as $keyy => $valuee) {
-                    DB::table('insumos')->where('id', '=', $valuee)->decrement('cantidad', $cantidadDecremento[$keyy]*(int)$request ->cantidad [$key]);
+        elseif (count($request-> idProducto)<1 || count($request ->cantidad)<1){
+            return redirect('/pedidos/create')->with('malpedido', 'Realiza el pedido correctamente.');
+        }
+        else{
+            $date = Carbon::now()->toDateTimeString();
+            $cedula=$request->get('id_cliente');
+            $idCliente = PedidoController::getCliente($cedula);
+            $idRecibo = PedidoController::genCodRec();
+            try {
+                DB::beginTransaction();
+                    $ventas = new Venta();
+                    $ventas->id_recibo = $idRecibo;
+                    $ventas->id_cliente = $idCliente; 
+                    $ventas->fecha = $date;
+                    $ventas->total = $request->get('totalVentaV');
+                    if ($request->get('pago')!=null) {
+                    $ventas->pago = $request->get('pago');}
+                    $ventas->formaPago = $request->get('formaPago');
+                $ventas->saveOrFail();
+                foreach ($request->idProducto as $key => $value) {
+                    detalleVenta::create([
+                        'id_venta'=>$ventas->id,
+                        'id_producto' =>$value,
+                        'cantidad' =>$request ->cantidad [$key],
+                        'precio_unitario' =>$request ->precioUnitario [$key],
+                        'precio_total'=>$request ->subTotal [$key]
+                    ]);
+                    $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
+                    $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
+                    $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+                    $insumosId = array_column($insumos->toArray(), 'id_insumo');
+                    foreach ($insumosId as $keyy => $valuee) {
+                        DB::table('insumos')->where('id', '=', $valuee)->decrement('cantidad', $cantidadDecremento[$keyy]*(int)$request ->cantidad [$key]);
+                    }
                 }
+                fechaestado::create([
+                    'id_venta'=>$ventas->id,
+                    'fecha' =>$date
+                ]);
+                DB::commit();
+                return redirect('pedidos')->with('guardo','Se guardó el pedido');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
             }
-            fechaestado::create([
-                'id_venta'=>$ventas->id,
-                'fecha' =>$date
-            ]);
-            DB::commit();
-            return redirect('pedidos')->with('guardo','Se guardó el pedido');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
         }
     }
 
@@ -249,9 +254,27 @@ class PedidoController extends Controller
     }
 
     public function getPrecioProducto(Request $request){
-        $idProducto = $_REQUEST['idProducto'];
+        $idProducto = $request->idProducto;
         $id=DB::table('productos')->select('precio')->where('id', '=', $idProducto)->pluck('precio')->first();
         echo $id;
+    }
+
+    public function getStockProducto(Request $request){
+        $insumosCantidad=0;
+        $idProducto = (int)$request->idProducto;
+        $cantidad = (int)$request->cantidad;
+        $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $idProducto)->get();
+        $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $idProducto)->get();
+        $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+        $insumosId = array_column($insumos->toArray(), 'id_insumo');
+        
+        foreach ($insumosId as $keyy => $valuee) {
+            $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>', ($cantidadDecremento[$keyy]*$cantidad))->pluck('cantidad')->first();
+            if ($insumosCantidad == null || $insumosCantidad == 0) {
+                break;
+            }
+        }
+        echo $insumosCantidad;
     }
 
     public function genCodRec(){

@@ -92,6 +92,15 @@ h3, h4 {text-align: right}
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+@if(session('malpedido') == 'Realiza el pedido correctamente.')
+    <script>
+        Swal.fire(
+        '¡Ups!',
+        'Realiza el pedido correctamente.',
+        'warning'
+        )
+    </script>
+@endif
     <script> 
         function resetform() {
             $("form select P").each(function() { this.selectedIndex = 0 });
@@ -113,7 +122,7 @@ h3, h4 {text-align: right}
             return (totalVenta);
             }
         $(document).ready(function(){
-
+            let stock;
             $('.tomarP').submit(function(e){
                 e.preventDefault();
                 Swal.fire({
@@ -148,39 +157,58 @@ h3, h4 {text-align: right}
                             precioUnitario = (response);
                         }
                     });
-                    let subTotal = cantidad*precioUnitario;
-                    let indexProducto = getIndexProducto(idProducto);
-
-                    if(indexProducto > -1){
-                        $('#tr-'+idProducto).remove();
-                        objProducto = arrayProductos[indexProducto];
-                        objProducto.cantidad += cantidad;
-                        objProducto.precioUnitario = precioUnitario;
-                        objProducto.subTotal += subTotal;
-                        objProducto.idProducto = idProducto;
-                    } else {
-                        objProducto = {
-                            cantidad, precioUnitario, subTotal, idProducto
+                    $.ajax({
+                        type: "GET",
+                        async : false,
+                        url: '{{ route('getStock') }}',
+                        data: {'idProducto': idProducto, 'cantidad': cantidad},
+                        success: function(response){
+                            stock = (response);
+                            console.log(response);
                         }
-                        arrayProductos.push(objProducto);
+                    });
+
+                    if (stock == null || stock == 0) {
+                        Swal.fire(
+                        '¡Upss!',
+                        'No hay insumos suficientes para la cantidad de productos seleccionados.',
+                        'warning'
+                        )
+                    }else{
+                        let subTotal = cantidad*precioUnitario;
+                        let indexProducto = getIndexProducto(idProducto);
+
+                        if(indexProducto > -1){
+                            $('#tr-'+idProducto).remove();
+                            objProducto = arrayProductos[indexProducto];
+                            objProducto.cantidad += cantidad;
+                            objProducto.precioUnitario = precioUnitario;
+                            objProducto.subTotal += subTotal;
+                            objProducto.idProducto = idProducto;
+                        } else {
+                            objProducto = {
+                                cantidad, precioUnitario, subTotal, idProducto
+                            }
+                            arrayProductos.push(objProducto);
+                        }
+                        $('#totalVenta').text(formatterDolar.format(getTotal()));
+                        $('#totalVentaV').val(getTotal());
+                        $('#cajaDetalle').append(`
+                            <tr id="tr-${objProducto.idProducto }">
+                                <input type=hidden name="idProducto[]" value="${ objProducto.idProducto }">
+                                <input type=hidden name="cantidad[]" value="${ objProducto.cantidad }">
+                                <input type=hidden name="precioUnitario[]" value="${ objProducto.precioUnitario }">
+                                <input type=hidden name="subTotal[]" value="${ objProducto.subTotal}">
+                                <td>${producto}</td>
+                                <td>${objProducto.cantidad}</td>
+                                <td>${formatterDolar.format(objProducto.precioUnitario)}</td>
+                                <td>${formatterDolar.format(objProducto.subTotal)}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger active btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `);
                     }
-                    $('#totalVenta').text(formatterDolar.format(getTotal()));
-                    $('#totalVentaV').val(getTotal());
-                    $('#cajaDetalle').append(`
-                        <tr id="tr-${objProducto.idProducto }">
-                            <input type=hidden name="idProducto[]" value="${ objProducto.idProducto }">
-                            <input type=hidden name="cantidad[]" value="${ objProducto.cantidad }">
-                            <input type=hidden name="precioUnitario[]" value="${ objProducto.precioUnitario }">
-                            <input type=hidden name="subTotal[]" value="${ objProducto.subTotal}">
-                            <td>${producto}</td>
-                            <td>${objProducto.cantidad}</td>
-                            <td>${formatterDolar.format(objProducto.precioUnitario)}</td>
-                            <td>${formatterDolar.format(objProducto.subTotal)}</td>
-                            <td>
-                                <button type="button" class="btn btn-danger active btn-sm" onclick="eliminarProducto(${objProducto.idProducto})"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `);
                 }
             });
         });

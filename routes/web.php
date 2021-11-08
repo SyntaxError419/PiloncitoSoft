@@ -53,6 +53,8 @@ Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('
 
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
+Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

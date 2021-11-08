@@ -85,12 +85,14 @@
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 
 @if(session('editar') == 'El pedido se ha modificado correctamente!')
-    <script>
-        Swal.fire(
-        'Modificado!',
-        'El pedido ha sido modificado.',
-        'success'
-        )
+<script>
+        Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'El pedido se ha modificado correctamente!',
+                showConfirmButton: false,
+                timer: 3500
+            })
     </script>
 @endif
 
@@ -359,7 +361,6 @@
             }
         })
     });
-    
 });
 
 </script>
