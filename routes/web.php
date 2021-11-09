@@ -55,6 +55,8 @@ Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getP
 
 Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
 
+Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

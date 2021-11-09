@@ -253,6 +253,12 @@ class PedidoController extends Controller
         return $id;
     }
 
+    public function getClientee(Request $request){
+        $cedula = (int)$request->cedula;
+        $id=DB::table('clientes')->select('id')->where('cedula', '=', $cedula)->pluck('id')->first();
+        echo $id;
+    }
+
     public function getPrecioProducto(Request $request){
         $idProducto = $request->idProducto;
         $id=DB::table('productos')->select('precio')->where('id', '=', $idProducto)->pluck('precio')->first();

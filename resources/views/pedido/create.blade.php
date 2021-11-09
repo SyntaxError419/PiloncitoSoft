@@ -21,17 +21,17 @@ h3, h4 {text-align: right}
                     <div class="row">
                     <div class="col">
                         <label for="" class="form-label">Cliente:</label>
-                        <input onkeypress="return event.charCode >= 48 && event.charCode <= 57" list="id_cliente" name="id_cliente" placeholder="Seleccione el cliente" class="form-control" tabindex="1" required="required">
-                        <datalist id="id_cliente">
+                        <select name="id_cliente" class="id_cliente js-states form-control" tabindex="1" required="required" id="id_cliente" lang="es">
+                            <option></option>
                             @foreach($clientes as $c)
-                            <option value="{{ $c->cedula }}">{{ $c->nombre }}</option>
+                            <option value="{{ $c->cedula }}">{{ $c->cedula }}</option>
                             @endforeach
-                        </datalist>
+                        </select>
                     </div>
                     <div class="col">
                         <label for="" class="form-label">Forma de pago:</label>
-                        <select name="formaPago" placeholder="Seleccione el método de pago" class="form-control" tabindex="2" required="required">
-                            <option value="">Seleccione la forma de pago</option>
+                        <select name="formaPago" class="form-control" tabindex="2" required="required" id="formaPago" lang="es">
+                            <option></option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Transferencia bancaria">Transferencia bancaria</option>
                         </select>    
@@ -40,8 +40,8 @@ h3, h4 {text-align: right}
                     <div class="row mt-3">
                     <div class="col">
                         <label for="id_producto" class="form-label">Producto:</label>
-                            <select class="form-control" name="id_producto" id="id_producto" tabindex="3">
-                                <option value="">Seleccione el producto</option>
+                            <select class="form-control" name="id_producto" id="id_producto" tabindex="3" lang="es">
+                                <option></option>
                                 @foreach($productos as $p)
                                     <option value="{{ $p->id }}">{{ $p->nombre }}</option>
                                 @endforeach
@@ -49,7 +49,7 @@ h3, h4 {text-align: right}
                     </div>
                     <div class="col">
                         <label for="cantidad">Cantidad:</label>
-                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="cantidad" id="cantidad" tabindex="5">
+                        <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="cantidad" id="cantidad" tabindex="4" placeholder="Ingrese la cantidad">
                     </div>                    
                     </div>
                     <div class="lcd mt-4">
@@ -101,6 +101,25 @@ h3, h4 {text-align: right}
         )
     </script>
 @endif
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.id_cliente').select2({
+            placeholder: "Seleccione el cliente"
+        });
+        
+        $('#id_producto').select2({
+            placeholder: "Seleccione el producto"
+        });
+
+        $('#formaPago').select2({
+            placeholder: "Seleccione la forma de pago"
+        });
+
+    });
+    </script>
     <script> 
         function resetform() {
             $("form select P").each(function() { this.selectedIndex = 0 });
@@ -123,6 +142,7 @@ h3, h4 {text-align: right}
             }
         $(document).ready(function(){
             let stock;
+            let cliente;
             $('.tomarP').submit(function(e){
                 e.preventDefault();
                 Swal.fire({
@@ -164,14 +184,13 @@ h3, h4 {text-align: right}
                         data: {'idProducto': idProducto, 'cantidad': cantidad},
                         success: function(response){
                             stock = (response);
-                            console.log(response);
                         }
                     });
 
                     if (stock == null || stock == 0) {
                         Swal.fire(
-                        '¡Upss!',
-                        'No hay insumos suficientes para la cantidad de productos seleccionados.',
+                        '¡No hay insumos suficientes para realizar la cantidad del producto seleccionados!',
+                        'Por favor verifica la cantidad de insumos que tienes disponibles.',
                         'warning'
                         )
                     }else{
@@ -237,16 +256,5 @@ h3, h4 {text-align: right}
             return index;
         }
         
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $('#id_proveedor').select2();
-    });
-
-    $(document).ready(function() {
-        $('#id_producto').select2();
-    });
     </script>
 @endsection
