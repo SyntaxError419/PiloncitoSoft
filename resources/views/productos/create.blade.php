@@ -10,11 +10,11 @@ h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
 <h2 class="pt-3">Crear Producto</h2>
-<div class="card mt-4">
-    <div class="card-header">
-        <div class="card-body">
+    <div class="card-body">
+        <div class="card">
             <form action="{{route ('guardarproducto')}}" method ="POST">
             @csrf
+            <div class="card-header">
                 <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Nombre</label>
