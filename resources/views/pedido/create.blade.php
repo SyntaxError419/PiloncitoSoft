@@ -12,7 +12,6 @@ h3, h4 {text-align: right}
 <label class="pt-3">
 <h2>Tomar pedido</h2>
 </label>
-
     <div class="card-body">
         <div class="card">
             <form id="myForm" action="/pedidos" method ="POST" class="tomarP">
