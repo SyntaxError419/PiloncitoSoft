@@ -26,16 +26,16 @@ h3, h4 {text-align: right}
                             <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
                         </div>
                 </div>
+
                 <div class="row mb-3">
                         <div class="col">
-
                             <label for="id_insumo" class="form-label">Insumo:</label>
-                                <select class="form-control" name="id_insumo" id="id_insumo">
-                                    <option value="">Seleccione el insumo</option>
-                                    @foreach($insumos as $i)
-                                    <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
-                                    @endforeach
-                                </select>
+                            <select class="form-control" name="id_insumo" id="id_insumo">
+                                <option value="">Seleccione el insumo</option>
+                                @foreach($insumos as $i)
+                                <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         
                         <div class="col">
@@ -44,15 +44,11 @@ h3, h4 {text-align: right}
                                 <input type="text" class="form-control" name="cantidad" id="cantidad">
                             </div>
                         </div>
-                        <div >
-                           
+                        <div>
                             <button type="button" id="agregarInsumo" class="btn btn-secondary mt" style="float: left;">Agregar</button>
                         </div>
-                        
                     </div>
-                </div>  
-            </div>      
-                    
+                </div>    
                     <div class="card-body">
                     <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px;"">
                             <thead>
@@ -68,14 +64,13 @@ h3, h4 {text-align: right}
                         </table>
                     </div>
                     </div>
+
                     <div>
                     <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
                     <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
                     </div>
-                </form>
-            
-        </div>
-    </div>
+
+    </form>
 @endsection
 
 @section('js')
@@ -103,15 +98,10 @@ h3, h4 {text-align: right}
                     console.log(idInsumo)
 
                     if(indexInsumo > -1){
-                      
-                   
                         $('#tr-'+idInsumo).remove();
                         objInsumo = arrayInsumos[indexInsumo];
                         objInsumo.cantidad += cantidad;
-                        
 
-                       
-                      
                     } else {
                         
                         objInsumo = {
