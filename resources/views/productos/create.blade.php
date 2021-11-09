@@ -12,13 +12,9 @@ h3, h4 {text-align: right}
 <h2 class="pt-3">Crear Producto</h2>
 <div class="card mt-4">
     <div class="card-header">
-      
         <div class="card-body">
             <form action="{{route ('guardarproducto')}}" method ="POST">
             @csrf
-                
-
-                
                 <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Nombre</label>
