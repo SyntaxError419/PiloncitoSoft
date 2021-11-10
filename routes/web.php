@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\PedidoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,14 +19,14 @@ Auth::routes();
 
 Route::get('/', function () {
     return view('auth.login');
-}); 
+});
 
 Route::resource('proveedores','App\Http\Controllers\ProveedoresController');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dash', function () {
     return view('dash.index');
 
-})->name('dash'); 
+})->name('dash');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -53,6 +54,8 @@ Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('
 
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
+Route::resource('roles', App\Http\Controllers\RoleController::class);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -71,5 +74,5 @@ Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('g
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
 Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
-    
+
 
