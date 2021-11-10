@@ -56,6 +56,36 @@
                         </div>
                         </div>
         </div>
+        <table class="table bg-gray table-bordered table lg mb-2" style="border-radius: 7px;">
+                <thead>
+                    <tr>
+                        <th>Por iniciar</th>
+                        <th>En proceso</th>
+                        <th>Por entregar</th>
+                        <th>En entrega</th>
+                        <th>Entregado</th>
+                    </tr>
+                </thead>
+                <tbody class="table bg-white">
+                <tr>
+                @php($k=0)
+                @for ($i=0; $i < sizeof($fechaestados); $i++)
+                    @for ($f=$k; $f < 5; $f++)
+                        @if ($fechaestados[$i]->estado == $f)
+                                <td>{{$fechaestados[$i]->fecha}}</td>
+                                @php($f=5)
+                        @else
+                                <td>-</td>
+                        @endif
+                        @php($k++)
+                    @endfor
+                @endfor
+                @for ($f=$k; $f < 5; $f++)
+                    <td>-</td>
+                @endfor
+                </tr>
+            </tbody>
+        </table>
         <div>
                         </div>
                     </div>

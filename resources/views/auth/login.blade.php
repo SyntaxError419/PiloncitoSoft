@@ -44,11 +44,11 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4">
+<!--                 <x-jet-button class="ml-4">
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="ml">Registro</a>
                             @endif
-                </x-jet-button>
+                </x-jet-button> -->
                 <x-jet-button class="ml-4">
                     {{ __('Ingresar') }}
                 </x-jet-button>

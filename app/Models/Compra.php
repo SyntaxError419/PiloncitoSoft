@@ -13,7 +13,8 @@ class Compra extends Model
         'numReciboCompra',
         'fecha',    
         'id_proveedor',
-        'totalcompra'   
+        'totalcompra',
+        'estado'   
 
     ];
     

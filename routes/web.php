@@ -55,6 +55,9 @@ Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
 Route::resource('roles', App\Http\Controllers\RoleController::class);
+Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
+
+Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
 
 Auth::routes();
 
@@ -65,7 +68,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
 Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
-
+Route::get('estadoCamC', 'App\Http\Controllers\CompraController@camEstadoC')->name('camEstadoC');
 
 
 

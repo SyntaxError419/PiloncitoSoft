@@ -50,12 +50,42 @@
                         </div>
                         <div class="col">
                             <label for="" class="form-label">Total:</label>
-                            <input disabled="true" id="nombre" name="nombre" type="text" class="form-control" value="{{$ventas->total}}">
-                            <input type="hidden"  id="id_cliente" name="id_cliente"   class="form-control" value="{{$ventas->total}}">  
+                            <input disabled="true" id="nombre" name="nombre" type="text" class="form-control" value="${{number_format($ventas->total)}}">
                         </div>
                         </div>
                         </div>
+                        
         </div>
+        <table class="table bg-gray table-bordered table lg mb-2" style="border-radius: 7px;">
+                <thead>
+                    <tr>
+                        <th>Por iniciar</th>
+                        <th>En proceso</th>
+                        <th>Por entregar</th>
+                        <th>En entrega</th>
+                        <th>Entregado</th>
+                    </tr>
+                </thead>
+                <tbody class="table bg-white">
+                <tr>
+                @php($k=0)
+                @for ($i=0; $i < sizeof($fechaestados); $i++)
+                    @for ($f=$k; $f < 5; $f++)
+                        @if ($fechaestados[$i]->estado == $f)
+                                <td>{{$fechaestados[$i]->fecha}}</td>
+                                @php($f=5)
+                        @else
+                                <td>-</td>
+                        @endif
+                        @php($k++)
+                    @endfor
+                @endfor
+                @for ($f=$k; $f < 5; $f++)
+                    <td>-</td>
+                @endfor
+                </tr>
+            </tbody>
+        </table>
         <div>
                         </div>
                     </div>
@@ -75,8 +105,8 @@
                 <tr>
                     <td>{{$producto->nombre}}</td>
                     <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->cantidad}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario)}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total)}}</td>
                 </tr>
                 @endforeach
             </tbody>

@@ -14,7 +14,7 @@
             <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Cliente:</label>
-                            <input list="id_cliente" id="nombre" name="id_cliente" type="text" class="form-control" value="{{$ventas->clientes->cedula}}">
+                            <input list="id_cliente" id="nombre" name="id_cliente" type="text" class="form-control" value="{{$ventas->clientes->cedula}}" required="required">
                             <datalist id="id_cliente">
                                 @foreach($clientes as $c)
                                 <option value="{{ $c->cedula }}">{{ $c->nombre }}</option>
@@ -77,7 +77,7 @@
 
                         <div class="col">
                             <label for="" class="form-label">Total:</label>
-                            <input disabled="true" id="total" name="total" tabindex="5" type="text" class="form-control" value="{{$ventas->total}}">
+                            <input disabled="true" id="total" name="total" tabindex="5" type="text" class="form-control" value="${{number_format($ventas->total)}}">
                         </div>
 
                         <div class="col">
@@ -107,8 +107,8 @@
                 <tr>
                     <td>{{$producto->nombre}}</td>
                     <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->cantidad}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario}}</td>
-                    <td>{{$detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_unitario)}}</td>
+                    <td>${{number_format($detalleventas->get()->where('id_producto',$producto->id)->first()->precio_total)}}</td>
                 </tr>
                 @endforeach
             </tbody>

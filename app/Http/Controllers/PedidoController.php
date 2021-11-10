@@ -7,8 +7,11 @@ use App\Models\Venta;
 use App\Models\Detalleventa;
 use App\Models\Cliente;
 use App\Models\Producto;
+use App\Models\Fechaestado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+
+
 
 class PedidoController extends Controller
 {
@@ -49,38 +52,54 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        if (count($request-> idProducto)<1 || count($request ->cantidad)<1){
-            return redirect('/pedidos')->withErrors('Realiza la venta correctamente.');
+        if (($request-> idProducto)==null || ($request ->cantidad)==null){
+            return redirect('/pedidos/create')->with('malpedido', 'Realiza el pedido correctamente.');
         }
-        $cedula=$request->get('id_cliente');
-        $idCliente = PedidoController::getCliente($cedula);
-        $idRecibo = PedidoController::genCodRec();
-        try {
-            DB::beginTransaction();
+        elseif (count($request-> idProducto)<1 || count($request ->cantidad)<1){
+            return redirect('/pedidos/create')->with('malpedido', 'Realiza el pedido correctamente.');
+        }
+        else{
             $date = Carbon::now()->toDateTimeString();
-                $ventas = new Venta();
-                $ventas->id_recibo = $idRecibo;
-                $ventas->id_cliente = $idCliente; 
-                $ventas->fecha = $date;
-                $ventas->total = $request->get('totalVentaV');
-                if ($request->get('pago')!=null) {
-                $ventas->pago = $request->get('pago');}
-                $ventas->formaPago = $request->get('formaPago');
-            $ventas->saveOrFail();
-            foreach ($request->idProducto as $key => $value) {
-                detalleVenta::create([
+            $cedula=$request->get('id_cliente');
+            $idCliente = PedidoController::getCliente($cedula);
+            $idRecibo = PedidoController::genCodRec();
+            try {
+                DB::beginTransaction();
+                    $ventas = new Venta();
+                    $ventas->id_recibo = $idRecibo;
+                    $ventas->id_cliente = $idCliente; 
+                    $ventas->fecha = $date;
+                    $ventas->total = $request->get('totalVentaV');
+                    if ($request->get('pago')!=null) {
+                    $ventas->pago = $request->get('pago');}
+                    $ventas->formaPago = $request->get('formaPago');
+                $ventas->saveOrFail();
+                foreach ($request->idProducto as $key => $value) {
+                    detalleVenta::create([
+                        'id_venta'=>$ventas->id,
+                        'id_producto' =>$value,
+                        'cantidad' =>$request ->cantidad [$key],
+                        'precio_unitario' =>$request ->precioUnitario [$key],
+                        'precio_total'=>$request ->subTotal [$key]
+                    ]);
+                    $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
+                    $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
+                    $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+                    $insumosId = array_column($insumos->toArray(), 'id_insumo');
+                    foreach ($insumosId as $keyy => $valuee) {
+                        DB::table('insumos')->where('id', '=', $valuee)->decrement('cantidad', $cantidadDecremento[$keyy]*(int)$request ->cantidad [$key]);
+                    }
+                }
+                fechaestado::create([
                     'id_venta'=>$ventas->id,
-                    'id_producto' =>$value,
-                    'cantidad' =>$request ->cantidad [$key],
-                    'precio_unitario' =>$request ->precioUnitario [$key],
-                    'precio_total'=>$request ->subTotal [$key]
+                    'fecha' =>$date
                 ]);
+                DB::commit();
+                return redirect('pedidos')->with('guardo','Se guardó el pedido');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
             }
-            DB::commit();
-            return redirect('pedidos')->with('guardo','Se guardó el pedido');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
         }
     }
 
@@ -93,9 +112,10 @@ class PedidoController extends Controller
     public function show($id)
     {
         $detalleventas =Detalleventa::where('id_venta',$id);
+        $fechaestados =Fechaestado::where('id_venta',$id)->get();
         $productos =Producto::find($id);
         $ventas =Venta::find($id);
-        return view('pedido.show',compact('detalleventas'))->with('ventas',$ventas);
+        return view('pedido.show',compact('detalleventas', 'fechaestados'))->with('ventas',$ventas,'fechaestado',$fechaestados);
     }
 
     /**
@@ -108,8 +128,13 @@ class PedidoController extends Controller
     {
         $clientes=Cliente::all();
         $ventas=Venta::find($id);
+        if ($ventas->pago==1) {
+            return redirect('pedidos')->with('noEditar', 'Este pedido no se puede editar, ya está pago!');
+        }
+        else {
         $detalleventas=Detalleventa::where('id_venta',$id);
         return view('pedido.edit',compact('detalleventas', 'clientes'))->with('ventas',$ventas, 'clientes', $clientes);
+        }
     }
 
     /**
@@ -121,6 +146,7 @@ class PedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $date = Carbon::now()->toDateTimeString();
         $ventas= Venta::find($id);
         $cedula=$request->get('id_cliente');
         $idCliente = PedidoController::getCliente($cedula);
@@ -129,8 +155,12 @@ class PedidoController extends Controller
         $ventas->pago = $request->get('pago');
         $ventas->estado = $request->get('estado');
         $ventas->formaPago = $request->get('formaPago');
-
         $ventas->save();
+        fechaestado::create([
+            'id_venta'=>$id,
+            'estado'=>$request->get('estado'),
+            'fecha' =>$date
+        ]);
         return redirect('pedidos')->with('editar', 'El pedido se ha modificado correctamente!');;
     }
 
@@ -143,10 +173,24 @@ class PedidoController extends Controller
     public function destroy($id)
     {
         $venta = Venta::find($id);
-        if ($venta->pago == 1) {
+        if ($venta->pago == 1 && $venta->estado > 0) {
             return redirect('pedidos')->with('error', 'El pedido no se ha podido cancelar!');    
         }else {
+
             $venta->update(['cancelado'=>1]); 
+            $productId=DB::table('detalleventas')->select('id_producto')->where('id_venta', '=', $venta->id)->get();
+            $productosId = array_column($productId->toArray(), 'id_producto');
+            $cantidad=DB::table('detalleventas')->select('cantidad')->where('id_venta', '=', $venta->id)->get();
+            $cantidadAum = array_column($cantidad->toArray(), 'cantidad');
+            foreach ($productosId as $key => $value) {
+                $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value)->get();
+                $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value)->get();
+                $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+                $insumosId = array_column($insumos->toArray(), 'id_insumo');
+                foreach ($insumosId as $keyy => $valuee) {
+                    DB::table('insumos')->where('id', '=', $valuee)->increment('cantidad', $cantidadDecremento[$keyy]*(int)$cantidadAum[$key]);
+                }
+            }
             return redirect('pedidos')->with('cancelar', 'El pedido se ha cancelado correctamente!');
         }
     }
@@ -155,62 +199,92 @@ class PedidoController extends Controller
 
     public function cambioEstadoPago (Venta $venta)
    {
+    $date = Carbon::now()->toDateTimeString();
         $venta->update(['estado'=>4]);
         $venta->update(['pago'=>1]);
-         return redirect()->back();    
+        fechaestado::create([
+            'id_venta'=>$venta->id,
+            'estado'=>4,
+            'fecha' =>$date
+        ]);
+         return redirect()->back();
    }
 
 
 
    public function cambioEstadoPedido (Venta $venta)
    {
+    $date = Carbon::now()->toDateTimeString();
         if($venta->estado == 0)  {
             $venta->update(['estado'=>1]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>1,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 1) {
             $venta->update(['estado'=>2]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>2,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 2){
             $venta->update(['estado'=>3]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>3,
+                'fecha' =>$date
+            ]);
         }elseif ($venta->estado == 3){
             $venta->update(['estado'=>4]);
+            fechaestado::create([
+                'id_venta'=>$venta->id,
+                'estado'=>4,
+                'fecha' =>$date
+            ]);
         }else{}
         return redirect()->back();    
    }
 
 
    public function getCliente($cedula){
-    $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-    $rs = mysqli_query($db, "SELECT (id) AS id FROM clientes WHERE cedula=$cedula");
-    if ($row = mysqli_fetch_row($rs)) {
-        $id = trim($row[0]);}
+        $id=DB::table('clientes')->select('id')->where('cedula', '=', $cedula)->pluck('id')->first();
         return $id;
     }
 
-    public function getProducto($nombreProducto){
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT (id) AS id FROM productos WHERE nombre='$nombreProducto'");
-        if ($row = mysqli_fetch_row($rs)) {
-            $id = trim($row[0]);
-        }
-        return $id;
+    public function getClientee(Request $request){
+        $cedula = (int)$request->cedula;
+        $id=DB::table('clientes')->select('id')->where('cedula', '=', $cedula)->pluck('id')->first();
+        echo $id;
     }
-
 
     public function getPrecioProducto(Request $request){
-        $idProducto = $_REQUEST['idProducto'];
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT precio FROM productos WHERE id=$idProducto");
-        if ($row = mysqli_fetch_row($rs)) {
-            $id = trim($row[0]);
+        $idProducto = $request->idProducto;
+        $id=DB::table('productos')->select('precio')->where('id', '=', $idProducto)->pluck('precio')->first();
+        echo $id;
+    }
+
+    public function getStockProducto(Request $request){
+        $insumosCantidad=0;
+        $idProducto = (int)$request->idProducto;
+        $cantidad = (int)$request->cantidad;
+        $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $idProducto)->get();
+        $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $idProducto)->get();
+        $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+        $insumosId = array_column($insumos->toArray(), 'id_insumo');
+        
+        foreach ($insumosId as $keyy => $valuee) {
+            $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>', ($cantidadDecremento[$keyy]*$cantidad))->pluck('cantidad')->first();
+            if ($insumosCantidad == null || $insumosCantidad == 0) {
+                break;
+            }
         }
-        echo ($id);
+        echo $insumosCantidad;
     }
 
     public function genCodRec(){
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT MAX(id) AS id FROM ventas");
-        if ($row = mysqli_fetch_row($rs)) {
-        $id = trim($row[0]);
-        }
+        $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
         if ($id == null) {$id = "EPF-000";}
         else {$id = "EPF-".($id+1);}
         return $id;

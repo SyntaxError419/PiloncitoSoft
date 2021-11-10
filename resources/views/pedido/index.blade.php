@@ -37,7 +37,7 @@
                   <td>{{$venta->id_recibo}}</td>
                   <td>{{$venta->clientes->nombre}}</td>
                   <td>{{$venta->fecha}}</td>
-                  <td>{{$venta->total}}</td>
+                  <td>${{number_format($venta->total)}}</td> 
                   <td>
                       @if($venta->pago == 0)
                       <p>No</p>
@@ -85,12 +85,14 @@
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 
 @if(session('editar') == 'El pedido se ha modificado correctamente!')
-    <script>
-        Swal.fire(
-        'Modificado!',
-        'El pedido ha sido modificado.',
-        'success'
-        ) 
+<script>
+        Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'El pedido se ha modificado correctamente!',
+                showConfirmButton: false,
+                timer: 3500
+            })
     </script>
 @endif
 
@@ -120,7 +122,16 @@
         '¡Ups!',
         'El pedido no ha sido cancelado.',
         'error'
-        ) 
+        )
+    </script>
+@endif
+@if(session('noEditar') == 'Este pedido no se puede editar, ya está pago!')
+    <script>
+        Swal.fire(
+        '¡Ups!',
+        'Este pedido no se puede editar, ya está pago!',
+        'warning'
+        )
     </script>
 @endif
 
@@ -349,7 +360,7 @@
                 this.submit();
             }
         })
-    });      
+    });
 });
 
 </script>

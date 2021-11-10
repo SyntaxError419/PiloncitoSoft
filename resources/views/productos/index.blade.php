@@ -12,9 +12,7 @@
 <head>
 <h1 class="bg text-dark text-center pt-2">Gestión Productos</h1>
 
-
 <body>
-
 
 @if(Session::has('success'))
 <div class="alert alert-success" role="alert">
