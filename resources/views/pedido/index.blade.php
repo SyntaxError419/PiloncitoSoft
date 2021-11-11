@@ -87,7 +87,7 @@
 @if(session('editar') == 'El pedido se ha modificado correctamente!')
 <script>
         Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'success',
                 title: 'El pedido se ha modificado correctamente!',
                 showConfirmButton: false,
@@ -108,7 +108,7 @@
 @if(session('guardo') == 'Se guardó el pedido')
     <script>
         Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'success',
                 title: 'Pedido creado exitosamente!',
                 showConfirmButton: false,
