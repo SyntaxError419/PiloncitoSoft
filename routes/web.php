@@ -55,6 +55,7 @@ Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
 Route::resource('roles', App\Http\Controllers\RoleController::class);
+Route::resource('usuarios', App\Http\Controllers\UserController::class);
 Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
 
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');

@@ -300,12 +300,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Roles',
-                    'url'  => '#',
+                    'url'  => 'roles',
                     'icon' => 'fas fa-fw fa-street-view',
                 ],
                 [
                     'text' => 'Usuarios',
-                    'url'  => '#',
+                    'url'  => 'usuarios',
                     'icon' => 'fas fa-fw fa-users',
                 ],
                 [

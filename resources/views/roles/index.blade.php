@@ -29,9 +29,9 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table ">
+              <table class="table table-light">
                 <thead class="text-warning">
-                  <th> ID </th>
+
                   <th> Nombre </th>
                   <th> Menus </th>
                   <th> Estado </th>
@@ -40,7 +40,7 @@
                 <tbody>
                   @forelse ($roles as $role)
                   <tr>
-                    <td>{{ $role->id }}</td>
+
                     <td>{{ $role->nombre }}</td>
                     <td>
                         @foreach ($menus as $id => $menu )
@@ -57,16 +57,14 @@
                     Desactivado
                     @endif</td>
                     <td class="td-actions text-right">
-                      <a href="{{ route('roles.show', $role->id) }}" class="btn btn-info"> <i
-                          class="material-icons">person</i> </a>
-                      <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning"> <i
-                          class="material-icons">edit</i> </a>
+                      <a href="{{ route('roles.show', $role->id) }}" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
+                      <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning"> <i class="fas fa-pen"></i> </a>
                       <form action="{{ route('roles.destroy', $role->id) }}" method="post"
                         onsubmit="return confirm('Esta seguro?')" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" rel="tooltip" class="btn btn-danger">
-                          <i class="material-icons">close</i>
+                            <i class="fas fa-trash"></i>
                         </button>
                       </form>
                     </td>
