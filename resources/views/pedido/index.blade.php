@@ -73,6 +73,7 @@
                           @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
+                    <a href="{{ route('pdf',$venta->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
                   </td>
                </tr>
                @endforeach
