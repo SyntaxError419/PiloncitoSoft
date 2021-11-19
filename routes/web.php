@@ -43,6 +43,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('facImp', 'App\Http\Controllers\PedidoController@genCodRec')->name('genCodRec');
 
+Route::get('idCod', 'App\Http\Controllers\PedidoController@codId')->name('getCodId');
+
 Route::get('cambioEstadoPago/pedidos/{venta}', 'App\Http\Controllers\PedidoController@cambioEstadoPago')->name('pedidos.cambioEstadoPago');
 
 Route::get('cambioEstadoPedido/pedidos/{venta}', 'App\Http\Controllers\PedidoController@cambioEstadoPedido')->name('pedidos.cambioEstadoPedido');

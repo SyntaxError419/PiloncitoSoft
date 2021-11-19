@@ -16,7 +16,7 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-      
+
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
             <tr>
@@ -73,7 +73,7 @@
                           @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('pdf',$venta->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
                   </td>
                </tr>
                @endforeach
@@ -106,15 +106,37 @@
         )
     </script>
 @endif
-@if(session('guardo') == 'Se guardó el pedido')
+
+@if(session('pedidoOk') == 'pedidoOk')
     <script>
+    $( document ).ready(function() {
+        let id = 0;
+        $.ajax({
+            type: "GET",
+            async : false,
+            url: '{{ route('getCodId') }}',
+            data: {},
+            success: function(response){
+                id = (response);
+            }
+        });
         Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Pedido creado exitosamente!',
-                showConfirmButton: false,
-                timer: 3500
-            })
+            title: '¡Pedido creado exitosamente!',
+            text: "¿Desea imprimir la factura?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Imprimir factura',
+            cancelButtonText: 'Ver más tarde'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var url = "{{ route('pdf', 'cod') }}";
+                url = url.replace('cod', id);
+                window.open(url, "_blank");
+            }
+        })
+    });
     </script>
 @endif
 @if(session('error') == 'El pedido no se ha podido cancelar!')
@@ -344,7 +366,7 @@
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
     });
-    
+
     $('.formulario-eliminar').submit(function(e){
         e.preventDefault();
         Swal.fire({
