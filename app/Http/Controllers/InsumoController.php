@@ -24,7 +24,7 @@ class InsumoController extends Controller
         $insumos =Insumo::all();}
         */
 
-        $insumos =Insumo::orderBy('estado', 'ASC')->get();
+        $insumos =Insumo::orderBy('estado', 'DESC')->get();
         return view('insumo.index')->with ('insumos',$insumos);
         
     }
@@ -50,20 +50,17 @@ class InsumoController extends Controller
     
       
         
-        try {
-
-
+   try {
             $insumos= new Insumo();
             $insumos->nombre_insumo=$request->get('nombre_insumo');
             $insumos->cantidad=$request->get('cantidad');
             $insumos->save();
-            $insumo= Insumo::find(6);
-            return redirect('/insumos');
+            return redirect('insumos')->with('guardar','True');
 
+        } catch (QueryException $e) {
 
-    } catch (QueryException $e) {
-        
-        echo '<script language="javascript">alert("ERROR:El insumo registrado ya existe, ingrese otro Nombre");window.location.href="/insumos/create"</script>';
+         return redirect('insumos/create')->with('error','True');
+
 
 
     }  
@@ -112,14 +109,13 @@ class InsumoController extends Controller
     {
         try {
 
-    
         $insumo= Insumo::find($id);
         $insumo->nombre_insumo=$request->get('nombre_insumo');
         $insumo->save();
-        return redirect('/insumos');  
+        return redirect('insumos')->with('edit','True');  
          }catch (QueryException $e) {
         
-        echo '<script language="javascript">alert("ERROR:El insumo registrado ya existe, ingrese otro Nombre");window.location.href="/insumos/"</script>';
+        return redirect()->back()->with('error','True');
 
 
     }  
@@ -137,17 +133,17 @@ class InsumoController extends Controller
     {
         $insumo = Insumo::find($id);
         if ($insumo->estado == 1) {
-            return redirect('insumos')->with('error', 'El insumo no se ha podido cancelar!');    
+            return redirect('insumos')->with('error', 'True');    
         }else {
-            
+    
             $insumo->delete();
-            return redirect('insumos')->with('cancelar', 'El insumo se ha cancelado correctamente!');
+            return redirect('insumos')->with('cancelar', 'True');
         }
     
 
     }
 
-    public function  camEstado(Request $request) 
+  /*   public function  camEstado(Request $request) 
     {
      
     $InsumosUpdate = Insumo::findOrFail($request->id)->update(['estado' => $request->estado]); 
@@ -160,4 +156,18 @@ class InsumoController extends Controller
 
     return response()->json(['var'=>''.$newStatus.'']);
     }
+ */
+
+
+    public function cambioEstadoInsumo (Insumo $insumo)
+    {
+         if($insumo->estado == 0)  {
+             $insumo->update(['estado'=>1]);
+         }elseif ($insumo->estado == 1) {
+             $insumo->update(['estado'=>0]);
+         }else{}
+         return redirect()->back();    
+    }
+
+
 }

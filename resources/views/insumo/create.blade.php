@@ -38,6 +38,17 @@
 </div>
 </form>
 
+@section('js')
 
+@if(session('error') == 'True')
+    <script>
+        Swal.fire(
+        '¡Oops!',
+        'El nombre del insumo ya está registrado, ingresa otro nombre.',
+        'error'
+        ) 
+    </script>
+@endif
 
 @endsection
+@endsection 
