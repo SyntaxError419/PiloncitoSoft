@@ -304,7 +304,7 @@ class PedidoController extends Controller
         $detalleventas =Detalleventa::where('id_venta',$id);
         $ventas =Venta::find($id);
         $data = ['detalleventas'=>$detalleventas, 'ventas'=>$ventas];
-        return PDF::loadView('pedido.pdf', $data)->setPaper('a6', 'landscape')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
+        return PDF::loadView('pedido.pdf', $data)->setPaper('a5', '')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
         
     }
 }
