@@ -54,7 +54,8 @@
                   </td>
                   <td>                  
                     <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                  </td>
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>  
+                </td>
                </tr>
                @endforeach
            </tbody>
