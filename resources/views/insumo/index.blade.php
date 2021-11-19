@@ -3,7 +3,6 @@
 @section('css')
 
 <link href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
 
 @endsection
 
@@ -15,6 +14,23 @@
 <body>
 
 <h1 class="bg text-dark text-center mt">Gestión de Insumos</h1>
+
+@if(Session::has('success'))
+<div class="alert alert-success" role="alert">
+    {{Session::get('success')}}
+</div>
+@endif
+@if ($errors-> any())
+
+@foreach ($errors->all() as $value)
+<div class="alert alert-danger" role="alert">   
+    {{$value}}
+    </div>
+@endforeach
+
+@endif
+
+
 
 <a href="insumos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
@@ -44,21 +60,29 @@
                       @endif
                    </td>
                    <td>
+                  
+               
 
                       <form action="{{ route('insumos.destroy',$insumo->id) }}" class="d-inline formulario-eliminar"   method="POST">
-                      
-                      <label class="switch">
-                          <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }}>
+                      @if($insumo->estado == 0)
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        @elseif($insumo->estado == 1) 
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        @endif
+          <!--             <label class="switch" >
+                          <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }} ">
                           <span class="slider round"></span>
-                      </label>
+                      </label> -->
+
+
                       <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                    
+
                       <a href="/insumos/{{$insumo->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                      
                             @csrf
                             @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                      </form>                      
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>                   
+                       </form>                         
                    </td>  
                </tr>
                @endforeach
@@ -77,16 +101,36 @@
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
 
-@if(session('cancelar') == 'El insumo se ha cancelado correctamente!')
+@if(session('edit') == 'True')
     <script>
         Swal.fire(
-        '¡Cancelado!',
-        'El Insumo ha sido cancelado.',
+        '¡Editado!',
+        'El insumo ha sido editado correctamente.',
         'success'
         ) 
     </script>
 @endif
-@if(session('error') == 'El insumo no se ha podido cancelar!')
+@if(session('guardar') == 'True')
+    <script>
+        Swal.fire(
+        '¡Creado!',
+        'El Insumo ha sido registrado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+
+@if(session('cancelar') == 'True')
+    <script>
+        Swal.fire(
+        '¡Eliminado!',
+        'El Insumo ha sido eliminado.',
+        'success'
+        ) 
+    </script>
+@endif  
+
+@if(session('error') == 'True')
     <script>
         Swal.fire(
         '¡Error!',
@@ -95,7 +139,6 @@
         ) 
     </script>
 @endif
-
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -309,31 +352,12 @@
     
 
 
-$('.mi_checkbox').change(function() {
-    //Verifico el estado del checkbox, si esta seleccionado sera igual a 1 de lo contrario sera igual a 0
-    var estado = $(this).prop('checked') == true ? 1 : 0; 
-    var id = $(this).data('id'); 
-        console.log(estado);
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        //url: '/StatusNoticia',
-        url: '{{ route('camEstado') }}',
-        data: {'estado': estado, 'id': id},
-        success: function(data){
-            $('#resp' + id).html(data.var); 
-            console.log(data.var)
-         
-          }
-    });
-})
       
 });
             $('.formulario-eliminar').submit(function(e){
                     e.preventDefault();
                     Swal.fire({
-                        title: '¿Estás seguro?',
+                        title: '¿Estás seguro que deseas eliminar el insumo?',
                         text: "¡No podrás revertir esto!",
                         icon: 'warning',
                         showCancelButton: true,
@@ -347,6 +371,109 @@ $('.mi_checkbox').change(function() {
                         }
                     })
                 });      
+/* 
+                $('.formulario-desactivar').submit(function(e){
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro que deseas eliminar el insumo?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo eliminar el insumo!',
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    })
+                }); */    
+                 
+                    
+                function confirmarDesactivar(estado,id,e){ 
+                    e.preventDefault();
+                    if (estado) {
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo desactivar el insumo!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoInsumo/insumos/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                    
+                                
+                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Insumo Desactivado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/insumos";
+
+
+                        }
+                    })
+                    }else{
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo activar el insumo!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoInsumo/insumos/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+
+                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Insumo Activado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/insumos";
+
+
+                        }
+                    })
+                    }  
+
+
+    
+
+                }
 
 </script>
 

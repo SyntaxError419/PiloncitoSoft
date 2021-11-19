@@ -1,6 +1,6 @@
 @extends('layouts.plantillabase')
 @section('contenido')
-<form action="{{ route('guardarCompra')}}" method ="POST">      
+<form action="{{ route('guardarCompra')}}" method ="POST" class="tomarC">      
 @csrf
 
 
@@ -45,9 +45,9 @@
                             <div class="col">
                                                     
 
-                                <div class="form-group">
+                                <div class="mb-3">
                                     <label for="id_insumo">Insumo:</label>
-                                        <select  class="form-control" name="id_insumo" id="id_insumo" tabindex="4">
+                                        <select  class="form-control" name="id_insumo" id="id_insumo"  required="required" tabindex="4">
                                             <option value="">Seleccione el insumo</option>
                                             @foreach ($insumos as $insumo)
                                             <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
@@ -59,7 +59,7 @@
 
                                     <div class="form-group">
                                             <label for="cantidad">Cantidad</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad" tabindex="5">
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"  value="0"  tabindex="5">
                                     </div>
 
                                 </div> 
@@ -69,7 +69,7 @@
 
                                     <div class="form-group">
                                             <label for="cantidad">Iva</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva" tabindex="6">
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva" value="0" tabindex="6">
                                     </div>
                             </div>
                             <div class="col">
@@ -106,10 +106,10 @@
 
                                 </tbody>
                                 <div class="mb-3">
-                                <h4 align="right">Total: $ <Span class="totalcompra"></Span></h4>
+                                <h4 align="right">Total:  <Span class="totalcompra"></Span></h4>
                                 <input type="hidden" id="totalcompra" name="totalcompra"   >  
                                 </div>
-                                </table>
+                                </table>    
                             
                             
                         </div>      
@@ -125,9 +125,35 @@
 
 
 
-@endsection
 @section('js')
+
+@if(session('error') == 'True')
+    <script>
+        Swal.fire(
+        '¡Cancelado!',
+        'La compra se ha egistrado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+@if(session('errorregistro') == 'errorregistro')
+    <script>
+        Swal.fire(
+        '¡Oops!',
+        'el número de factura ya está registrado',
+        'error'
+        ) 
+    </script>
+@endif
+
 <script >
+
+      const formatterDolar = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
+
  
     let arrayid_insumo=[];
     let arrayCantidad=[];
@@ -142,7 +168,7 @@
                     console.log($(this).text());
                     totalcompra += parseInt($(this).text().replace('$',''));
                 });             
-                $('.totalcompra').text(totalcompra);
+                $('.totalcompra').text(formatterDolar.format(totalcompra));
                 $('#totalcompra').val(totalcompra);
                 
             }
@@ -199,22 +225,24 @@ $('#agregarInsumo').click(function(){
     $('#cajaDetalle').append(`
      <tr id="tr-${id_insumo}">
             <input type="hidden" name="id_insumo[]" value="${id_insumo}">
-            <input type="hidden" name="cantidad[]" value="${cantidad}">
-            <input type="hidden" name="iva[]" value="${iva}">
-            <input type="hidden" name="precio_unitario[]" value="${precio_unitario}">
-            <input type="hidden" name="subtotal[]" value="${subtotal}">
-            <input type="hidden" name="precio_total[]" value="${precio_total}">
- 
+            <input type="hidden" class="actualizar-${id_insumo}" name="subtotal[]" value="${subtotal}">
+            <input type="hidden" class="actualizar-${id_insumo}" name="precio_total[]" value="${precio_total}">
+            <input type="hidden" class="actualizar-${id_insumo}" name="cantidad[]" value="${cantidad}"> 
+            <input type="hidden" class="actualizar-${id_insumo}" name="iva[]" value="${iva}">
+            <input type="hidden" class="actualizar-${id_insumo}" name="precio_unitario[]" value="${precio_unitario}">
+        
             <td>${nombre_insumo}</td>
-            <td>${cantidad}</td>
-            <td>${iva*100}%</td>
-            <td>$${precio_unitario}</td>
-            <td>$${subtotal}</td>
-            <td class="precioTotal">$${precio_total}</td>
-
+            <td><input class="editar-${id_insumo}" type="number" disabled name="cantidad[]" value="${cantidad}"> </td>
+            <td><input class="editar-${id_insumo}" type="number" disabled name="iva[]" value="${iva*100}"></td>
+            <td><input class="editar-${id_insumo}" type="number" disabled name="precio_unitario[]" value="${precio_unitario}"></td>
+            <td id="subtotal-${id_insumo}">${formatterDolar.format(subtotal)}</td>
+            <td id="total-${id_insumo}">${formatterDolar.format(precio_total)}</td>
+            <td style="display:none;"class="precioTotal">$${precio_total}</td>
+ 
             <td>
-            
-            <button type ="button" class="btn btn-danger" onclick="eliminarInsumo(${id_insumo})">X</button>
+            <button type ="button" class="btn btn-primary edit-${id_insumo}"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-pen"></i></button>
+            <button type ="button" class="btn btn-danger edit-${id_insumo}"  onclick= "return confirmarEliminar(eliminarInsumo(${id_insumo}))"><i class="fas fa-trash"></i></button>
+            <button type ="button" class="btn btn-success guardar-${id_insumo}" style="display:none;"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-check"></i></button>
             </td>
      </tr>
         `);
@@ -226,11 +254,116 @@ $('#agregarInsumo').click(function(){
 
     
 });
+$(document).ready(function(){
+    $('.tomarC').submit(function(e){
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro de tomar esta Compra?',
+                    text: "¡No podrás revertir éste cambio!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, deseo crear la compra!',
+                    cancelButtonText: 'No crear la compra'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+            });
+});
+
+
+function confirmarEditar(e)
+{
+     /* var respuesta= confirm("Estas seguro de que deseas editar  el insumo?"); */
+     var respuesta= true;
+                    
+     if (respuesta == true) {
+            if($(".editar-"+e).prop("disabled"))
+            {
+                console.log(e);
+                $(".editar-"+e).removeAttr("disabled");
+                $(".guardar-"+e).show();       
+                $(".edit-"+e).hide();       
+
+            }else{
+                $(".editar-"+e).attr("disabled",true);
+                $(".guardar-"+e).hide();       
+                $(".edit-"+e).show();      
+                actualizarSubtotal(e); 
+                getTotal();
+
+            }
+        
+         return true;
+
+     } else
+     {
+         return false;
+     }
+}
+function confirmarEliminar()
+{
+   /*   var respuesta= confirm("Estas seguro de que deseas eliminar  el insumo?");
+
+     if (respuesta == true) {
+         return true;
+         
+     } else
+     {
+         return false;
+     } */
+}
+
+
+function eliminarInsumo(id_insumo){ 
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo eliminar el insumo!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value) {
+                            $('#tr-'+id_insumo).remove();
+                            console.log(arrayCantidad);
+                            let indice =arrayid_insumo.indexOf(id_insumo);
+                        
+                            console.log(arrayIva);
+                            console.log(arrayPrecioUnitario);
+                            console.log(arraySubtotal);
+                            console.log(arrayTotal);
+                            arrayCantidad.splice(1, indice);
+                            arrayid_insumo.splice(1, indice);
+                            arrayIva.splice(1,indice);
+                            arrayPrecioUnitario.splice(1,indice);
+                            arraySubtotal.splice(1,indice);
+                            arrayTotal.splice(1,indice);
+                            getTotal();
+                            
+                               
+                              Swal.fire(
+                                '¡Insumo eliminado!',
+                                '',
+                                'success'
+                                );
+
+                        }
+                    })
+
+    
+
+}
 
 
 
-
-function eliminarInsumo(id_insumo){
+function editarInsumo(id_insumo){
+    
     $('#tr-'+id_insumo).remove();
     console.log(arrayCantidad);
     let indice =arrayid_insumo.indexOf(id_insumo);
@@ -239,7 +372,7 @@ function eliminarInsumo(id_insumo){
     console.log(arrayPrecioUnitario);
     console.log(arraySubtotal);
     console.log(arrayTotal);
-    arrayCantidad.splice(1, indice);
+    arrayCantidad.splice(1,indice);
     arrayid_insumo.splice(1, indice);
     arrayIva.splice(1,indice);
     arrayPrecioUnitario.splice(1,indice);
@@ -251,8 +384,46 @@ function eliminarInsumo(id_insumo){
 
 }
 
+function actualizarSubtotal(id_insumo)
+{
+    var cantidad = $("[name ='cantidad[]'].editar-"+id_insumo).val();
+    var iva = $("[name ='iva[]'].editar-"+id_insumo).val()/100;
+    var preciou = $("[name ='precio_unitario[]'].editar-"+id_insumo).val();
+    var subtotal = cantidad * preciou;
+    var precio_total = (subtotal*iva)+subtotal;
+
+    $("[name ='cantidad[]'].actualizar-"+id_insumo).val(cantidad);
+    $("[name ='iva[]'].actualizar-"+id_insumo).val(iva);
+    $("[name ='precio_unitario[]'].actualizar-"+id_insumo).val(preciou);
+    $("[name ='subtotal[]'].actualizar-"+id_insumo).val(subtotal);
+    $("[name ='precio_total[]'].actualizar-"+id_insumo).val(precio_total);
+    $("[name ='cantidad[]'].actualizar-"+id_insumo).val(cantidad);
+    $("#subtotal-"+id_insumo).text(formatterDolar.format(subtotal));
+    $("#total-"+id_insumo).text(formatterDolar.format(precio_total));
+/*     $($("#subtotal-"+id_insumo).parent()).children().get(12).text(precio_total);
+ */    
+    $($("#subtotal-"+id_insumo).parent()).children("td.precioTotal").text(precio_total)
+}
 
 
+$('.tomarC').submit(function(e){
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro de crear esta compra?',
+                    text: "¡No podrás revertir éste cambio!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, deseo crear la compra!',
+                    cancelButtonText: 'No crear la compra'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+            });
+            
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -265,6 +436,9 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#id_insumo').select2();
 });
+
+        
 </script>
 
+@endsection
 @endsection

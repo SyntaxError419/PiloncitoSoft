@@ -23,9 +23,9 @@ class CompraController extends Controller
      */
     public function index()
     {
-        
         $compras =Compra::all();
-        $proveedores=Proveedores::all();
+/*          $compras =Compra::where('estado', '!=',0)->get();
+ */           $proveedores=Proveedores::all();
 
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
         
@@ -53,8 +53,8 @@ class CompraController extends Controller
     }
     public function save(Request $request){
 
-        if (count($request-> id_insumo)<1 || count($request ->cantidad)<1  ){
-            return redirect('/compras')->withErrors('No se pudo guardar la compra.');
+        if (count($request-> id_insumo)==null  || count($request ->cantidad)==null   ){
+            return redirect('compras/create')->with('error','True');
         }
         try {
             DB::beginTransaction();
@@ -85,10 +85,11 @@ class CompraController extends Controller
             }
 
             DB::commit();
-            return redirect('/compras')->with('success','Se guardo la compra');
+            return redirect('compras')->with('guardar','True');
+
         } catch (QueryException $e) {
-            DB::rollBack();
-            return redirect('/compras')->withErrors('Ocurrio un error,el número de factura ya está registrado');
+            DB::rollBack(); 
+            return redirect('/compras/create')->with('errorregistro','errorregistro');
 
     }  
 
@@ -100,7 +101,8 @@ class CompraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    
+   /*  public function store(Request $request)
     {
         $compras= new Compra();
         $insumos= new Insumo();
@@ -134,7 +136,7 @@ class CompraController extends Controller
         
 
 
-    }
+    } */
    
     /**
      * Display the specified resource.
@@ -210,29 +212,50 @@ class CompraController extends Controller
      */
     public function destroy($id)
     {
+        
         $compra = Compra::find($id);
         if ($compra->estado == 1) {
-            return redirect('compras')->with('error', 'La compra no se ha podido cancelar!');    
+            return redirect('compras')->with('error', 'True');    
         }else {
-            $compra->update(['estado'=>0]); 
-            
-            return redirect('compras')->with('cancelar', 'La compra se ha cancelado correctamente!');
-        }
     
+            $compra->delete();
+            return redirect('compras')->with('cancelar', 'True');
+        }
+        
+ /*        $compra = Compra::find($id);
+        if ($compra->estado == 1) {
+            $compra->update(['estado'=>0]); 
 
+            return redirect('compras')->with('cancelar', 'True');
+        }
+ */
+    
     }
     
-    public function  camEstadoC(Request $request) 
+    /* public function  camEstadoC(Request $request) 
     {
      
     $ComprasUpdate = Compra::findOrFail($request->id)->update(['estado' => $request->estado]); 
 
     if($request->estado == 0)  {
         $newStatus = 'Cancelado';
+
+        
     }else{
         $newStatus ='Activado';
     }
 
     return response()->json(['var'=>''.$newStatus.'']);
+    } */
+
+
+    public function cambioEstadoCompra (Compra $compra)
+    {
+         if($compra->estado == 0)  {
+             $compra->update(['estado'=>1]);
+         }elseif ($compra->estado == 1) {
+             $compra->update(['estado'=>0]);
+         }else{}
+         return redirect()->back();    
     }
 }

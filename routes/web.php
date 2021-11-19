@@ -69,8 +69,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
-Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
-Route::get('estadoCamC', 'App\Http\Controllers\CompraController@camEstadoC')->name('camEstadoC');
+/*Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
+Route::get('estadoCamC', 'App\Http\Controllers\CompraController@camEstadoC')->name('camEstadoC'); */
 
 
 
@@ -80,4 +80,6 @@ Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 
 
 Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
     
+Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');
+Route::get('cambioEstadoCompra/compras/{compra}', 'App\Http\Controllers\CompraController@cambioEstadoCompra')->name('compras.cambioEstadoCompra');
 
