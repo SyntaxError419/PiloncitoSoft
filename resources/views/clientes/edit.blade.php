@@ -4,7 +4,7 @@
 <form action="/clientes/{{$cliente->id}}" method="POST">
     @csrf
     @method('PUT')
-    <h2 class="pt-3">Editar Cliente</h2>
+    <h2 class="pt-3">Editar cliente</h2>
     <div class="card mt-4">
     <div class="card-header">
 

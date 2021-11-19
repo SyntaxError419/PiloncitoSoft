@@ -365,7 +365,7 @@
 } 
     });
 
-    $('.formulario-eliminar').click(function(e){
+    $('.formulario-eliminar').submit(function(e){
         e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro?',
@@ -383,7 +383,7 @@
         })
     });
 
-    $('.camEstado').submit(function(e){
+    $('.camEstado').click(function(e){
         e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro que deseas cambiar el estado del pedido?',
@@ -396,7 +396,7 @@
             cancelButtonText: 'No cambiar el estado del pedido'
             }).then((result) => {
             if (result.isConfirmed) {
-                this.submit();
+
             }
         })
     });

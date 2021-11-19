@@ -293,7 +293,6 @@ class PedidoController extends Controller
     
     public function genCodRec(){
         $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
-        echo $id;
         if ($id == null) {$id = "EPF-000";}
         else {$id = "EPF-".($id+1);}
         return $id;
