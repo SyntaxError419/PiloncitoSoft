@@ -49,11 +49,11 @@
                   
                   <td>
                     @if($venta->estado == 0)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary">Por iniciar</a>
+                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary camEstado">Por iniciar</a>
                     @elseif($venta->estado == 1)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger">En proceso</a>
+                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger camEstado">En proceso</a>
                     @elseif($venta->estado == 2)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning">Por entregar</a>
+                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning camEstado">Por entregar</a>
                     @elseif($venta->estado == 3)
                         <p>En entrega</p>
                     @else
@@ -96,7 +96,6 @@
             })
     </script>
 @endif
-
 @if(session('cancelar') == 'El pedido se ha cancelado correctamente!')
     <script>
         Swal.fire(
@@ -106,7 +105,6 @@
         )
     </script>
 @endif
-
 @if(session('pedidoOk') == 'pedidoOk')
     <script>
     $( document ).ready(function() {
@@ -367,7 +365,7 @@
 } 
     });
 
-    $('.formulario-eliminar').submit(function(e){
+    $('.formulario-eliminar').click(function(e){
         e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro?',
@@ -378,6 +376,24 @@
             cancelButtonColor: '#d33',
             confirmButtonText: '¡Sí, deseo cancelar el pedido!',
             cancelButtonText: 'No cancelar pedido'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        })
+    });
+
+    $('.camEstado').submit(function(e){
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro que deseas cambiar el estado del pedido?',
+            text: "¡No podrás revertir éste cambio!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, deseo cambiar el estado del pedido!',
+            cancelButtonText: 'No cambiar el estado del pedido'
             }).then((result) => {
             if (result.isConfirmed) {
                 this.submit();
