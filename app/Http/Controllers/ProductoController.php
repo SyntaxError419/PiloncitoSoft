@@ -87,7 +87,7 @@ class ProductoController extends Controller
             $productos->nombre =$request->get('nombre');
             $productos->precio =$request->get('precio');
             $productos->saveorfail();
-            dd($request->get('precio'));
+            
             foreach ($request->idInsumo as $key => $value) {
                 insumoproducto::create([
                     

@@ -7,6 +7,7 @@
 
 
 @section('contenido')
+@section('title', 'Proveedores')
 <script type="text/javascript" >
 function startTime(){
 today=new Date();

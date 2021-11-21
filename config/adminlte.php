@@ -7,15 +7,12 @@ return [
     | Title
     |--------------------------------------------------------------------------
     |
-    | Here you can change the default title of your admin panel.
     |
-    | For detailed instructions you can look the title section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
 
-    'title' => 'PiloncitoSoft',
-    'title_prefix' => '',
+    'title' => '',
+    'title_prefix' => 'PiloncitoSoft | ',
     'title_postfix' => '',
 
     /*
@@ -23,14 +20,10 @@ return [
     | Favicon
     |--------------------------------------------------------------------------
     |
-    | Here you can activate the favicon.
-    |
-    | For detailed instructions you can look the favicon section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -38,10 +31,6 @@ return [
     | Logo
     |--------------------------------------------------------------------------
     |
-    | Here you can change the logo of your admin panel.
-    |
-    | For detailed instructions you can look the logo section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
 
@@ -65,10 +54,10 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
     'usermenu_profile_url' => false,
 
     /*
@@ -85,8 +74,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -127,7 +116,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'bg-naranja elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -226,11 +215,7 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+       
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
@@ -238,8 +223,7 @@ return [
 
         // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            
         ],
         [
             'text' => 'blog',
@@ -310,7 +294,7 @@ return [
                 ],
                 [
                     'text' => 'Acceso',
-                    'url'  => 'user/profile',
+                    'url'  => '#',
                     'icon' => 'fas fa-fw fa-cogs',
                 ],
                 [

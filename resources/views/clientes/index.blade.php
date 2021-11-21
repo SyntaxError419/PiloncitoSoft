@@ -7,18 +7,14 @@
 @endsection
 
 @section('contenido')
+@section('title', 'Clientes')
 <!DOCTYPE html>
 <html>
 <head>
-<h1 class="bg text-dark text-center pt-2">Gestión Clientes</h1>
+<h1 class="bg text-dark text-center pt-2">Gestión de clientes</h1>
 
 
 <body>
-
-
-</div>
-
-
 
 
 <table id="clientes" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">

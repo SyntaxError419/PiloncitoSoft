@@ -1,7 +1,8 @@
 @extends('layouts.plantillabase') 
 
 @section('contenido')
-<h1  text align= "Center">Crear un proveedor</h1>
+@section('title', 'Proveedor')
+<h1 text align= "Center">Crear un registro</h1>
 <br>
 
 <form action="/proveedores" method="POST">

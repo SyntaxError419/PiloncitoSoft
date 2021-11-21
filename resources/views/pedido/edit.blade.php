@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Pedido')
 
 <h2 class="pt-3">Editar pedido</h2>
 

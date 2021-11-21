@@ -7,6 +7,7 @@
 @endsection
 
 @section('contenido')
+@section('title', 'Ventas')
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,6 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de ventas</h1>
 
 <h1 class="bg text-dark text-center pt-4"></h1>
-
       
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
@@ -40,21 +40,22 @@
                   <td>{{$venta->total}}</td>
                   <td>{{$venta->formaPago}}</td>
                   <td>
-                    @if($venta->estado == 0)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary">Por iniciar</a>
+                  @if($venta->estado == 0)
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary camEstado">Por iniciar</a>
                     @elseif($venta->estado == 1)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger">En proceso</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger camEstado">En proceso</a>
                     @elseif($venta->estado == 2)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning">Por entregar</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning camEstado">Por entregar</a>
                     @elseif($venta->estado == 3)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
                     @else
                         <p>Entregado</p>
                     @endif
                   </td>
                   <td>                  
                     <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                  </td>
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>  
+                </td>
                </tr>
                @endforeach
            </tbody>
@@ -76,9 +77,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaVentas = $('#ventas').DataTable({ 
-      "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-    language:{
+    tablaCompras=$('#ventas').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+        language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -281,11 +281,67 @@
     },
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
-    });
-      
-});
-</script>
 
+    });      
+});     
+
+</script>
+<script type="text/javascript"> 
+    function cambioEstado(estado,id,e){ 
+        e.preventDefault();
+        if (estado) {
+            Swal.fire({
+            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPedido/pedidos/'+id,
+                    data: {'estado': estado, 'id': id},
+                    success: function(data){                      
+                    }
+                });
+                window.location.href="/ventas";
+            }
+        })
+        }else{
+            Swal.fire({
+            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPedido/pedidos/'+id,
+                    data: {'estado': estado, 'id': id},
+                    success: function(data){
+                    }
+                });
+                window.location.href="/ventas";
+            }
+        })
+    }
+    
+}
+
+</script>
+    
+</script>
 </body>
 </html> 
 @endsection

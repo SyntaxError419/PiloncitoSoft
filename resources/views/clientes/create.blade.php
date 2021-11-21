@@ -1,9 +1,10 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Cliente')
 <form action="/clientes" method="POST">
     @csrf
-    <h2 class="pt-3">Crear Cliente</h2>
+    <h2 class="pt-3">Crear cliente</h2>
     <div class="card mt-4">
     <div class="card-header">
       

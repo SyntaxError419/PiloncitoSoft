@@ -7,6 +7,7 @@
 @endsection
 
 @section('contenido')
+@section('title', 'Pedidos')
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-      
+
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
             <tr>
@@ -49,11 +50,11 @@
                   
                   <td>
                     @if($venta->estado == 0)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary">Por iniciar</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary camEstado">Por iniciar</a>
                     @elseif($venta->estado == 1)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger">En proceso</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger camEstado">En proceso</a>
                     @elseif($venta->estado == 2)
-                        <a href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning">Por entregar</a>
+                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning camEstado">Por entregar</a>
                     @elseif($venta->estado == 3)
                         <p>En entrega</p>
                     @else
@@ -64,7 +65,7 @@
                   <td>
                     <form action="{{ route('pedidos.destroy',$venta->id) }}" class="d-inline formulario-eliminar" method="POST">
                     
-                    <a href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
+                    <a onclick= "return cambioAVenta({{$venta->estado}},{{$venta->id}},{{$venta->pago}},event)" href="{{ route('pedidos.cambioEstadoPago',$venta) }}" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
                     
                     <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                     
@@ -73,7 +74,7 @@
                           @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('pdf',$venta->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
                   </td>
                </tr>
                @endforeach
@@ -81,6 +82,10 @@
       </table>
 
 @section('js')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
@@ -96,7 +101,6 @@
             })
     </script>
 @endif
-
 @if(session('cancelar') == 'El pedido se ha cancelado correctamente!')
     <script>
         Swal.fire(
@@ -106,15 +110,36 @@
         )
     </script>
 @endif
-@if(session('guardo') == 'Se guardó el pedido')
+@if(session('pedidoOk') == 'pedidoOk')
     <script>
+    $( document ).ready(function() {
+        let id = 0;
+        $.ajax({
+            type: "GET",
+            async : false,
+            url: '{{ route('getCodId') }}',
+            data: {},
+            success: function(response){
+                id = (response);
+            }
+        });
         Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Pedido creado exitosamente!',
-                showConfirmButton: false,
-                timer: 3500
-            })
+            title: '¡Pedido creado exitosamente!',
+            text: "¿Desea imprimir la factura?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Imprimir factura',
+            cancelButtonText: 'Ver más tarde'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var url = "{{ route('pdf', 'cod') }}";
+                url = url.replace('cod', id);
+                window.open(url, "_blank");
+            }
+        })
+    });
     </script>
 @endif
 @if(session('error') == 'El pedido no se ha podido cancelar!')
@@ -138,9 +163,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaVentas = $('#ventas').DataTable({ 
-      "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-    language:{
+    tablaCompras=$('#compras').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+        language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -343,10 +367,12 @@
     },
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
-    });
-    
-    $('.formulario-eliminar').submit(function(e){
-        e.preventDefault();
+
+    });      
+});
+
+$('.formulario-eliminar').submit(function(e){
+    e.preventDefault();
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir éste cambio!",
@@ -359,11 +385,121 @@
             }).then((result) => {
             if (result.isConfirmed) {
                 this.submit();
+        }
+    })
+});      
+
+</script>
+<script type="text/javascript"> 
+    function cambioEstado(estado,id,e){ 
+        e.preventDefault();
+        if (estado) {
+            Swal.fire({
+            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPedido/pedidos/'+id,
+                    data: {'estado': estado, 'id': id},
+                    success: function(data){                      
+                    }
+                });
+                window.location.href="/pedidos";
             }
         })
-    });
-});
+        }else{
+            Swal.fire({
+            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPedido/pedidos/'+id,
+                    data: {'estado': estado, 'id': id},
+                    success: function(data){
+                    }
+                });
+                window.location.href="/pedidos";
+            }
+        })
+    }
+    
+}
 
+</script>
+<script type="text/javascript"> 
+    function cambioAVenta(estado,id, pago, e){ 
+        e.preventDefault();
+        if (estado && pago) {
+            Swal.fire({
+            title: '¿Estás seguro de que éste pedido ha sido pagado y entregado?',
+            text: "¡No podrás revertir este cambio jamás!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, el pedido ha sido pagado y entregado',
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPago/pedidos/'+id,
+                    data: {'estado': estado, 'pago' : pago, 'id': id},
+                    success: function(data){
+                        $('#resp' + id).html(data.var); 
+                        console.log(data.var)                            
+                    }
+                });
+                window.location.href="/pedidos";
+            }
+        })
+        }else{
+            Swal.fire({
+            title: '¿Estás seguro de que éste pedido ha sido pagado y entregado?',
+            text: "¡No podrás revertir este cambio jamás!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, el pedido ha sido pagado y entregado',
+            cancelButtonText: 'No realizar el cambio'
+            }).then((result) => {
+            if (result.value ==true ) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'cambioEstadoPago/pedidos/'+id,
+                    data: {'estado': estado, 'pago' : pago, 'id': id},
+                    success: function(data){
+                        $('#resp' + id).html(data.var); 
+                        console.log(data.var)
+                    }
+                });
+                window.location.href="/pedidos";
+            }
+        })
+    }
+}
+    
 </script>
 </body>
 </html> 

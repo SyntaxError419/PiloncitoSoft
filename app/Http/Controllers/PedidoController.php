@@ -75,6 +75,7 @@ class PedidoController extends Controller
                     $ventas->pago = $request->get('pago');}
                     $ventas->formaPago = $request->get('formaPago');
                 $ventas->saveOrFail();
+
                 foreach ($request->idProducto as $key => $value) {
                     detalleVenta::create([
                         'id_venta'=>$ventas->id,
@@ -95,8 +96,9 @@ class PedidoController extends Controller
                     'id_venta'=>$ventas->id,
                     'fecha' =>$date
                 ]);
+
                 DB::commit();
-                return redirect('pedidos')->with('guardo','Se guardó el pedido');
+                return redirect('pedidos')->with('pedidoOk', 'pedidoOk');
             } catch (Exception $e) {
                 DB::rollBack();
                 return redirect('pedidos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
@@ -284,6 +286,11 @@ class PedidoController extends Controller
         echo $insumosCantidad;
     }
 
+    public function codId(){
+        $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
+        echo $id;
+    }
+    
     public function genCodRec(){
         $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
         if ($id == null) {$id = "EPF-000";}
@@ -294,10 +301,9 @@ class PedidoController extends Controller
     public function genFac($id){
         
         $detalleventas =Detalleventa::where('id_venta',$id);
-        $productos =Producto::find($id);
         $ventas =Venta::find($id);
-        $data = ['detalleventas'=>$detalleventas, 'productos'=>$productos, 'ventas'=>$ventas];
-        return PDF::loadView('pedido.pdf', $data)->setPaper('a4', 'landscape')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
+        $data = ['detalleventas'=>$detalleventas, 'ventas'=>$ventas];
+        return PDF::loadView('pedido.pdf', $data)->setPaper('a5', '')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
         
     }
 }

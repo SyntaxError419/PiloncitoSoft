@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Proveedor')
 
 <h1 text align="center">Editar proveedor</h1>
 <form action="/proveedores/{{$proveedores->id}}" method="POST">

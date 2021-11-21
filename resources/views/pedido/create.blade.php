@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Pedido')
 <style type="text/css">
 h1 {text-align: center}
 h2 {text-align: left}
