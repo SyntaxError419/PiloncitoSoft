@@ -1,7 +1,7 @@
 @extends('layouts.plantillabase') 
 
 @section('contenido')
-<h1 text align= "Center">Crear un registro</h1>
+<h1  text align= "Center">Crear un proveedor</h1>
 <br>
 
 <form action="/proveedores" method="POST">
@@ -46,8 +46,8 @@
 <div class="mb-3">
 <label for="" class="form-label">Empresa</label>   
 <input  placeholder="Ingrese la Empresa" value="{{ old('empresa')}}"  id="empresa" name="empresa" type="text" class="form-control" tabindex="5"> 
-@if($errors->has('numerocontacto'))
-<span class="error text-danger" for="input-name">{{$errors->first('numerocontacto')}}</span>
+@if($errors->has('empresa'))
+<span class="error text-danger" for="input-name">{{$errors->first('empresa')}}</span>
 @endif
 </div>
 

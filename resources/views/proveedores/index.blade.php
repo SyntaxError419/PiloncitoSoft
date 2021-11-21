@@ -44,8 +44,7 @@ window.onload=function(){startTime();}
 
 
 <br>
-<a href="proveedores/create"  class="btn btn-primary" ><i class="fas fa-plus-square"></i> CREAR REGISTRO</a>  
-<br>
+<a href="proveedores/create" onclick="return confirm ('¿Estas seguro que deseas crear un nuevo registro?')"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
 <br>
    
 
@@ -55,7 +54,7 @@ window.onload=function(){startTime();}
 
 <tr>
     
-<th style=" text-align: center;" scope="col" >Id</th>
+<!-- <th style=" text-align: center;" scope="col" >Id</th> -->
 <th style=" text-align: center;" scope="col">Nit</th>
 <th style=" text-align: center;" scope="col">Nombre Contacto</th>
 <th style=" text-align: center;" scope="col">Correo</th>
@@ -70,7 +69,7 @@ window.onload=function(){startTime();}
 <tbody>
 @foreach ($proveedores as $proveedor)
 <tr>
-    <td style="text-align: center;">{{$proveedor->id}}</td>
+    <!-- <td style="text-align: center;">{{$proveedor->id}}</td> -->
     <td style="text-align: center;">{{$proveedor->nit}}</td>
     <td style="text-align: center;">{{$proveedor->nombrecontacto}}</td>
     <td style="text-align: center;">{{$proveedor->correocontacto}}</td>
@@ -79,13 +78,13 @@ window.onload=function(){startTime();}
     <td style="text-align: center;">{{$proveedor->direccionempresa}}</td>
     <td> 
     <form action="{{ route ('proveedores.destroy',$proveedor->id)}}" method="POST">
-    <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  onclick="return confirm ('¿Estas seguro que deseas editar este registro?')" ><i class="fas fa-user-edit"></i></i>Editar</a>┇
+    <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-user-edit"></i></i></a>┇
   
-    <a  href="/proveedores/{{$proveedor->id}}"  class="btn btn-sm btn-success" > <i class="fas fa-info-circle"></i>Detalle</a>┇
-    @csrf
+    <a  href="/proveedores/{{$proveedor->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>┇
+    <!-- @csrf
     @method('DELETE')
     
-    <button width="5px;" type="submit" class="btn btn-sm btn-danger" onclick="return confirm ('¿Estas seguro que deseas eliminar este registro?')" ><i class="fas fa-trash"></i>Eliminar</button> 
+    <button width="5px;" type="submit" class="btn btn-sm btn-danger" onclick="return confirm ('¿Estas seguro que deseas eliminar este registro?')" ><i class="fas fa-trash"></i>Eliminar</button>  -->
     
 </form>
 

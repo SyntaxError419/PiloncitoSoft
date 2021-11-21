@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-<h1 text align="center">Editar registro</h1>
+<h1 text align="center">Editar proveedor</h1>
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
@@ -50,7 +50,7 @@
 </div>
     
 <a href="/proveedores" class="btn btn-danger"><i class="fas fa-backward"></i> Cancelar</a>
-<button  type="submit" class="btn btn-success"  tabindex="4 "><i class="fas fa-save"></i> Guardar </button>
+<button  type="submit" class="btn btn-success" onclick="return confirm ('¿Estas seguro que deseas editar este registro?')"  tabindex="4 "><i class="fas fa-save"></i> Guardar </button>
 
 
 
