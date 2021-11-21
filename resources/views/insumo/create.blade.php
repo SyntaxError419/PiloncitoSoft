@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Insumo')
 <form action="/insumos" method="POST">
 @csrf
 

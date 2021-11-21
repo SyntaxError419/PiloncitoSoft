@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Venta')
 
 <h2 class="pt-3">Detalle de venta</h2>
 

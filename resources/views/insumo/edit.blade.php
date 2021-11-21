@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Insumo')
 
 
 <h2 class="mt-2 ml-3">Editar Insumo</h2>

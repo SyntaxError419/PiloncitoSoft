@@ -1,6 +1,8 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Cliente')
+
 <form action="/clientes/{{$cliente->id}}" method="POST">
     @csrf
     @method('PUT')

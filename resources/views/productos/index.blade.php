@@ -7,6 +7,7 @@
 @endsection
 
 @section('contenido')
+@section('title', 'Productos')
 <!DOCTYPE html>
 <html>
 <head>

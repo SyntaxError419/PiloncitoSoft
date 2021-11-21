@@ -7,6 +7,7 @@
 @endsection
 
 @section('contenido')
+@section('title', 'Clientes')
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 <body>
 
 
-</div>
+
 
 
 

@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase') 
 
 @section('contenido')
+@section('title', 'Proveedor')
 <h1 text align= "Center">Crear un registro</h1>
 <br>
 

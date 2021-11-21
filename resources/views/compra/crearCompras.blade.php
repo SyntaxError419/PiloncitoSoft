@@ -1,5 +1,6 @@
 @extends('layouts.plantillabase')
 @section('contenido')
+@section('title', 'Compra')
 <form action="{{ route('guardarCompra')}}" method ="POST">      
 @csrf
 

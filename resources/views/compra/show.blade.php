@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Compra')
 <div class="pt-2">
 <h2>Ver detalles de una compra</h2>
 </div>

@@ -1,6 +1,7 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
+@section('title', 'Insumo')
 
 <center><h2>Detalles de Insumo</h2> </center>
 
