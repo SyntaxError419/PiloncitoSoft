@@ -71,10 +71,13 @@
         <td>
 
             <form action="{{route ('compras.destroy',$compra->id)}}"  class="d-inline formulario-eliminar" method="POST"> 
-            <label class="switch">
-                          <input data-id="{{ $compra->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $compra->estado ? 'checked' : '' }}>
-                          <span class="slider round"></span>
-             </label>
+
+                        @if($compra->estado == 0)
+                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        @elseif($compra->estado == 1) 
+                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        @endif
+             
 <!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
  -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
 
@@ -101,16 +104,47 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 
-@if(session('cancelar') == 'La compra se ha cancelado correctamente!')
+@if(session('guardar') == 'True')
     <script>
         Swal.fire(
-        '¡Cancelado!',
-        'La compra ha sido cancelada.',
+        'Guardado!',
+        'La compra se ha registrado correctamente.',
         'success'
         ) 
     </script>
 @endif
-@if(session('error') == 'La compra no se ha podido cancelar!')
+
+@if(session('cancelar') == 'True')
+    <script>
+        Swal.fire(
+        '¡Eliminado!',
+        'La compra ha sido eliminada.',
+        'success'
+        ) 
+    </script>
+@endif  
+
+@if(session('error') == 'True')
+    <script>
+        Swal.fire(
+        '¡Error!',
+        'La compra no ha sido desactivada.',
+        'error'
+        ) 
+    </script>
+@endif
+
+<!-- @if(session('cancelar') == 'True')
+    <script>
+        Swal.fire(
+        '¡Cancelado!',
+        'La compra ha sido cancelada correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+
+@if(session('error') == 'error')
     <script>
         Swal.fire(
         '¡Error!',
@@ -118,7 +152,7 @@
         'error'
         ) 
     </script>
-@endif
+@endif -->
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -331,25 +365,6 @@
     
 
 
-$('.mi_checkbox').change(function() {
-    //Verifico el estado del checkbox, si esta seleccionado sera igual a 1 de lo contrario sera igual a 0
-    var estado = $(this).prop('checked') == true ? 1 : 0; 
-    var id = $(this).data('id'); 
-        console.log(estado);
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        //url: '/StatusNoticia',
-        url: '{{ route('camEstadoC') }}',
-        data: {'estado': estado, 'id': id},
-        success: function(data){
-            $('#resp' + id).html(data.var); 
-            console.log(data.var)
-         
-          }
-    });
-})
       
 });
 
@@ -373,6 +388,117 @@ $('.mi_checkbox').change(function() {
 
 </script>
 
+<script type="text/javascript"> 
+
+/* function confirmarCancelar()
+    {
+        var respuesta= confirm("Estas seguro de que deseas cancelar  la compra?");
+        if (respuesta == true) {
+            return true;
+            
+        } else
+        {
+            return false;
+        }
+    } */
+  /*   function confirmarEliminarr()
+    {
+        $('.formulario-eliminarr'). submit(function(e){
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo eliminar la compra!',
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    })
+                });      
+    } */
+
+    function confirmarDesactivar(estado,id,e){ 
+                    e.preventDefault();
+                    if (estado) {
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo desactivar la compra!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoCompra/compras/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Compra Desactivada!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/compras";
+
+                        }
+                    })
+                    }else{
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo activar la compra!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoCompra/compras/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                    
+                                   }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Compra Activado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/compras";
+
+                        }
+                    })
+                    }  
+
+                }
+    
+</script>
 </body>
 </html> 
 @endsection

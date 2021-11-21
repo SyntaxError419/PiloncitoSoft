@@ -293,7 +293,6 @@ class PedidoController extends Controller
     
     public function genCodRec(){
         $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
-        echo $id;
         if ($id == null) {$id = "EPF-000";}
         else {$id = "EPF-".($id+1);}
         return $id;
@@ -304,7 +303,7 @@ class PedidoController extends Controller
         $detalleventas =Detalleventa::where('id_venta',$id);
         $ventas =Venta::find($id);
         $data = ['detalleventas'=>$detalleventas, 'ventas'=>$ventas];
-        return PDF::loadView('pedido.pdf', $data)->setPaper('a6', 'landscape')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
+        return PDF::loadView('pedido.pdf', $data)->setPaper('a5', '')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
         
     }
 }

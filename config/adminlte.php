@@ -294,7 +294,7 @@ return [
                 ],
                 [
                     'text' => 'Acceso',
-                    'url'  => 'user/profile',
+                    'url'  => '#',
                     'icon' => 'fas fa-fw fa-cogs',
                 ],
                 [
