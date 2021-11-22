@@ -1,7 +1,7 @@
 @extends('layouts.plantillabase') 
 
 @section('contenido')
-@section('title', 'Proveedor')
+@section('title', 'Registrar proveedor')
 
 <form action="/proveedores" method="POST">
    <!-- metodo >> --> @csrf

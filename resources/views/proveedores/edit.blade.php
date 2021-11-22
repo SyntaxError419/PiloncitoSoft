@@ -1,11 +1,11 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
-@section('title', 'Proveedor')
+@section('title', 'Editar proveedor')
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
-<h1 text align="center">Editar proveedor</h1>
+<h2>Editar proveedor</h2>
 <div class="card mt-4"> 
 <div class="card-header"> 
       
@@ -46,7 +46,7 @@
 <label for="" class="form-label">Numero Contacto</label>   
 <input minlength="3" maxlength="15"  onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto"  name="numerocontacto" type="text" class="form-control" value="{{$proveedores->numerocontacto}}"> 
 </div>
-</div>
+
 
 
 <div class="row mb-3">
