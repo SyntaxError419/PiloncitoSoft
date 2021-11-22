@@ -8,7 +8,7 @@
 
 @section('contenido')
 @section('title', 'Proveedores')
-<script type="text/javascript" >
+<!-- <script type="text/javascript" >
 function startTime(){
 today=new Date();
 h=today.getHours();
@@ -22,7 +22,7 @@ function checkTime(i)
 {if (i<10) {i="0" + i;}return i;}
 window.onload=function(){startTime();}
 </script>
-<div id="reloj" text align="right" style="font-size:15px;"></div> 
+<div id="reloj" text align="right" style="font-size:15px;"></div>  -->
 
 <h1 class="bg text-dark text-center mt">Gestión de Proveedores</h1>
 
@@ -45,7 +45,7 @@ window.onload=function(){startTime();}
 
 
 <br>
-<a href="proveedores/create" onclick="return confirm ('¿Estas seguro que deseas crear un nuevo registro?')"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
+<a href="proveedores/create"   class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
 <br>
    
 
