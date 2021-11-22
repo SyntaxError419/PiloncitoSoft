@@ -17,15 +17,15 @@ h3, h4 {text-align: right}
             @csrf
             <div class="card-header">
                 <div class="row mb-3">
-                        <div class="col">
-                            <label for="" class="form-label">Nombre</label>
-                            <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
-                        </div>
+                <div class="col">
+                <label for="" class="form-label">Nombre</label>
+                <input id="nombre" name="nombre" class="form-control" tabindex="4" required="required">
+                </div>
 
-                        <div class="col">
-                            <label for="" class="form-label">Precio</label>
-                            <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
-                        </div>
+                <div class="col">
+                <label for="" class="form-label">Precio</label>
+                <input id="precio" name="precio" type="number" step="any" class="form-control" tabindex="4" required="required">
+                </div>
                 </div>
 
                 <div class="row mb-3">
