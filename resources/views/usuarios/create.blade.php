@@ -31,8 +31,19 @@
                     <label for="nombre" class="col-sm-2 col-form-label">Correo</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="nombre" autocomplete="off" autofocus>
-                            @if ($errors->has('nombre'))
+                            <input type="text" class="form-control" name="email" autocomplete="off" autofocus>
+                            @if ($errors->has('email'))
+                            <span class="error text-danger" for="input-nombre">{{ $errors->first('nombre') }}</span>
+                        @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="nombre" class="col-sm-2 col-form-label">Telefono</label>
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="telefono" autocomplete="off" autofocus>
+                            @if ($errors->has('telefono'))
                             <span class="error text-danger" for="input-nombre">{{ $errors->first('nombre') }}</span>
                         @endif
                         </div>

@@ -32,6 +32,7 @@
                   <thead class="text-warning">
                     <th> Nombre </th>
                     <th> Correo </th>
+                    <th> Telefono </th>
                     <th> Estado </th>
                     <th class="text-right"> Acciones </th>
                   </thead>
@@ -40,6 +41,7 @@
                     <tr>
                       <td>{{ $usuario->name }}</td>
                       <td>{{ $usuario->email }}</td>
+                      <td>{{ $usuario->telefono }}</td>
                       <td> @if($usuario->estado==1)
                        Activado
                        @else
