@@ -60,7 +60,7 @@
                      Desactivado
                       @endif
                    </td>
-                   <td>
+                   <td> 
                   
                
 

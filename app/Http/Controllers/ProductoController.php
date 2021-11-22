@@ -48,38 +48,24 @@ class ProductoController extends Controller
     
     
 
-        //$nomInsumo=$request->get('id_insumo');
-        //$id_Insumo = VentaController::getIsumo($nomInsumo);
-         
-        /*try{
-            DB::beginTransaction();
-            $productos = new Producto();
-            $productos->nombre = $nombre;
-            $productos->precio = $precio;
-   
-            
-            $productos->saveOrFail();
-
-            $insumoproducto = new InsumoProducto();
-            
-            $insumoproducto->id_producto = $productos->id;
-            $insumoproducto->cantidad = $request->get('cantidad');
-            
-            
-            $insumoproducto->saveOrFail();
-            DB::commit();
- 
-        } catch (Exception $e){
-            DB::rollBack();
-        }*/
+  
     
 
 
     public function save(Request $request){
-        /*if (count($request-> idInsumo) < 1 || count($request-> cantidad) <1) {
-            return redirect('/productos');
-        }*/
+        
 
+        $request->validate([ //Validacion que me sea requeridos estos campos//
+            'nombre' => 'required|unique:productos',
+            'precio'=>'required'
+            
+         ]);
+         
+         if (($request-> id_insumo)==null || ($request ->cantidad)==null) {
+            return redirect('/productos/create')->with('malpedido', 'Debes asociar minimo un insumo correctamente.');
+        }
+        
+        else{
 
         try {
             DB::beginTransaction();
@@ -105,14 +91,12 @@ class ProductoController extends Controller
             return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
         }
     }
+}
 
-        public function getIsumo($nomInsumo)
-        {
-            $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-            $rs = mysqli_query($db, "SELECT (id) AS id FROM insumos WHERE cedula=$nomInsumo");
-            if ($row = mysqli_fetch_row($rs)) {
-            $id = trim($row[0]);
-            }
+       
+
+        public function getIsumo($nomInsumo){
+            $id=DB::table('insumos')->select('id')->where('nomInsumo', '=', $nomInsumo)->pluck('id')->first();
             return $id;
         }
     /**
@@ -176,19 +160,26 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+
+    {   $productoVenta=DB::table('detalleventas')->select('id_producto')->where('id_producto', '=', $id)->pluck('id_producto')->first();
         
+        if ($productoVenta==$id) {
+            return redirect('/productos')->with('pdtnoelmdo', 'pdtnoelmdo');
+    } else {
+        return redirect('/productos')->with('pdtelmdo', 'pdtelmdo');
         $productos = Producto::find($id);
         $productos ->delete();
         return redirect('/productos');
     }
-    public function insudestroy($id_Insumo,$id_Producto)
+      
+        
+    }
+    public function insudestroy($id)
     {
-        $db = mysqli_connect("localhost", "root", "", "piloncitosoft");
-        $rs = mysqli_query($db, "SELECT (idIsumo)  FROM Insumoproducto WHERE idProducto=$id_Producto AND idInsumo=$id_Insumo");
+        $insumoproducto=DB::table('insumoproducto')->select('id')->where('id', '=', $id)->pluck('id')->first();
        
-        $insumoproductos=Insumoproducto::find($rs);
-        $insumoproductos ->delete();
+        $insumoproductos=Insumoproducto::find($id);
+        $insumoproductos->delete();
         
     }
 

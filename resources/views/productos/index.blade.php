@@ -94,7 +94,15 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
-
+@if(session('pdtnoelmdo') == 'pdtnoelmdo')
+<script>
+        Swal.fire(
+        'Producto en uso',
+        'El producto no puede ser eliminado, ya se ha vendido.',
+        'warning'
+        )
+    </script>
+@endif
 <script type="text/javascript">
   $(document).ready(function() {
     tablaProductos= $('#productos').DataTable({ 
