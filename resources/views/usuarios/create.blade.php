@@ -40,7 +40,6 @@
                 </div>
             </div>
 
-            
             <!--End body-->
 
             <!--Footer-->

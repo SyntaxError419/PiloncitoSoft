@@ -32,6 +32,7 @@
                   <thead class="text-warning">
                     <th> Nombre </th>
                     <th> Correo </th>
+                    <th> Estado </th>
                     <th class="text-right"> Acciones </th>
                   </thead>
                   <tbody>
@@ -39,6 +40,12 @@
                     <tr>
                       <td>{{ $usuario->name }}</td>
                       <td>{{ $usuario->email }}</td>
+                      <td> @if($usuario->estado==1)
+                       Activado
+                       @else
+                       Desactivado
+                      @endif
+                     </td>
                       <td class="td-actions text-right">
                         <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning"> <i class="fas fa-pen"></i> </a>

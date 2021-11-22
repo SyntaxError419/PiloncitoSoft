@@ -51,7 +51,7 @@ Route::get('cambioEstadoPedido/pedidos/{venta}', 'App\Http\Controllers\PedidoCon
 Route::get('camStado', 'App\Http\Controllers\ClienteController@camStado')->name('camStado');
 
 Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('camtado');
- 
+
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
 Route::resource('roles', App\Http\Controllers\RoleController::class);
@@ -80,5 +80,7 @@ Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('g
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
 Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'insudestroy'])->name('insudestroy');
+
+Route::get('estadoactivo', 'App\Http\Controllers\UserController@estadoactivo')->name('camEstadoC');
 
 

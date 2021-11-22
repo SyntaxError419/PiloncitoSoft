@@ -89,4 +89,16 @@ class UserController extends Controller
         $usuario->delete();
         return back();
     }
+
+    public function estadoactivo($id)
+    {
+        $usuarios = User::findOrFail($request->id)->update(['estado' => $request->estado]);
+
+    if($request->estado == 0)  {
+        $newStatus = 'Desactivado';
+    }else{
+        $newStatus ='Activado';
+    }
+    return redirect()->back();
+    }
 }
