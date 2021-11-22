@@ -80,9 +80,9 @@
 
   
    
-   <a href="/proveedores" class="btn btn-secondary"tabindex="5">Cancelar</a>
+   <a href="/proveedores" class="btn btn-secondary"tabindex="7"><i class="fas fa-backward"></i></a>
     <!-- <button style="float: ;" type="refresh" class="btn btn-secondary"  tabindex="4">Refrescar</button>  -->
-   <button style="float: right;"  type="submit" class="btn btn-primary"  tabindex="4">Guardar</button>
+   <button style="float: right;"  type="submit"  class="btn btn-success"   tabindex="8"><i class="fas fa-check"></i></button>
 </form>
 
 @endsection
