@@ -291,13 +291,13 @@
         e.preventDefault();
         if (estado) {
             Swal.fire({
-            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            title: '¿Estás seguro de que quieres cambiar el estado de la venta?',
             text: "¡No podrás revertir esto!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            confirmButtonText: 'Sí, deseo el estado de la venta',     
             cancelButtonText: 'No realizar el cambio'
             }).then((result) => {
             if (result.value ==true ) {
@@ -314,13 +314,13 @@
         })
         }else{
             Swal.fire({
-            title: '¿Estás seguro de que quieres cambiar el estado del pedido?',
+            title: '¿Estás seguro de que quieres cambiar el estado de la venta?',
             text: "¡No podrás revertir esto!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, deseo el estado del pedido',     
+            confirmButtonText: 'Sí, deseo el estado de la venta',     
             cancelButtonText: 'No realizar el cambio'
             }).then((result) => {
             if (result.value ==true ) {
