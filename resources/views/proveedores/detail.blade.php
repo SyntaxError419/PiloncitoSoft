@@ -3,7 +3,7 @@
 @section('contenido')
 @section('title', 'Proveedor')
 
-<h1 text align="center">Detalle registro</h1>
+<h1 text align="center">Detalle proveedor</h1 >
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
@@ -11,7 +11,7 @@
 
 <div class="mb-3">
 <label for="" class="form-label">Nit</label>   
-<input  disabled onkeypress="return event.charCode>= 48&& event.charCode <=57"  id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
+<input  disabled   id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
 </div>
 
 
@@ -29,7 +29,7 @@
 
 <div class="mb-3">
 <label for="" class="form-label">Numero Contacto</label>   
-<input onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text"  disabled class="form-control" value="{{$proveedores->numerocontacto}}"> 
+<input  id="numerocontacto" name="numerocontacto" type="text"  disabled class="form-control" value="{{$proveedores->numerocontacto}}"> 
 </div>
 
 <div class="mb-3">

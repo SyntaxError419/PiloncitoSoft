@@ -116,7 +116,7 @@ return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva
 
         $proveedores->save();
 
-        return redirect('/proveedores')->with('success', 'Se edito el proveedor correctamente✅');
+        return redirect('/proveedores')->with('success', 'Se modifico el proveedor correctamente✅');
              } catch (QueryException $e) {
         // echo '<script language="javascript">alert("ERROR❌❗:El NIT o CEDULA ya existe, Agregue de nuevo el proveedor por favor.");window.location.href="/proveedores/create"</script>';
         return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
