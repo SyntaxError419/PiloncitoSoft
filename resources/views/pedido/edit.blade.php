@@ -15,12 +15,12 @@
             <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Cliente:</label>
-                            <input list="id_cliente" id="nombre" name="id_cliente" type="text" class="form-control" value="{{$ventas->clientes->cedula}}" required="required">
-                            <datalist id="id_cliente">
+                            <select id="id_cliente" name="id_cliente" class="form-control id_cliente" value="{{$ventas->clientes->cedula}}" required="required" lang="es">
+                                <option value="{{$ventas->clientes->cedula}}">{{$ventas->clientes->cedula}}</option>
                                 @foreach($clientes as $c)
-                                <option value="{{ $c->cedula }}">{{ $c->nombre }}</option>
+                                <option value="{{ $c->cedula }}">{{ $c->cedula }}</option>
                                 @endforeach
-                            </datalist>
+                            </select>
                         </div>
                         <div class="col">
                         <label for="" class="form-label">Estado de pago:</label>
@@ -131,7 +131,16 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.id_cliente').select2({
+            
+        });
+    });
+    </script>
 @if(session('editar') == 'El pedido se ha modificado correctamente!')
     <script>
         Swal.fire(
