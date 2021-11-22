@@ -19,16 +19,16 @@ h3, h4 {text-align: right}
                 @csrf
                 <div class="card-header">
                     <div class="row mt-3">
-                    <div class="col">
+                    <div class="col-lg-6">
                         <label for="" class="form-label">Cliente:</label>
                         <select name="id_cliente" class="id_cliente form-control" tabindex="1" required="required" id="id_cliente" lang="es">
                             <option></option>
                             @foreach($clientes as $c)
-                            <option value="{{ $c->cedula }}">{{ $c->cedula }}</option>
+                            <option value="{{ $c->cedula }}">{{ $c->cedula }} - {{ $c->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col">
+                    <div class="col-lg-6">
                         <label for="" class="form-label">Forma de pago:</label>
                         <select name="formaPago" class="form-control" tabindex="2" required="required" id="formaPago" lang="es">
                             <option></option>
@@ -38,7 +38,7 @@ h3, h4 {text-align: right}
                     </div>
                     </div>
                     <div class="row mt-3">
-                    <div class="col">
+                    <div class="col-lg-6">
                         <label for="id_producto" class="form-label">Producto:</label>
                             <select class="form-control" name="id_producto" id="id_producto" tabindex="3" lang="es">
                                 <option></option>
@@ -47,11 +47,11 @@ h3, h4 {text-align: right}
                                 @endforeach
                             </select>
                     </div>
-                    <div class="col">
+                    <div class="col-lg-6">
                         <label for="cantidad">Cantidad:</label>
                         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="cantidad" id="cantidad" tabindex="4" placeholder="Ingrese la cantidad">
                     </div>                    
-                    </div>
+                    </div> 
                     <div class="lcd mt-4">
                     <button type="button" id="agregarProducto" class="btn btn-secondary mt" style="float: left;" tabindex="5">Agregar</button>
                         <h3>Total:</h3>
@@ -231,15 +231,28 @@ h3, h4 {text-align: right}
             });
         });
         function eliminarProducto(idProducto) {
-            //Borrar el elemento del arreglo
             let index = getIndexProducto(idProducto);
-            if(index != -1){
-                arrayProductos.splice(index, 1);
-                //Borrar la fila del table
-                $('#tr-'+idProducto).remove();
-                $('#totalVenta').text(formatterDolar.format(getTotal()));
-                $('#totalVentaV').val(getTotal());
-            }
+            Swal.fire({
+                title: '¿Estás seguro de crear éste pedido?',
+                text: "¡No podrás revertir éste cambio!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Sí, deseo crear el pedido!',
+                cancelButtonText: 'No crear pedido'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    //Borrar el elemento del arreglo
+                    if(index != -1){
+                        arrayProductos.splice(index, 1);
+                        //Borrar la fila del table
+                        $('#tr-'+idProducto).remove();
+                        $('#totalVenta').text(formatterDolar.format(getTotal()));
+                        $('#totalVentaV').val(getTotal());
+                    }
+                }
+            })
         }
 
         function getIndexProducto(id){
