@@ -22,6 +22,10 @@ Route::get('/', function () {
 
 Route::resource('proveedores','App\Http\Controllers\ProveedoresController');
 
+
+Route::resource('users','App\Http\Controllers\UsersController');
+
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dash', function () {
     return view('dash.index');
 

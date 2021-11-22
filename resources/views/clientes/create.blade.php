@@ -8,9 +8,10 @@
     <div class="card mt-4">
     <div class="card-header">
       
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col">
+        <div class="card-body"> 
+            <div class="row mb-3"> 
+
+                <div class="col"> 
                   <label for="" class="form-label">Nombre</label>
                   <input id="nombre" name="nombre" type="text" class="form-control" tabindex="1" >
                   @if($errors->has('nombre'))
@@ -18,7 +19,7 @@
                    @endif
                 </div>
   
-               
+            
                 <div class="col">
                   <label for="" class="form-label">Cédula</label>
                   <input id="cedula" name="cedula" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  class="form-control" tabindex="2">
@@ -26,7 +27,11 @@
                    <span class="error text-danger" for="input-name">{{$errors->first('cedula')}}</span>
                   @endif
                 </div>
-            </div>  
+
+
+            </div> 
+            
+            
             <div class="row mb-3">
                 <div class="col">  
  
@@ -43,10 +48,11 @@
                     <span class="error text-danger" for="input-name">{{$errors->first('contacto')}}</span>
                   @endif
                 </div>
+
             </div>    
         </div>
       </div>  
-    </div>    
+    </div>     
 
   <a href="/clientes" class="btn btn-secondary" tabindex="5">Cancelar</a>
   <button style="float: right;" type="submit"  class="btn btn-primary" tabindex="6">Guardar</button>

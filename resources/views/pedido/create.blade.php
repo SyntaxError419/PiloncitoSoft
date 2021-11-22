@@ -18,10 +18,10 @@ h3, h4 {text-align: right}
             <form id="myForm" action="/pedidos" method ="POST" class="tomarP">
                 @csrf
                 <div class="card-header">
-                    <div class="row">
+                    <div class="row mt-3">
                     <div class="col">
                         <label for="" class="form-label">Cliente:</label>
-                        <select name="id_cliente" class="id_cliente js-states form-control" tabindex="1" required="required" id="id_cliente" lang="es">
+                        <select name="id_cliente" class="id_cliente form-control" tabindex="1" required="required" id="id_cliente" lang="es">
                             <option></option>
                             @foreach($clientes as $c)
                             <option value="{{ $c->cedula }}">{{ $c->cedula }}</option>
@@ -92,18 +92,17 @@ h3, h4 {text-align: right}
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
 @if(session('malpedido') == 'Realiza el pedido correctamente.')
     <script>
         Swal.fire(
-        '¡Ups!',
-        'Realiza el pedido correctamente.',
+        '¡Ups, agrega productos al pedido!',
+        'Realiza el pedido nuevamente agregando productos al pedido.',
         'warning'
         )
     </script>
 @endif
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
-
     <script type="text/javascript">
     $(document).ready(function() {
         $('.id_cliente').select2({

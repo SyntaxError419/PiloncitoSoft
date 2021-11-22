@@ -1,49 +1,62 @@
 @extends('layouts.plantillabase')
 
 @section('contenido')
-@section('title', 'Proveedor')
-
-<h1 text align="center">Detalle registro</h1>
+@section('title', 'Detalle proveedor')
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
+<h2 text align="center">Detalle proveedor</h2 >
+<div class="card mt-4"> 
+<div class="card-header"> 
+      
+<div class="card-body"> 
+<div class="row mb-3"> 
 
 
-<div class="mb-3">
-<label for="" class="form-label">Nit</label>   
-<input  disabled onkeypress="return event.charCode>= 48&& event.charCode <=57"  id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
+<div class="col">
+<label for="" class="form-label">Nit/Cedula</label>   
+<input  disabled   id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
 </div>
 
 
-<div class="mb-3">
+<div class="col">
 <label for="" class="form-label">Nombre Contacto</label>   
 <input id="nombrecontacto" name="nombrecontacto" type="text" class="form-control" disabled value="{{$proveedores->nombrecontacto}}"> 
 </div>
+</div>
 
 
-<div class="mb-3">
-<label for="" class="form-label">Correo</label>   
+<div class="row mb-3">
+<div class="col">
+<label for="" class="form-label">Correo C </label>   
 <input id="correocontacto" name="correocontacto" type="text" class="form-control" disabled  value="{{$proveedores->correocontacto}}"> 
 </div>
 
 
-<div class="mb-3">
+<div class="col">
 <label for="" class="form-label">Numero Contacto</label>   
-<input onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text"  disabled class="form-control" value="{{$proveedores->numerocontacto}}"> 
+<input  id="numerocontacto" name="numerocontacto" type="text"  disabled class="form-control" value="{{$proveedores->numerocontacto}}"> 
+</div>
 </div>
 
-<div class="mb-3">
+<div class="row mb-3">
+<div class="col">
 <label for="" class="form-label">Empresa</label>   
 <input id="empresa" name="empresa" type="text" class="form-control" disabled value="{{$proveedores->empresa}}"> 
 </div>
 
-<div class="mb-3">
+<div class="col">
 <label for="" class="form-label">Direccion Empresa</label>   
 <input id="direccionempresa" name="direccionempresa" type="text" class="form-control" disabled value="{{$proveedores->direccionempresa}}"> 
 </div>
-    
-<a href="/proveedores" class="btn btn-danger"><i class="fas fa-backward"></i> Cancelar</a>
-<button  type="submit" class="btn btn-success"  tabindex="4 "><i class="fas fa-save"></i> Guardar </button>
+   
+        </div>
+        </div>
+      </div>  
+    </div>  
+
+    <a href="/proveedores" class="btn btn-secondary" tabindex="7" ><i class="fas fa-backward"></i></a>
+    <button style="float: right;"  type="submit" class="btn btn-success"  tabindex="8"><i class="fas fa-check"></i></button>
 
 
 

@@ -22,6 +22,7 @@
                                     <input  type="hidden"  id="id_proveedor" name="id_proveedor"   class="form-control" value="{{$compra->proveedores->id}}">  
                                 </div>
                         </div>
+                        
                         <div class="col">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Numero de recibo </label>
