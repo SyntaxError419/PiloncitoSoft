@@ -14,7 +14,7 @@
                                 </div>
                                 <div class="form-group">
                                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                                    <i class="material-icons">search</i>
+                                    <i class="material-icons">Buscar</i>
                                     <div class="ripple-container"></div>
                                 </button>
                                 </div>
@@ -25,7 +25,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-12 text-right">
-                <a href="{{ route('roles.create') }}" class="btn btn-sm btn-facebook">Añadir nuevo rol</a>
+                <a href="{{ route('roles.create') }}" class="btn btn-sm btn-facebook">Añadir nuevo Rol</a>
               </div>
             </div>
             <div class="table-responsive">

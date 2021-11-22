@@ -13,7 +13,7 @@
                                   </div>
                                   <div class="form-group">
                                   <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                                      <i class="material-icons">search</i>
+                                      <i class="material-icons">Buscar</i>
                                       <div class="ripple-container"></div>
                                   </button>
                                   </div>
@@ -30,25 +30,15 @@
               <div class="table-responsive">
                 <table class="table table-light" >
                   <thead class="text-warning">
-
                     <th> Nombre </th>
-                    <th> Menus </th>
-                    <th> Estado </th>
+                    <th> Correo </th>
                     <th class="text-right"> Acciones </th>
                   </thead>
                   <tbody>
                     @forelse ($usuarios as $usuario)
                     <tr>
-
-                      <td>{{ $usuario->nombre }}</td>
-                      <td>
-
-                      </td>
-                      <td>@if ($usuario->estado == 1)
-                      Activado
-                      @else
-                      Desactivado
-                      @endif</td>
+                      <td>{{ $usuario->name }}</td>
+                      <td>{{ $usuario->email }}</td>
                       <td class="td-actions text-right">
                         <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning"> <i class="fas fa-pen"></i> </a>

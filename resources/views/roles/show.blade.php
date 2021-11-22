@@ -7,7 +7,7 @@
         <div class="card">
           <!--Header-->
           <div class="card-header card-header-warning">
-            <h4 class="card-title">Roles</h4>
+            <h4 class="card-title">Roles</h4><br><br><br>
             <p class="card-category">Vista detallada del rol {{ $role->name }}</p>
           </div>
           <!--End header-->
@@ -42,7 +42,7 @@
                   <div class="card-footer">
                     <div class="button-container">
                       <a href="{{ route('roles.edit', $role->id) }}"><button type="submit" class="btn btn-sm btn-warning">Editar</button></a>&nbsp;&nbsp;&nbsp;<a class="btn btn-sm btn-danger" href="{{route('roles.index')}}">
-                  <i class="material-icons">close</i>Cancelar</a>
+                  <i class="material-icons"></i>Cancelar</a>
                     </div>
                   </div>
                 </div>

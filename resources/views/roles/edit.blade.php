@@ -10,7 +10,7 @@
           <div class="card">
             <!--Header-->
             <div class="card-header card-header-warning">
-              <h4 class="card-title">Editar rol</h4>
+              <h4 class="card-title">Editar rol</h4><br><br><br>
               <p class="card-category">Editar datos del rol</p>
             </div>
             <!--End header-->
@@ -61,7 +61,7 @@
             <!--Footer-->
             <div class="card-footer ml-auto mr-auto">
               <button type="submit" class="btn btn-warning">Actualizar</button>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="{{route('roles.index')}}">
-                  <i class="material-icons">close</i>Cancelar</a>
+                  <i class="material-icons"></i>Cancelar</a>
             </div>
           </div>
           <!--End footer-->

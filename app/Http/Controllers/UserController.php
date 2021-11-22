@@ -39,7 +39,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -61,7 +61,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+       $usuarios=User::findOrfail($id);
+        return view('usuarios.edit',compact('usuarios'));
     }
 
     /**
@@ -84,6 +85,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $usuario=User::find($id);
+        $usuario->delete();
+        return back();
     }
 }
