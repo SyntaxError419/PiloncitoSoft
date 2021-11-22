@@ -10,6 +10,7 @@ use App\Models\Producto;
 use App\Models\Fechaestado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 
 
@@ -288,5 +289,15 @@ class PedidoController extends Controller
         if ($id == null) {$id = "EPF-000";}
         else {$id = "EPF-".($id+1);}
         return $id;
+    }
+
+    public function genFac($id){
+        
+        $detalleventas =Detalleventa::where('id_venta',$id);
+        $productos =Producto::find($id);
+        $ventas =Venta::find($id);
+        $data = ['detalleventas'=>$detalleventas, 'productos'=>$productos, 'ventas'=>$ventas];
+        return PDF::loadView('pedido.pdf', $data)->setPaper('a4', 'landscape')->setWarnings(false)->stream("$ventas->id_recibo.pdf");
+        
     }
 }

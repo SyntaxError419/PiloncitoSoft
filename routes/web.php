@@ -51,7 +51,7 @@ Route::get('cambioEstadoPedido/pedidos/{venta}', 'App\Http\Controllers\PedidoCon
 Route::get('camStado', 'App\Http\Controllers\ClienteController@camStado')->name('camStado');
 
 Route::get('camtado', 'App\Http\Controllers\ProductoController@camtado')->name('camtado');
-
+ 
 Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getPrice');
 
 Route::resource('roles', App\Http\Controllers\RoleController::class);
@@ -59,6 +59,8 @@ Route::resource('usuarios', App\Http\Controllers\UserController::class);
 Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
 
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
+
+Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
 Auth::routes();
 

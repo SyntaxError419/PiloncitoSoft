@@ -10,7 +10,7 @@ h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
 <label class="pt-3">
-<h2>Tomar pedido</h2>
+<h2>Tomar pedido</h2> 
 </label>
     <div class="card-body">
         <div class="card">

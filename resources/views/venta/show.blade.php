@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-<h2 class="pt-3">Detalle venta</h2>
+<h2 class="pt-3">Detalle de venta</h2>
 
 <div class="card mt-4">
     <div class="card-header">
