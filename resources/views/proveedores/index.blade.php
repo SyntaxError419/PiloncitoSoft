@@ -62,6 +62,7 @@ window.onload=function(){startTime();}
 <th style=" text-align: center;" scope="col">Numero Contacto</th>
 <th style=" text-align: center;" scope="col">Empresa</th>
 <th style=" text-align: center;" scope="col">Direccion Empresa</th>
+<th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;"scope="col">Acciones</th>
 </tr>  
 
@@ -77,8 +78,22 @@ window.onload=function(){startTime();}
     <td style="text-align: center;">{{$proveedor->numerocontacto}}</td>
     <td style="text-align: center;">{{$proveedor->empresa}}</td>
     <td style="text-align: center;">{{$proveedor->direccionempresa}}</td>
+    <td id="resp{{ $proveedor->id }}">
+                      @if($proveedor->estado == 1)
+                      Activado
+                          @else
+                     Desactivado
+                      @endif
+                   </td>
     <td> 
-    <form action="{{ route ('proveedores.destroy',$proveedor->id)}}" method="POST">
+    <!-- <form action="{{ route ('proveedores.destroy',$proveedor->id)}}" method="POST"> -->
+
+    @if($proveedor->estado == 0)
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        @elseif($proveedor->estado == 1) 
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        @endif
+    
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>
   
     <a  href="/proveedores/{{$proveedor->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
@@ -91,12 +106,11 @@ window.onload=function(){startTime();}
 
     </td>  
     
-    </td>
+    
 </tr>
 
 @endforeach
 </tbody>
-
 </table>
 
 
@@ -316,6 +330,84 @@ window.onload=function(){startTime();}
 
     });      
 });
+
+function confirmarDesactivar(estado,id,e){ 
+                    e.preventDefault();
+                    if (estado) {
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo desactivar el proveedor!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoProveedor/proveedores/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Proveedor Desactivado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/proveedores";
+
+                        }
+                    })
+                    }else{
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo activar el proveedor!',     
+                        cancelButtonText: 'No,deseo volver '
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoProveedor/proveedores/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                    
+                                   }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Proveedor activado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/proveedores";
+
+                        }
+                    })
+                    }  
+
+                }
+    
+
 </script>
 
 @endsection

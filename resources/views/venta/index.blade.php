@@ -37,7 +37,7 @@
                   <td>{{$venta->id_recibo}}</td>
                   <td>{{$venta->clientes->nombre}}</td>
                   <td>{{$venta->fecha}}</td>
-                  <td>{{$venta->total}}</td>
+                  <td>${{number_format($venta->total)}}</td> 
                   <td>{{$venta->formaPago}}</td>
                   <td>
                   @if($venta->estado == 0)

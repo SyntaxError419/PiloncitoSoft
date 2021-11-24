@@ -131,10 +131,13 @@ return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $proveedores= Proveedores::find($id);
-        $proveedores->delete();
-        return redirect('/proveedores');
-    }
+    // public function destroy($id)
+    // {
+    //     $proveedores= Proveedores::find($id);
+    //     $proveedores->delete();
+    //     return redirect('/proveedores');
+    // }
+
+    
+
 }
