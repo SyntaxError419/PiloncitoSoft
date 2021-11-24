@@ -38,19 +38,20 @@ class CompraController extends Controller
      */
     public function create()
     {
-        // return view ('compra.create');
-        $proveedores=Proveedores::all();
-        $insumos =Insumo::all();
+        $proveedores=Proveedores::where('estado', '=',1)->get();
+        $insumos =Insumo::where('estado', '=',1)->get();
         return view('compra.crearCompras',compact("insumos"))->with('proveedores', $proveedores); 
      
     }
 
-    public function createInsumo()
-    {
-        $proveedores=Proveedores::all();
-        $insumos =Insumo::all();
-        return view('compra.crearCompras',compact("insumos"))->with('proveedores', $proveedores); 
-    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    
     public function save(Request $request){
 
         if (count($request-> id_insumo)==null  || count($request ->cantidad)==null   ){
@@ -96,49 +97,6 @@ class CompraController extends Controller
 }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    
-   /*  public function store(Request $request)
-    {
-        $compras= new Compra();
-        $insumos= new Insumo();
-        $detallecompras= new Detallecompra();
-
-
-        $compras->numrecibocompra=$request->get('numrecibocompra');
-        $compras->fecha=$request->get('fecha');
-        $compras->id_proveedor=$request->get('id_proveedor');
-        $compras->totalcompra =$request->get('totalcompra');
-
-        $insumos->nombre_insumo =$request->get('nombre_insumo');
-        $insumos->cantidad =$request->get('cantidad');
-        
-
-
-        $compras->save();
-        $insumos->save();
-        $detallecompras->id_insumo= $insumos->id;
-        $detallecompras->id_compra= $compras->id;
-        $detallecompras->cantidad= $request->get('cantidadc');
-        $detallecompras->precio_unitario =$request->get('precio_unitario');
-        $detallecompras->precio_total =$request->get('precio_total');
-        
-
-
-        $detallecompras->save();
-
-
-        return redirect('/compras');
-        
-
-
-    } */
-   
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -162,25 +120,14 @@ class CompraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+/*     public function edit($id)
     {
-      /*  $id=$request->id;
-        $detalles = Detallecompra::join('insumos','detallecompra .id_insumo', '=','insumos.id')
-        ->selec ('detallecompra .cantidad','detallecompra.precio_total','insumos.cantidad as insumo')
-        ->where ('detallecompra.id_compra','=',$id)
-        ->orderBy('detallecompra.id', 'desc')->get();
-
-        
-        $db=mysqli_connect("localhost", "root", "" ,"piloncitosoft");
-        $rs=mysqli_query($db,"SELECT (nombre_insumo),(cantidad) FROM detallecompras
-        WHERE id_compra '==' ()");*/
-
         $compra =Compra::find($id);
         $detallecompras=Detallecompra::where('id_compra',$id);
         return view('compra.edit',compact('detallecompras'))->with('compra',$compra);
 
     }
-
+ */
     /**
      * Update the specified resource in storage.
      *
@@ -188,7 +135,9 @@ class CompraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+/*
+ public function update(Request $request, $id)
     {
         $compra= Compra::find($id);
             
@@ -202,7 +151,9 @@ class CompraController extends Controller
         }
 
         $compra->save();
-        return redirect('/compras');    }
+        return redirect('/compras');  
+    } 
+*/
 
     /**
      * Remove the specified resource from storage.
@@ -210,44 +161,21 @@ class CompraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         
         $compra = Compra::find($id);
         if ($compra->estado == 1) {
-            return redirect('compras')->with('error', 'True');    
+            return redirect('compras')->with('error', 'True');     
         }else {
     
             $compra->delete();
             return redirect('compras')->with('cancelar', 'True');
         }
         
- /*        $compra = Compra::find($id);
-        if ($compra->estado == 1) {
-            $compra->update(['estado'=>0]); 
-
-            return redirect('compras')->with('cancelar', 'True');
-        }
- */
     
     }
-    
-    /* public function  camEstadoC(Request $request) 
-    {
-     
-    $ComprasUpdate = Compra::findOrFail($request->id)->update(['estado' => $request->estado]); 
-
-    if($request->estado == 0)  {
-        $newStatus = 'Cancelado';
-
-        
-    }else{
-        $newStatus ='Activado';
-    }
-
-    return response()->json(['var'=>''.$newStatus.'']);
-    } */
-
 
     public function cambioEstadoCompra (Compra $compra)
     {
@@ -255,7 +183,18 @@ class CompraController extends Controller
              $compra->update(['estado'=>1]);
          }elseif ($compra->estado == 1) {
              $compra->update(['estado'=>0]);
-         }else{}
+
+             foreach ($compra->insumos as $insumo) {
+                $cantidad = $insumo->cantidad + Insumo::find($insumo)->cantidad;
+                print($cantidad);
+                $insumo->update(['cantidad'=>$cantidad]);
+                $insumo->save();
+
+             }
+
+
+         }else{             
+         }
          return redirect()->back();    
     }
 }

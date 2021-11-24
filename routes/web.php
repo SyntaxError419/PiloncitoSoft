@@ -73,12 +73,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
-/*Route::get('estadoCam', 'App\Http\Controllers\InsumoController@camEstado')->name('camEstado');
-Route::get('estadoCamC', 'App\Http\Controllers\CompraController@camEstadoC')->name('camEstadoC'); */
 
-
-
-Route::get('/crearCompras',[CompraController::class,'createInsumo'])->name('crearCompra');
+Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompra');
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
