@@ -18,10 +18,10 @@ h3, h4 {text-align: right}
             <form id="myForm" action="/pedidos" method ="POST" class="tomarP">
                 @csrf
                 <div class="card-header">
-                    <p class="text-danger">*Obligatorio</p>
+                    <p class="text-danger">* Campo obligatorio.</p>
                     <div class="row mt-3">
                     <div class="col-lg-6">
-                        <label for="" class="form-label">Cliente *</label>
+                        <label for="" class="form-label">Cliente </label><label class="text-danger"> *</label>
                         <select name="Cliente" class="id_cliente form-control" tabindex="1" id="id_cliente" lang="es">
                             <option></option>
                             @foreach($clientes as $c)
@@ -33,7 +33,7 @@ h3, h4 {text-align: right}
                         @endif
                     </div>
                     <div class="col-lg-6">
-                        <label for="" class="form-label">Forma de pago *</label>
+                        <label for="" class="form-label">Forma de pago</label><label class="text-danger">*</label>
                         <select name="Forma_de_pago" class="form-control" tabindex="2" id="formaPago" lang="es">
                             <option></option>
                             <option value="Efectivo">Efectivo</option>
@@ -152,7 +152,14 @@ h3, h4 {text-align: right}
 
         $('.tomarP').submit(function(e){
             e.preventDefault();
-            if ((arrayProductos.length) < 1) {
+            if ($('#id_cliente option:selected').val() == "" || $('#formaPago option:selected').val() == "") {
+                Swal.fire(
+                '¡Ups, selecciona el cliente y la forma de pago!',
+                'Realiza el pedido nuevamente seleccionando un cliente y una forma de pago.',
+                'warning'
+                )
+            }
+            else if ((arrayProductos.length) < 1) {
                 Swal.fire(
                 '¡Ups, agrega productos al pedido!',
                 'Realiza el pedido nuevamente agregando productos al pedido.',
@@ -202,7 +209,7 @@ h3, h4 {text-align: right}
 
                     if (stock == null || stock == 0) {
                         Swal.fire(
-                        '¡No hay insumos suficientes para realizar la cantidad del producto seleccionados!',
+                        '¡Ups, no hay insumos suficientes!',
                         'Por favor verifica la cantidad de insumos que tienes disponibles.',
                         'warning'
                         )
