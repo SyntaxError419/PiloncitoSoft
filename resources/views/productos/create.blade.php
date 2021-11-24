@@ -1,5 +1,5 @@
 @extends('layouts.plantillabase')
-
+@csrf
 @section('contenido')
 @section('title', 'Producto')
 <style type="text/css">
@@ -11,14 +11,17 @@ h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
 <h2 class="pt-3">Crear Producto</h2>
+<form action="{{route ('guardarproducto')}}" method ="POST" class="crearPdt" >
+               
     <div class="card-body">
         <div class="card">
-            <form action="{{route ('guardarproducto')}}" method ="POST" >
-            @csrf
+
             <div class="card-header">
+            <span class="error text-danger pt-3">*Campo Obligatorio</span>
                 <div class="row mb-3">
                         <div class="col">
                             <label for="" class="form-label">Nombre</label>
+                            <label for="" class="error text-danger" >*</label>
                             <input id="nombre" name="nombre" class="form-control" value="{{ old('nombre')}}" tabindex="1" lang="es">
                             @if($errors->has('nombre'))
                                 <span class="error text-danger" for="input-name">{{$errors->first('nombre')}}</span>
@@ -27,6 +30,7 @@ h3, h4 {text-align: right}
 
                         <div class="col">
                             <label for="" class="form-label">Precio</label>
+                            <label for="" class="error text-danger" >*</label>
                             <input id="precio" name="precio" type="number" value="{{ old('precio')}}" onkeypress="return event.charCode>= 48 && event.charCode <=57" step="any" class="form-control" tabindex="2">
                             @if($errors->has('precio'))
                                 <span class="error text-danger" for="input-name">{{$errors->first('precio')}}</span>
@@ -36,7 +40,8 @@ h3, h4 {text-align: right}
 
                 <div class="row mb-3">
                         <div class="col">
-                            <label for="" class="form-label" class="crearPdt">Insumo:</label>
+                            <label for="" class="form-label" class="crearPdt">Insumo</label>
+                            
                             <select name="id_insumo" class="id_insumo form-control" value="{{ old('nombre_insumo')}}" tabindex="3" id="id_insumo" lang="es">
                                 <option></option>
                                 @foreach($insumos as $i)
@@ -79,8 +84,8 @@ h3, h4 {text-align: right}
                     </div>
 
                     <div>
-                    <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <a href="/productos" class="btn btn-secondary" tabindex="5" style="float: left;"><i class="fas fa-backward"></i></a>
+                    <button style="float: right;" type="submit" class="btn btn-success" tabindex="6"><i class="fas fa-check"></i></button>
                     </div>
 
     </form>
@@ -91,11 +96,11 @@ h3, h4 {text-align: right}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
     
-    @if(session('malpedido') == 'Debes asociar minimo un insumo correctamente.')
+    @if(session('malpedido') == 'malpedido')
     <script>
         Swal.fire(
         '¡Ups!',
-        'Debes asociar minimo un insumo correctamente.',
+        'Nombre en uso.',
         'warning'
         )
     </script>
@@ -132,7 +137,9 @@ h3, h4 {text-align: right}
         });
         
         $('.crearPdt').submit(function(e){
-                e.preventDefault();
+            e.preventDefault();
+            
+            if ((arrayInsumos.length) > 0 && $('#nombre').val() != "" && $('#precio').val() != "") {
                 Swal.fire({
                     title: 'Crear Producto',
                     text: "¿Está seguro de crear éste producto?",
@@ -147,6 +154,24 @@ h3, h4 {text-align: right}
                         this.submit();
                     }
                 })
+            }
+            else {
+                if ($('#nombre').val() == "" || $('#precio').val() == "") {
+                    Swal.fire(
+                '¡Ups!',
+                'Recuerda llenar los campos obligatorios.',
+                'warning'
+                )
+                }
+                else if ((arrayInsumos.length) < 1) {
+                    Swal.fire(
+                '¡Ups!',
+                'Recuerda asociar un insumo como minimo.',
+                'warning'
+                )
+                }
+
+            }               
             });
             $('#agregarInsumo').click(function(){
                 if (parseInt($('#cantidad').val()) > 0 &&  parseInt($('#id_insumo option:selected').val()) > -1) {

@@ -82,8 +82,9 @@ Route::get('/crearCompras',[CompraController::class,'createInsumo'])->name('crea
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
-Route::get('/insudestroy/{id_insumo}',[ProductoController::class,'insudestroy'])->name('insudestroy');
-Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');    
+Route::get('/insudestroy/{id}',[ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::get('cambioEstadoProducto/productos/{producto}', 'App\Http\Controllers\ProductoController@cambioEstadoProducto')->name('productos.cambioEstadoProducto');
+Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');        
 Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');
 Route::get('cambioEstadoCompra/compras/{compra}', 'App\Http\Controllers\CompraController@cambioEstadoCompra')->name('compras.cambioEstadoCompra');
 

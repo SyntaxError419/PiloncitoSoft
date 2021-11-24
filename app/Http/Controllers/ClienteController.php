@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
-    /**
+    public function __construct(){
+        $this->middleware('auth');
+    }  /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::orderBy('estado', 'DESC')->get();
         return view('clientes.index')->with('clientes',$clientes);
     }
 
@@ -107,6 +109,14 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([ //Validacion que me sea requeridos estos campos//
+            'nombre' => 'required',
+            'cedula'=>'required |unique:clientes',
+            'direccion'=>'required',
+            'contacto'=>'required'
+            
+         ]);
+         try {
         $cliente = Cliente::find($id);
         
         $cliente->nombre = $request->get('nombre');
@@ -117,6 +127,12 @@ class ClienteController extends Controller
         $cliente->save();
 
         return redirect('/clientes');
+    } catch (QueryException $e) {
+        DB::rollBack();
+        echo '<script language="javascript">alert("Cedula ya registrada, por favor verifica");window.location.href="/clientes/create"</script>';
+        
+
+    }
     }
 
     /**

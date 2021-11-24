@@ -85,7 +85,7 @@ h3, h4 {text-align: right}
               
                             <td>
                            
-                        <form action="{{ route('insudestroy',$insumoproductos->id) }}" class="d-inline formulario-eliminar" method="GET">
+                        <form action="insudestroy/{{$in->id}}" class="d-inline formulario-eliminar" method="GET">
                   
                         @csrf
                         @method('GET')
@@ -108,8 +108,8 @@ h3, h4 {text-align: right}
            </tbody>
            </div>
                     <div>
-                    <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <a href="/productos"  class="btn btn-secondary" tabindex="5" style="float: left;"><i class="fas fa-backward"></i></a>
+                    <button style="float: right;" type="submit" class="btn btn-success" tabindex="6"><i class="fas fa-check"></i></button>
                     </div>
                 </form>
             

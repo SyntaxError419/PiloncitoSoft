@@ -3,6 +3,9 @@
 @section('contenido')
 @section('title', 'Cliente')
 
+<form action="/clientes/{{$cliente->id}}" method="POST">
+    @csrf
+    @method('PUT')
 <h2 class="pt-3">Detalle del producto</h2>
 
 <div class="card mt-4">
