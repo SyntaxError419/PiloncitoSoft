@@ -163,7 +163,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaCompras=$('#compras').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+    tablaPedidos=$('#ventas').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
         language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
