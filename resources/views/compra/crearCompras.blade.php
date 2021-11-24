@@ -5,20 +5,19 @@
 
 
 <h2>Crear Compra</h2>
-Los campos marcados con * son obligatorios.
 
 <div class="card mt-4">
     <div class="card-header">
+    <p class="text-danger">* Campo obligatorio.</p>
 
         <div class="card-body">
-
 
 
                     <div class="row mb-3">
                                 <div class="col">
                                                     
-                                        <label for="" class="form-label "  >Proveedor  *</label>
-                                        <select  class="id_proveedor form-control b-4"  name="id_proveedor" id="id_proveedor" tabindex="1"   required="required" >
+                                        <label for="" class="form-label "  >Proveedor </label><label class="text-danger"> *</label>
+                                        <select  class="id_proveedor form-control b-4"  name="id_proveedor" id="id_proveedor" tabindex="1"  >
                                         <option ></option>
                                         @foreach ($proveedores as $proveedor)
                                             <option value="{{$proveedor-> id}} " >
@@ -26,17 +25,26 @@ Los campos marcados con * son obligatorios.
                                             </option>
                                         @endforeach
                                         </select>
+                                        @if($errors->has('id_proveedor'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('id_proveedor')}}</span>
+                                        @endif
                                     </div>
                                 <div class="col">
                                         <div class="mb-3 ">
-                                        <label for="" class="form-label">Número de recibo  * </label>
-                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2"  placeholder="Ingrese el número de recibo"  required="required" >
+                                        <label for="" class="form-label">Número de recibo  </label><label class="text-danger"> *</label>
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2"  placeholder="Ingrese el número de recibo"  >
+                                        @if($errors->has('numReciboCompra'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('numReciboCompra')}}</span>
+                                        @endif
                                         </div>
                                 </div>
 
                                 <div class="col">
-                                        <label for="" class="form-label">Fecha  *</label>
-                                        <input id="fecha" name="fecha" type="datetime-local"   class="form-control" tabindex="3"   required="required">  
+                                        <label for="" class="form-label">Fecha  </label><label class="text-danger"> *</label>
+                                        <input id="fecha" name="fecha" type="datetime-local"  class="form-control" tabindex="3"  >  
+                                        @if($errors->has('fecha'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('fecha')}}</span>
+                                        @endif
                                 </div>
                     </div>
 
@@ -47,20 +55,20 @@ Los campos marcados con * son obligatorios.
                                                     
 
                                 <div class="mb-3">
-                                    <label for="id_insumo">Insumo  *</label>
-                                        <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  required="required" tabindex="4">
+                                    <label for="id_insumo">Insumo  </label>
+                                        <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  tabindex="4">
                                             <option></option>
                                             @foreach ($insumos as $insumo)
                                             <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
                                             @endforeach
-                                        </select>
+                                        </select>                         
                                 </div> 
                             </div> 
                         <div class="col">
 
                                     <div class="form-group">
-                                            <label for="cantidad">Cantidad  *</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"    tabindex="5" placeholder="Ingrese una cantidad mayor a 1">
+                                            <label for="">Cantidad  </label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"    tabindex="5" placeholder="Ingrese una cantidad mayor a 1">                                   
                                     </div>
 
                                 </div> 
@@ -69,8 +77,8 @@ Los campos marcados con * son obligatorios.
                             <div class="col">
 
                                     <div class="form-group">
-                                            <label for="cantidad">Iva</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">
+                                            <label for="">Iva</label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">                  
                                     </div>
                             </div>
                             <div class="col">
@@ -78,7 +86,7 @@ Los campos marcados con * son obligatorios.
 
                                     <div class="mb-3">
                                         <label for="" class="form-label">Precio Unitario   *</label>
-                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" class="form-control" tabindex="7" required="required" placeholder="Ingrese un precio unitario mayor a 1">  
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" class="form-control" tabindex="7"  placeholder="Ingrese un precio unitario mayor a 1">                                 
                                     </div>
                                 </div>
                     </div>

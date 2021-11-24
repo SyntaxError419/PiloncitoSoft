@@ -393,7 +393,6 @@
                                     success: function(data){
                                         $('#resp' + id).html(data.var); 
                                         console.log(data.var)
-                                                                    
                                     }
                                     
                                 });
@@ -403,7 +402,7 @@
                                 '',
                                 'success'
                                 );
-                                window.location.href="/compras";
+                             window.location.href="/compras";
 
                         }
                     })
@@ -439,7 +438,7 @@
                                 'success'
                                 );
                                 window.location.href="/compras";
-
+ 
                         }
                     })
                     }  

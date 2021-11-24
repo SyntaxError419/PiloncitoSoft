@@ -22,13 +22,17 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="" class="form-label">Nombre del insumo:  * </label>
-                                    <input id="nombre_insumo" name="nombre_insumo" type="text" class="form-control" tabindex="1"  required="required" placeholder="Ingrese un nombre para el Insumo" >  
+                                    <input id="nombre_insumo" name="nombre_insumo" type="text" class="form-control" tabindex="1"   placeholder="Ingrese un nombre para el Insumo" >  
+                                    @if($errors->has('nombre_insumo'))
+                                    <span class="error text-danger" for="input-name">{{$errors->first('nombre_insumo')}}</span>
+                                    @endif
                                 </div>
 
 
                                 <div class="col">
                                     <label for="" class="cantidad form-label">Cantidad:</label>
-                                    <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="cantidad" name="cantidad" type="number"   class="form-control" tabindex="2"  required="required" placeholder="Ingrese una cantidad" >  
+                                    <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="cantidad" name="cantidad" type="number"   class="form-control" tabindex="2" placeholder="Ingrese una cantidad" >  
+                                    
                                 </div>
 
 

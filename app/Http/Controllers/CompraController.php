@@ -23,9 +23,9 @@ class CompraController extends Controller
      */
     public function index()
     {
-        $compras =Compra::all();
-/*          $compras =Compra::where('estado', '!=',0)->get();
- */           $proveedores=Proveedores::all();
+/*         $compras =Compra::all();
+ */      $compras =Compra::where('estado', '!=',0)->get();
+         $proveedores=Proveedores::all();
 
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
         
@@ -53,6 +53,13 @@ class CompraController extends Controller
      */
     
     public function save(Request $request){
+
+        $request->validate([ 
+            'numReciboCompra' => 'required',
+            'id_proveedor'=>'required',
+            'fecha'=>'required',
+         
+         ]);
 
         if (count($request-> id_insumo)==null  || count($request ->cantidad)==null   ){
             return redirect('compras/create')->with('error','True');
@@ -183,18 +190,19 @@ class CompraController extends Controller
              $compra->update(['estado'=>1]);
          }elseif ($compra->estado == 1) {
              $compra->update(['estado'=>0]);
-
              foreach ($compra->insumos as $insumo) {
-                $cantidad = $insumo->cantidad + Insumo::find($insumo)->cantidad;
-                print($cantidad);
-                $insumo->update(['cantidad'=>$cantidad]);
+                $cantidad = Insumo::find($insumo->id) ->cantidad-$compra->getCantidad($compra->id,$insumo->id);
+                $insumo->cantidad = $cantidad;
                 $insumo->save();
-
-             }
+/* 
+                echo($cantidad);
+                echo("***");
+                echo($compra->getCantidad($compra->id,$insumo->id)); */
+             }         
 
 
          }else{             
          }
-         return redirect()->back();    
-    }
+           return redirect()->back();    
+     }
 }

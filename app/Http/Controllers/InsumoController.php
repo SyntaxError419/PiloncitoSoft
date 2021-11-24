@@ -51,6 +51,9 @@ class InsumoController extends Controller
       
         
    try {
+    $request->validate([ 
+        'nombre_insumo' => 'required'
+     ]);
             $insumos= new Insumo();
             $insumos->nombre_insumo=$request->get('nombre_insumo');
             $insumos->cantidad=$request->get('cantidad');
@@ -142,9 +145,6 @@ class InsumoController extends Controller
     
 
     }
-
-
-
 
     public function cambioEstadoInsumo (Insumo $insumo)
     {
