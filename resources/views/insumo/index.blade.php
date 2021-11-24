@@ -60,21 +60,16 @@
                      Desactivado
                       @endif
                    </td>
-                   <td>
+                   <td> 
                   
                
 
                       <form action="{{ route('insumos.destroy',$insumo->id) }}" class="d-inline formulario-eliminar"   method="POST">
                       @if($insumo->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Activar</a>
                         @elseif($insumo->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Desactivar</a>
                         @endif
-          <!--             <label class="switch" >
-                          <input data-id="{{ $insumo->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $insumo->estado ? 'checked' : '' }} ">
-                          <span class="slider round"></span>
-                      </label> -->
-
 
                       <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
 
@@ -372,25 +367,6 @@
                         }
                     })
                 });      
-/* 
-                $('.formulario-desactivar').submit(function(e){
-                    e.preventDefault();
-                    Swal.fire({
-                        title: '¿Estás seguro que deseas eliminar el insumo?',
-                        text: "¡No podrás revertir esto!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo eliminar el insumo!',
-                        cancelButtonText: 'No,deseo volver '
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            this.submit();
-                        }
-                    })
-                }); */    
-                 
                     
                 function confirmarDesactivar(estado,id,e){ 
                     e.preventDefault();

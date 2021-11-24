@@ -50,12 +50,14 @@
                    <td>
                      
                       
-                      <label class="switch">
-                          <input data-id="{{ $cliente->id }}" class="mi_checkbox" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive"   {{ $cliente->estado ? 'checked' : '' }}>
-                          <span class="slider round"></span>
-                      </label>
-                      
-                      <a href="/clientes/{{$cliente->id}}/edit" class="btn btn-sm btn-primary" data-id="{{ $cliente->id }},{{ $cliente->estado }}"><i class="fas fa-pen"></i></a>        
+                                            
+                      <a href="/clientes/{{$cliente->id}}/edit" class="btn btn-sm btn-primary" data-id="{{ $cliente->id }},{{ $cliente->estado }}"><i class="fas fa-pen"></i></a> 
+                      @if($cliente->estado == 0)
+                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        @elseif($cliente->estado == 1) 
+                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        @endif
+                      <a href="/clientes/{{$cliente->id}}/show" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>       
                             @csrf
                             
                       </form>                      
@@ -208,6 +210,90 @@ $(document).on("click", ".btnEditar", function(){
     $(".modal-title").text("Editar Usuario");		
     $('#modalCRUD').modal('show');		   
 });
+
+function confirmarDesactivar(estado,id,e){ 
+                    e.preventDefault();
+                    if (estado) {
+                        Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',     
+                        cancelButtonText: 'No'
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoCliente/clientes/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+                                    
+                                
+                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Cliente Desactivado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/clientes";
+
+
+                        }
+                    })
+                    }else{
+                        Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',     
+                        cancelButtonText: 'No'
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    //url: '/StatusNoticia',
+                                    url: 'cambioEstadoCliente/clientes/'+id,
+                                    data: {'estado': estado, 'id': id},
+                                    success: function(data){
+                                        $('#resp' + id).html(data.var); 
+                                        console.log(data.var)
+
+                                    
+                                    }
+                                    
+                                });
+                        
+                              Swal.fire(
+                                '¡Cliente Activado!',
+                                '',
+                                'success'
+                                );
+                                window.location.href="/clientes";
+
+
+                        }
+                    })
+                    }  
+
+
+    
+
+                }
 </script>
 
 

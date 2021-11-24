@@ -13,13 +13,19 @@
 
                 <div class="col"> 
                   <label for="" class="form-label">Nombre</label>
-                  <input id="nombre" name="nombre" type="text" class="form-control" tabindex="1" required="required">
+                  <input id="nombre" name="nombre" type="text" class="form-control" tabindex="1" >
+                  @if($errors->has('nombre'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('nombre')}}</span>
+                   @endif
                 </div>
   
             
                 <div class="col">
                   <label for="" class="form-label">Cédula</label>
-                  <input id="cedula" name="cedula" type="text"  class="form-control" tabindex="2" required="required">
+                  <input id="cedula" name="cedula" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  class="form-control" tabindex="2">
+                  @if($errors->has('cedula'))
+                   <span class="error text-danger" for="input-name">{{$errors->first('cedula')}}</span>
+                  @endif
                 </div>
 
 
@@ -27,15 +33,20 @@
             
             
             <div class="row mb-3">
-            <div class="col">  
-            <label for="" class="form-label">Dirección</label>
-            <input list="direccion" name="direccion" type="text" class="form-control" tabindex="3" required="required">
-             </div>
-
-                
+                <div class="col">  
+ 
+                  <label for="" class="form-label">Dirección</label>
+                  <input list="direccion" name="direccion" type="text" class="form-control" tabindex="3" >
+                  @if($errors->has('direccion'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('direccion')}}</span>
+                  @endif
+                </div>
                 <div class="col"> 
                   <label for="" class="form-label">Contacto</label>
-                  <input list="contacto" name="contacto" type="text" class="form-control" tabindex="4" required="required">
+                  <input list="contacto" name="contacto" type="text" class="form-control" tabindex="4" >
+                  @if($errors->has('contacto'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('contacto')}}</span>
+                  @endif
                 </div>
 
             </div>    

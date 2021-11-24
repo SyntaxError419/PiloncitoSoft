@@ -8,37 +8,46 @@
 
 <div class="card mt-4">
     <div class="card-header">
+    <p class="text-danger">* Campo obligatorio.</p>
 
         <div class="card-body">
-
 
 
                     <div class="row mb-3">
                                 <div class="col">
                                                     
-                                        <label for="id_proveedor" class="form-label "  >Proveedor</label>
-                                        <select  class="form-control mb-4"  name="id_proveedor" id="id_proveedor" tabindex="1"   required="required" >
-                                        <option value="">Seleccione un proveedor</option>
+                                        <label for="" class="form-label "  >Proveedor </label><label class="text-danger"> *</label>
+                                        <select  class="id_proveedor form-control b-4"  name="id_proveedor" id="id_proveedor" tabindex="1"  >
+                                        <option ></option>
                                         @foreach ($proveedores as $proveedor)
                                             <option value="{{$proveedor-> id}} " >
                                             {{$proveedor-> nombrecontacto}}
                                             </option>
                                         @endforeach
                                         </select>
+                                        @if($errors->has('id_proveedor'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('id_proveedor')}}</span>
+                                        @endif
                                     </div>
                                 <div class="col">
                                         <div class="mb-3 ">
-                                        <label for="" class="form-label">Numero de recibo </label>
-                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2"   required="required" >
+                                        <label for="" class="form-label">Número de recibo  </label><label class="text-danger"> *</label>
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numReciboCompra" name="numReciboCompra" type="text" class="form-control" tabindex="2"  placeholder="Ingrese el número de recibo"  >
+                                        @if($errors->has('numReciboCompra'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('numReciboCompra')}}</span>
+                                        @endif
                                         </div>
                                 </div>
-                        </div>
 
-                                        <div class="mb-3">
-                                        <label for="" class="form-label">Fecha</label>
-                                        <input id="fecha" name="fecha" type="datetime-local"   class="form-control" tabindex="3"   required="required" >  
-                                        </div>
-            
+                                <div class="col">
+                                        <label for="" class="form-label">Fecha  </label><label class="text-danger"> *</label>
+                                        <input id="fecha" name="fecha" type="datetime-local"  class="form-control" tabindex="3"  >  
+                                        @if($errors->has('fecha'))
+                                        <span class="error text-danger" for="input-name">{{$errors->first('fecha')}}</span>
+                                        @endif
+                                </div>
+                    </div>
+
         
                                     <h4>Agregar insumos</h4>
                     <div class="row mb-3">
@@ -46,20 +55,20 @@
                                                     
 
                                 <div class="mb-3">
-                                    <label for="id_insumo">Insumo:</label>
-                                        <select  class="form-control" name="id_insumo" id="id_insumo"  required="required" tabindex="4">
-                                            <option value="">Seleccione el insumo</option>
+                                    <label for="id_insumo">Insumo  </label>
+                                        <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  tabindex="4">
+                                            <option></option>
                                             @foreach ($insumos as $insumo)
                                             <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
                                             @endforeach
-                                        </select>
+                                        </select>                         
                                 </div> 
                             </div> 
                         <div class="col">
 
                                     <div class="form-group">
-                                            <label for="cantidad">Cantidad</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"  value="0"  tabindex="5">
+                                            <label for="">Cantidad  </label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"    tabindex="5" placeholder="Ingrese una cantidad mayor a 1">                                   
                                     </div>
 
                                 </div> 
@@ -68,16 +77,16 @@
                             <div class="col">
 
                                     <div class="form-group">
-                                            <label for="cantidad">Iva</label>
-                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva" value="0" tabindex="6">
+                                            <label for="">Iva</label>
+                                            <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">                  
                                     </div>
                             </div>
                             <div class="col">
 
 
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Precio Unitario </label>
-                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" value="0" class="form-control" tabindex="7" required="required">  
+                                        <label for="" class="form-label">Precio Unitario   *</label>
+                                        <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" class="form-control" tabindex="7"  placeholder="Ingrese un precio unitario mayor a 1">                                 
                                     </div>
                                 </div>
                     </div>
@@ -90,7 +99,7 @@
 
                     
                             <div class="card-body">
-                                <table class="table bg-gray table-bordered table-striped shadow-lg mb-4" style="border-radius: 7px;">
+                            <table class=" table-bordered table bg-gray shadow-lg mb-2" style="border-radius: 8px;">
                                 <thead >
                                         <tr>
                                             <th >Nombre insumo</th>
@@ -102,7 +111,7 @@
                                             <th>Opciones</th>
                                         </tr>
                                 </thead>
-                                <tbody id="cajaDetalle">
+                                <tbody class="table bg-white table-sm"  id="cajaDetalle">
 
                                 </tbody>
                                 <div class="mb-3">
@@ -180,6 +189,8 @@
 $(document).ready(function(){
 
 $('#agregarInsumo').click(function(){
+    if (parseInt($('#cantidad').val()) > 0 && parseInt($('#precio_unitario').val()) > 0 &&  parseInt($('#id_insumo option:selected').val()) > -1) {
+
     let id_insumo = parseInt($('#id_insumo option:selected').val());
     let nombre_insumo = $('#id_insumo option:selected').text();
     let cantidad = parseInt($('#cantidad').val());
@@ -240,20 +251,21 @@ $('#agregarInsumo').click(function(){
             <td style="display:none;"class="precioTotal">$${precio_total}</td>
  
             <td>
-            <button type ="button" class="btn btn-primary edit-${id_insumo}"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-pen"></i></button>
-            <button type ="button" class="btn btn-danger edit-${id_insumo}"  onclick= "return confirmarEliminar(eliminarInsumo(${id_insumo}))"><i class="fas fa-trash"></i></button>
-            <button type ="button" class="btn btn-success guardar-${id_insumo}" style="display:none;"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-check"></i></button>
+            <button type ="button" class="btn btn-primary active edit-${id_insumo}"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-pen"></i></button>
+            <button type ="button" class="btn btn-danger active edit-${id_insumo}"  onclick= "return eliminarInsumo(${id_insumo})"><i class="fas fa-trash"></i></button>
+            <button type ="button" class="btn btn-success active guardar-${id_insumo}" style="display:none;"  onclick= "return confirmarEditar(${id_insumo})"><i class="fas fa-check"></i></button>
             </td>
      </tr>
         `);
         getTotal();
 
-
+    }
 
     });
 
     
 });
+
 $(document).ready(function(){
     $('.tomarC').submit(function(e){
                 e.preventDefault();
@@ -277,7 +289,6 @@ $(document).ready(function(){
 
 function confirmarEditar(e)
 {
-     /* var respuesta= confirm("Estas seguro de que deseas editar  el insumo?"); */
      var respuesta= true;
                     
      if (respuesta == true) {
@@ -303,18 +314,6 @@ function confirmarEditar(e)
      {
          return false;
      }
-}
-function confirmarEliminar()
-{
-   /*   var respuesta= confirm("Estas seguro de que deseas eliminar  el insumo?");
-
-     if (respuesta == true) {
-         return true;
-         
-     } else
-     {
-         return false;
-     } */
 }
 
 
@@ -427,17 +426,17 @@ $('.tomarC').submit(function(e){
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#id_proveedor').select2();
+    $('#id_proveedor').select2({
+    placeholder: "Seleccione el producto"
 });
-
+});
 $(document).ready(function() {
-    $('#id_insumo').select2();
+    $('#id_insumo').select2({
+    placeholder: "Seleccione un insumo de la lista"
 });
-
-        
+});
 </script>
 
 @endsection

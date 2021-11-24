@@ -85,10 +85,10 @@ h3, h4 {text-align: right}
               
                             <td>
                            
-                        <form action="{{ route('insudestroy',$in->id,$productos->id) }}" class="d-inline formulario-eliminar" method="POST">
+                        <form action="{{ route('insudestroy',$insumoproductos->id) }}" class="d-inline formulario-eliminar" method="GET">
                   
                         @csrf
-                        @method('DELETE')
+                        @method('GET')
                         <button type="submit" class="btn btn-sm btn-danger active"><i class="fas fa-trash"></i></button>
                     
                                       

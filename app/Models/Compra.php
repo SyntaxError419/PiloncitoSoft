@@ -31,6 +31,10 @@ class Compra extends Model
         return $this->belongsToMany(Insumo::class, 'detallecompras','id_compra','id_insumo');
     }
 
+    public function getCantidad($id,$id_insumo){
+        return Detallecompra::where('id_compra', $id)->where('id_insumo', $id_insumo)->first()->cantidad;
+
+       }
     
 
 }

@@ -41,6 +41,14 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([ //Validacion que me sea requeridos estos campos//
+            'nombre' => 'required',
+            'cedula'=>'required |unique:clientes',
+            'direccion'=>'required',
+            'contacto'=>'required'
+            
+         ]);
+
         try {
             DB::beginTransaction();
             $clientes = new Cliente();
@@ -73,7 +81,8 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        $cliente = cliente::find($id) ;
+        return view('clientes.show')->with('cliente',$cliente);
     }
 
     /**
@@ -123,20 +132,20 @@ class ClienteController extends Controller
         return redirect('/clientes');
     }
 
-    public function  camStado(Request $request) 
+    
+
+    
+
+
+    public function cambioEstadoCliente (Cliente $cliente)
     {
-     
-    $clienteUpdate = Cliente::findOrFail($request->id)->update(['estado' => $request->estado]); 
-
-    if($request->estado == 1)  {
-        $newStatus = '<a>Activo</a>';
-    }else{
-        $newStatus ='<a>Inactivo</a>';
+         if($cliente->estado == 0)  {
+            $cliente->update(['estado'=>1]);
+         }elseif ($cliente->estado == 1) {
+            $cliente->update(['estado'=>0]);
+         }else{}
+         return redirect()->back();    
     }
-
-    return response()->json(['var'=>''.$newStatus.'']);
-    }
-
 
 
 }
