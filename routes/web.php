@@ -86,4 +86,5 @@ Route::post('/insudestroy', [App\Http\Controllers\ProductoController::class,'ins
     
 Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');
 Route::get('cambioEstadoCompra/compras/{compra}', 'App\Http\Controllers\CompraController@cambioEstadoCompra')->name('compras.cambioEstadoCompra');
+Route::get('cambioEstadoProveedor/proveedores/{proveedor}', 'App\Http\Controllers\ProveedoresController@cambioEstadoProveedor')->name('proveedores.cambioEstadoProveedor');
 
