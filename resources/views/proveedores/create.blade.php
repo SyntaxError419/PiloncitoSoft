@@ -15,7 +15,7 @@
 
                 <div class="col"> 
                   <label for="" class="form-label">Nit/Cedula</label><label class="text-danger"> *</label>
-                  <input minlength="10" maxlength="10"  placeholder="Ingrese NIT o Cedula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
+                  <input minlength="7" maxlength="10"  placeholder="Ingrese NIT o Cedula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
                   @if($errors->has('nit'))
                   <span class="error text-danger" for="input-name">{{$errors->first('nit')}}</span>
                   @endif

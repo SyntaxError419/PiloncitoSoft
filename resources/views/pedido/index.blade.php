@@ -80,6 +80,7 @@
                @endforeach
            </tbody>
       </table>
+      <div class="pt-4"></div>
 
 @section('js')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
