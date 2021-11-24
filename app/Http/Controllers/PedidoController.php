@@ -53,6 +53,10 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([ 
+            'Cliente' => 'required',
+            'Forma_de_pago'=>'required'
+         ]);
         if (($request-> idProducto)==null || ($request ->cantidad)==null){
             return redirect('/pedidos/create')->with('malpedido', 'Realiza el pedido correctamente.');
         }
@@ -61,7 +65,7 @@ class PedidoController extends Controller
         }
         else{
             $date = Carbon::now()->toDateTimeString();
-            $cedula=$request->get('id_cliente');
+            $cedula=$request->get('Cliente');
             $idCliente = PedidoController::getCliente($cedula);
             $idRecibo = PedidoController::genCodRec();
             try {
@@ -73,7 +77,7 @@ class PedidoController extends Controller
                     $ventas->total = $request->get('totalVentaV');
                     if ($request->get('pago')!=null) {
                     $ventas->pago = $request->get('pago');}
-                    $ventas->formaPago = $request->get('formaPago');
+                    $ventas->formaPago = $request->get('Forma_de_pago');
                 $ventas->saveOrFail();
 
                 foreach ($request->idProducto as $key => $value) {
