@@ -12,9 +12,10 @@
 
 <div class="card mt-4">
     <div class="card-header">
+    <p class="text-danger">* Campo obligatorio.</p>
             <div class="row mb-3">
                         <div class="col">
-                            <label for="" class="form-label">Cliente:</label>
+                            <label for="" class="form-label">Cliente </label><label class="text-danger"> *</label>
                             <select id="id_cliente" name="id_cliente" class="form-control id_cliente" value="{{$ventas->clientes->cedula}}" required="required" lang="es">
                                 <option value="{{$ventas->clientes->cedula}}">{{$ventas->clientes->cedula}}</option>
                                 @foreach($clientes as $c)
@@ -23,7 +24,7 @@
                             </select>
                         </div>
                         <div class="col">
-                        <label for="" class="form-label">Estado de pago:</label>
+                        <label for="" class="form-label">Pago</label><label class="text-danger">*</label>
                         <select name="pago" id="pago" class="form-control" tabindex="2" required="required">
                             @if($ventas->pago == 0)
                                 <option id="nombre" name="nombre" type="text" class="form-control" value="0">Pago no realizado</option>
@@ -35,7 +36,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <label for="" class="form-label">Estado de pedido:</label>
+                            <label for="" class="form-label">Estado de pedido</label><label class="text-danger">*</label>
                             <select name="estado" id="estado" class="form-control" tabindex="3" required="required">
                             @if($ventas->estado == 0)
                             <option value=0>Por iniciar</option>
@@ -64,7 +65,7 @@
                         <div class="row mt-3">
 
                         <div class="col">
-                            <label for="formaPago" class="form-label">Forma de pago:</label>
+                            <label for="formaPago" class="form-label">Forma de pago</label><label class="text-danger">*</label>
                             <select name="formaPago" id="formaPago" class="form-control" tabindex="4" required="required">
                                 @if($ventas->formaPago == "Efectivo")
                                 <option value="Efectivo">Efectivo</option>
