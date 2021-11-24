@@ -143,20 +143,7 @@ class InsumoController extends Controller
 
     }
 
-  /*   public function  camEstado(Request $request) 
-    {
-     
-    $InsumosUpdate = Insumo::findOrFail($request->id)->update(['estado' => $request->estado]); 
 
-    if($request->estado == 0)  {
-        $newStatus = 'Desactivado';
-    }else{
-        $newStatus ='Activado';
-    }
-
-    return response()->json(['var'=>''.$newStatus.'']);
-    }
- */
 
 
     public function cambioEstadoInsumo (Insumo $insumo)

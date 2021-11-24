@@ -60,7 +60,7 @@
                     
 
                                 <div class="card-body">
-                                         <table class="table bg-gray table-bordered table-striped shadow-lg mb-4" style="border-radius: 7px;">
+                                    <table class=" table-bordered table bg-gray shadow-lg mb-2" style="border-radius: 8px;">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre insumo</th>
@@ -73,7 +73,7 @@
                                                         
                                                     </tr>
                                                 </thead>
-                                                <tbody class="table bg-white">
+                                                <tbody class="table bg-white table-sm">
                                                 @foreach ($compra->insumos as $insumo)
                                                 <tr>
                                                     <td>{{$insumo->nombre_insumo}}</td>
