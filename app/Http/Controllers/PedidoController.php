@@ -180,7 +180,7 @@ class PedidoController extends Controller
     public function destroy($id)
     {
         $venta = Venta::find($id);
-        if ($venta->pago == 1 && $venta->estado > 0) {
+        if ($venta->pago == 1 || $venta->estado > 0) {
             return redirect('pedidos')->with('error', 'El pedido no se ha podido cancelar!');    
         }else {
 
