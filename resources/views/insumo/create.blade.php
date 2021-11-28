@@ -6,7 +6,6 @@
 @csrf
 
 <h2 class="ml-3">Crear Insumo</h2>
-<h10 class="ml-3">Los campos marcados con * son obligatorios.</h10>
 
 
 
@@ -16,12 +15,13 @@
         <div class="card">
 
                     <div class="card-header">
+                    <p class="text-danger">Campo obligatorio (*).</p>
 
 
 
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="" class="form-label">Nombre del insumo:  * </label>
+                                    <label for="" class="form-label">Nombre del insumo</label><label class="text-danger"> *</label>
                                     <input id="nombre_insumo" name="nombre_insumo" type="text" class="form-control" tabindex="1"   placeholder="Ingrese un nombre para el Insumo" >  
                                     @if($errors->has('nombre_insumo'))
                                     <span class="error text-danger" for="input-name">{{$errors->first('nombre_insumo')}}</span>
@@ -30,8 +30,8 @@
 
 
                                 <div class="col">
-                                    <label for="" class="cantidad form-label">Cantidad:</label>
-                                    <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="cantidad" name="cantidad" type="number"   class="form-control" tabindex="2" placeholder="Ingrese una cantidad" >  
+                                    <label for="" class="form-label">Cantidad</label>
+                                    <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="cantidad" name="cantidad" type="number"   class="form-control" value ="0" tabindex="2" placeholder="Ingrese una cantidad" >  
                                     
                                 </div>
 

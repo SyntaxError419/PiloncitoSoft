@@ -60,9 +60,9 @@
         <td>${{number_format($compra->totalcompra)}}</td>
         <td id="resp{{ $compra->id }}">
                       @if($compra->estado == 1)
-                      Activado
+                      Activa
                           @else
-                     Desactivado
+                     Inactiva
                       @endif
         </td>
 
@@ -73,9 +73,9 @@
             <form action="{{route ('compras.destroy',$compra->id)}}"  class="d-inline formulario-eliminar" method="POST"> 
 
                         @if($compra->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Activar</a>
+                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
                         @elseif($compra->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Desactivar</a>
+                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Cancelar</a>
                         @endif
              
 <!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
@@ -379,9 +379,9 @@
                         text: "¡No podrás revertir esto!",
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo desactivar la compra!',     
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: '¡Sí, deseo cancelar la compra!',     
                         cancelButtonText: 'No,deseo volver '
                         }).then((result) => {
                         if (result.value ==true ) {

@@ -55,9 +55,9 @@
                 <td>{{$insumo->cantidad}}</td>
                   <td id="resp{{ $insumo->id }}">
                       @if($insumo->estado == 1)
-                      Activado
+                      Activo
                           @else
-                     Desactivado
+                     Inactivo
                       @endif
                    </td>
                    <td> 
@@ -66,9 +66,9 @@
 
                       <form action="{{ route('insumos.destroy',$insumo->id) }}" class="d-inline formulario-eliminar"   method="POST">
                       @if($insumo->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Activar</a>
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
                         @elseif($insumo->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Desactivar</a>
+                        <a  onclick= "return confirmarDesactivar({{$insumo->estado}},{{$insumo->id}},event)" href="{{ route('insumos.cambioEstadoInsumo',$insumo) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Inactivar</a>
                         @endif
 
                       <a href="/insumos/{{ $insumo->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
@@ -376,9 +376,9 @@
                         text: "¡No podrás revertir esto!",
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo desactivar el insumo!',     
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: '¡Sí, deseo inactivar el insumo!',     
                         cancelButtonText: 'No,deseo volver '
                         }).then((result) => {
                         if (result.value ==true ) {
@@ -399,7 +399,7 @@
                                 });
                         
                               Swal.fire(
-                                '¡Insumo Desactivado!',
+                                '¡Insumo Inactivado!',
                                 '',
                                 'success'
                                 );

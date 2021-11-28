@@ -1,19 +1,24 @@
 @extends('layouts.plantillabase')
 @section('contenido')
-<form action="{{ route('guardarCompra')}}" method ="POST" class="tomarC">      
-@csrf
+@section('title', 'Compra')
 
-
+<label class="pt-3">
 <h2>Crear Compra</h2>
-
-<div class="card mt-4">
-    <div class="card-header">
-    <p class="text-danger">* Campo obligatorio.</p>
-
-        <div class="card-body">
+</label>
 
 
-                    <div class="row mb-3">
+
+<div class="card-body">
+    <div class="card">
+    
+
+    
+            
+                <form action="{{ route('guardarCompra')}}" method ="POST" class="tomarC">      
+                @csrf
+                <div class="card-header">
+                <p class="text-danger"> Campo obligatorio (*).</p>
+                    <div class="row mt-3">
                                 <div class="col">
                                                     
                                         <label for="" class="form-label "  >Proveedor </label><label class="text-danger"> *</label>
@@ -94,8 +99,6 @@
 
                 
                                 </div> 
-                                <h5>Detalle de la compra</h5>        
-                                </div>
 
                     
                             <div class="card-body">
@@ -125,9 +128,10 @@
                           
             
         </div>
-        
-                <a href="/compras" class="btn btn-secondary" tabindex="10" style="float: left;"><i class="fas fa-backward"></i></a>
+                            <div>
+                            <a href="/compras" class="btn btn-secondary" tabindex="10" style="float: left;"><i class="fas fa-backward"></i></a>
                             <button style="float: right;" type="submit" class="btn btn-success" tabindex="11"><i class="fas fa-check"></i></button>
+                            </div>
 </form>
 
 
@@ -429,7 +433,7 @@ $('.tomarC').submit(function(e){
 <script type="text/javascript">
 $(document).ready(function() {
     $('#id_proveedor').select2({
-    placeholder: "Seleccione el producto"
+    placeholder: "Seleccione el proveedor"
 });
 });
 $(document).ready(function() {
