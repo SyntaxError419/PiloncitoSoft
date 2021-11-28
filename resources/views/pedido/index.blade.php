@@ -71,11 +71,13 @@
                     <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                     
                     <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-secondary"><i class="fas fa-receipt"></i></a>
                           @csrf
                           @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
+                    
                   </td>
                </tr>
                @endforeach
