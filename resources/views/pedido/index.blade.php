@@ -17,6 +17,7 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
+<a href="pedidos/create" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
 
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
@@ -70,16 +71,19 @@
                     <a href="/pedidos/{{$venta->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
                     
                     <a href="/pedidos/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+
+                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-secondary"><i class="fas fa-receipt"></i></a>
                           @csrf
                           @method('DELETE')
                       <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
+                    
                   </td>
                </tr>
                @endforeach
            </tbody>
       </table>
+      <div class="pt-4"></div>
 
 @section('js')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -125,12 +129,12 @@
         });
         Swal.fire({
             title: '¡Pedido creado exitosamente!',
-            text: "¿Desea imprimir la factura?",
+            text: "¿Desea imprimir el comprobante?",
             icon: 'success',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Imprimir factura',
+            confirmButtonText: 'Imprimir comprobante',
             cancelButtonText: 'Ver más tarde'
             }).then((result) => {
             if (result.isConfirmed) {
@@ -163,7 +167,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaCompras=$('#compras').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+    tablaPedidos=$('#ventas').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
         language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",

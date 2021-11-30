@@ -18,7 +18,7 @@ h3, h4 {text-align: right}
             <form id="myForm" action="/pedidos" method ="POST" class="tomarP">
                 @csrf
                 <div class="card-header">
-                    <p class="text-danger">* Campo obligatorio.</p>
+                    <p class="text-danger">Campo obligatorio (*).</p>
                     <div class="row mt-3">
                     <div class="col-lg-6">
                         <label for="" class="form-label">Cliente </label><label class="text-danger"> *</label>

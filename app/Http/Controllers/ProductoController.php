@@ -21,7 +21,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::orderBy('estado', 'DESC')->get();
         return view('productos.index')->with('productos',$productos);
     }
 
@@ -53,44 +53,52 @@ class ProductoController extends Controller
 
 
     public function save(Request $request){
-        
-
         $request->validate([ //Validacion que me sea requeridos estos campos//
             'nombre' => 'required|unique:productos',
             'precio'=>'required'
             
          ]);
-         
-         if (($request-> id_insumo)==null || ($request ->cantidad)==null) {
-            return redirect('/productos/create')->with('malpedido', 'Debes asociar minimo un insumo correctamente.');
+        $nombre=$request-> nombre;
+        $nombres=DB::table('productos')->select('nombre')->pluck('nombre');
+        foreach ($nombres as $nomb) {
+            if ($nomb==$nombre)  {
+                return redirect('productos/create')->with('malpedido', 'malpedido');
+           
+          }
+          
+        else{  
+            try {
+           DB::beginTransaction();
+           $productos = new Producto();
+           $productos->nombre =$request->get('nombre');
+           $productos->precio =$request->get('precio');
+           $productos->saveorfail();
+           
+           foreach ($request->idInsumo as $key => $value) {
+               insumoproducto::create([
+                   
+                   'id_insumo'=>$value,
+                   'id_producto'=>$productos->id,
+                   'cantidad'=>$request->cantidad [$key],
+
+
+               ]);
+           }
+           DB::commit();
+           return redirect('/productos')->with('success','Producto creado');
+       } catch (Exception $e) {
+           DB::rollBack();
+           return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
+       }
+
+       
+   }
         }
         
-        else{
 
-        try {
-            DB::beginTransaction();
-            $productos = new Producto();
-            $productos->nombre =$request->get('nombre');
-            $productos->precio =$request->get('precio');
-            $productos->saveorfail();
-            
-            foreach ($request->idInsumo as $key => $value) {
-                insumoproducto::create([
-                    
-                    'id_insumo'=>$value,
-                    'id_producto'=>$productos->id,
-                    'cantidad'=>$request->cantidad [$key],
-
-
-                ]);
-            }
-            DB::commit();
-            return redirect('/productos')->with('success','Producto creado');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
-        }
-    }
+        
+         
+        
 }
 
        
@@ -118,9 +126,6 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {   
-
-        
-       
      
         $productos =Producto::find($id);
         
@@ -183,18 +188,15 @@ class ProductoController extends Controller
         
     }
 
-    public function  camtado(Request $request) 
+    public function cambioEstadoProducto (Producto $producto)
     {
-     
-    $productoUpdate = Producto::findOrFail($request->id)->update(['estado' => $request->estado]); 
-
-    if($request->estado == 1)  {
-        $newStatus = '<a>Activo</a>';
-    }else{
-        $newStatus ='<a>Inactivo</a>';
+         if($producto->estado == 0)  {
+            $producto->update(['estado'=>1]);
+         }elseif ($producto->estado == 1) {
+            $producto->update(['estado'=>0]);
+         }else{}
+         return redirect()->back();    
     }
 
-    return response()->json(['var'=>''.$newStatus.'']);
-    }
 
 }
