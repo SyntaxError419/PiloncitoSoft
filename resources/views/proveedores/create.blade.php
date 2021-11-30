@@ -15,7 +15,7 @@
 
                 <div class="col"> 
                   <label for="" class="form-label">Nit/Cedula</label><label class="text-danger"> *</label>
-                  <input minlength="10" maxlength="10"  placeholder="Ingrese NIT o Cedula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
+                  <input maxlength="10"  placeholder="Ingrese NIT o Cedula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
                   @if($errors->has('nit'))
                   <span class="error text-danger" for="input-name">{{$errors->first('nit')}}</span>
                   @endif
@@ -45,7 +45,7 @@
                 
               <div class="col">
               <label for="" class="form-label">Numero Contacto</label><label class="text-danger"> *</label>   
-              <input minlength="7" maxlength="10" placeholder="Ingrese el Numero De telefono" value="{{ old('numerocontacto')}}"    onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text" class="form-control" tabindex="4"> 
+              <input maxlength="10" placeholder="Ingrese el Numero De telefono" value="{{ old('numerocontacto')}}"    onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text" class="form-control" tabindex="4"> 
               @if($errors->has('numerocontacto'))
              <span class="error text-danger" for="input-name">{{$errors->first('numerocontacto')}}</span>
              @endif
@@ -85,4 +85,19 @@
    <button style="float: right;"  type="submit"  class="btn btn-success"   tabindex="8"><i class="fas fa-check"></i></button>
 </form>
 
+
+@section('js')
+
+
+@if(session('errorregistro') == 'errorregistro')
+    <script>
+        Swal.fire(
+        '¡Oops!',
+        'El nit del proveedor ya se encuentra registrado.',
+        'error'
+        ) 
+    </script>
+@endif
+
+@endsection
 @endsection

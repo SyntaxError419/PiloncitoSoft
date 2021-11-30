@@ -38,10 +38,10 @@ class ProveedoresController extends Controller
     public function store(Request $request)
     {
         $request->validate([ //Validacion que me sea requeridos estos campos//
-           'nit' => 'required|unique:proveedores',//|min:3|max:5//
+           'nit' => 'required|unique:proveedores|min:10||max:10|',
            'nombrecontacto'=>'required',
            'correocontacto'=>'required|email',//validacion que me contenga el campo como tipo email es decir que tenga @//
-           'numerocontacto'=>'required',
+           'numerocontacto'=>'required|min:7||max:10|',
            'empresa'=>'required',
            'direccionempresa'=>'required'
         ]);
@@ -54,12 +54,13 @@ class ProveedoresController extends Controller
         $proveedores->direccionempresa=$request->get('direccionempresa');                                                                                                                                                                                                                                                                                                                               
         $proveedores->save();
 
-        return redirect('/proveedores')->with('success', 'Se guardo el proveedor correctamente✅');
+        return redirect('/proveedores')->with('guardar','True');
 
-} catch (QueryException $e) {
-echo '<script language="javascript">alert("ERROR❌❗:El NIT o CEDULA ya existe, Agregue de nuevo el proveedor por favor.");window.location.href="/proveedores/create"</script>';
-return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
-}  
+
+            } catch (QueryException $e) {
+
+        return redirect('/proveedores/create')->with('errorregistro','errorregistro');
+                                        }  
        
     }
 
@@ -100,8 +101,8 @@ return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva
            //'nit' => 'unique:proveedores',//|min:3|max:5//
             'nombrecontacto'=>'required',
             'correocontacto'=>'required|email',//validacion que me contenga el campo como tipo email es decir que tenga @//
-            'numerocontacto'=>'required',
-        //     'empresa'=>'required', //Se puso en comentario porque no es requerido
+            'numerocontacto'=>'required|min:7||max:10|',
+             'empresa'=>'required',
              'direccionempresa'=>'required'
           ]); 
 
@@ -116,10 +117,10 @@ return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva
 
         $proveedores->save();
 
-        return redirect('/proveedores')->with('success', 'Se modifico el proveedor correctamente✅');
+        return redirect('/proveedores')->with('edit','True'); 
              } catch (QueryException $e) {
-        // echo '<script language="javascript">alert("ERROR❌❗:El NIT o CEDULA ya existe, Agregue de nuevo el proveedor por favor.");window.location.href="/proveedores/create"</script>';
-        return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
+        return redirect()->back()->with('error','True');
+
                                          }  
                
         }
@@ -131,13 +132,7 @@ return redirect('/proveedores')->withErrors('Ocurrio un error inesperado, vuelva
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id)
-    // {
-    //     $proveedores= Proveedores::find($id);
-    //     $proveedores->delete();
-    //     return redirect('/proveedores');
-    // }
-
+ 
     
 
 }
