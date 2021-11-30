@@ -148,38 +148,56 @@ h3, h4 {text-align: right}
             }
         $(document).ready(function(){
             let stock;
+            let stocke;
             let cliente;
 
-        $('.tomarP').submit(function(e){
-            e.preventDefault();
-            if ($('#id_cliente option:selected').val() == "" || $('#formaPago option:selected').val() == "") {
-                Swal.fire(
-                '¡Ups, selecciona el cliente y la forma de pago!',
-                'Realiza el pedido nuevamente seleccionando un cliente y una forma de pago.',
-                'warning'
-                )
-            }
-            else if ((arrayProductos.length) < 1) {
-                Swal.fire(
-                '¡Ups, agrega productos al pedido!',
-                'Realiza el pedido nuevamente agregando productos al pedido.',
-                'warning'
-                )
-            }else{Swal.fire({
-                title: '¿Estás seguro de crear éste pedido?',
-                text: "¡No podrás revertir éste cambio!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '¡Sí, deseo crear el pedido!',
-                cancelButtonText: 'No crear pedido'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
+            $('.tomarP').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    async : false,
+                    url: '{{ route('getStocke') }}',
+                    data: {'arrayProductos': arrayProductos},
+                    success: function(response){
+                        stocke = (response);
+                    }
+                });
+                
+                if ($('#id_cliente option:selected').val() == "" || $('#formaPago option:selected').val() == "") {
+                    Swal.fire(
+                    '¡Ups, selecciona el cliente y la forma de pago!',
+                    'Realiza el pedido nuevamente seleccionando un cliente y una forma de pago.',
+                    'warning'
+                    )
                 }
-            })}
-        });
+                else if ((arrayProductos.length) < 1) {
+                    Swal.fire(
+                    '¡Ups, agrega productos al pedido!',
+                    'Realiza el pedido nuevamente agregando productos al pedido.',
+                    'warning'
+                    )
+                }
+                else if (stocke == null || stocke == 0) {
+                    Swal.fire(
+                    '¡Ups, no hay insumos suficientes!',
+                    'Por favor verifica la cantidad de insumos que tienes disponibles.',
+                    'warning'
+                    )
+                }else{Swal.fire({
+                    title: '¿Estás seguro de crear éste pedido?',
+                    text: "¡No podrás revertir éste cambio!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, deseo crear el pedido!',
+                    cancelButtonText: 'No crear pedido'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })}
+            });
             
             $('#agregarProducto').click(function(){
                 if (parseInt($('#cantidad').val()) > 0 && $('#id_producto option:selected').val() != "") {
@@ -197,6 +215,7 @@ h3, h4 {text-align: right}
                             precioUnitario = (response);
                         }
                     });
+                    
                     $.ajax({
                         type: "GET",
                         async : false,
@@ -206,7 +225,7 @@ h3, h4 {text-align: right}
                             stock = (response);
                         }
                     });
-
+                    
                     if (stock == null || stock == 0) {
                         Swal.fire(
                         '¡Ups, no hay insumos suficientes!',

@@ -290,6 +290,27 @@ class PedidoController extends Controller
         echo $insumosCantidad;
     }
 
+    public function getStockeProductos(Request $request){
+        $insumosCantidad=0;
+        $arrayProductos=$request->arrayProductos;
+        
+        foreach ($arrayProductos as $objetos) {
+            dd($arrayProductos);
+            $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $objetos->idProducto)->get();
+            $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $objetos->idProducto)->get();
+            $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+            $insumosId = array_column($insumos->toArray(), 'id_insumo');
+            
+            foreach ($insumosId as $keyy => $valuee) {
+                $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>', ($cantidadDecremento[$keyy]*$objetos->cantidad))->pluck('cantidad')->first();
+                if ($insumosCantidad == null || $insumosCantidad == 0) {
+                    break;
+                    echo $insumosCantidad;
+                }
+            }
+        }
+    }
+
     public function codId(){
         $id=DB::table('ventas')->select('id')->orderBy('id','DESC')->pluck('id')->first();
         echo $id;
