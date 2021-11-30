@@ -78,6 +78,7 @@ Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompr
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
+Route::get('nombrerepetido',[ProductoController::class,'nombrerepetido'])->name('nombrerepetido');
 Route::get('/insudestroy/{id}',[ProductoController::class,'insudestroy'])->name('insudestroy');
 Route::get('cambioEstadoProducto/productos/{producto}', 'App\Http\Controllers\ProductoController@cambioEstadoProducto')->name('productos.cambioEstadoProducto');
 Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');        
