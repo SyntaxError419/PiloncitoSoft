@@ -136,7 +136,6 @@ h3, h4 {text-align: right}
             currency: 'USD',
             minimumFractionDigits: 0
         });
-
         let arrayProductos = [];
         let objProducto = {};
         function getTotal(){
@@ -150,9 +149,10 @@ h3, h4 {text-align: right}
             let stock;
             let stocke;
             let cliente;
-
+            
             $('.tomarP').submit(function(e){
                 e.preventDefault();
+                
                 $.ajax({
                     type: "GET",
                     async : false,
@@ -160,9 +160,8 @@ h3, h4 {text-align: right}
                     data: {'arrayProductos': arrayProductos},
                     success: function(response){
                         stocke = (response);
-                    }
+                    } 
                 });
-                
                 if ($('#id_cliente option:selected').val() == "" || $('#formaPago option:selected').val() == "") {
                     Swal.fire(
                     '¡Ups, selecciona el cliente y la forma de pago!',
@@ -177,7 +176,7 @@ h3, h4 {text-align: right}
                     'warning'
                     )
                 }
-                else if (stocke == null || stocke == 0) {
+                else if (stocke == null || stocke < 0) {
                     Swal.fire(
                     '¡Ups, no hay insumos suficientes!',
                     'Por favor verifica la cantidad de insumos que tienes disponibles.',
@@ -226,7 +225,7 @@ h3, h4 {text-align: right}
                         }
                     });
                     
-                    if (stock == null || stock == 0) {
+                    if (stock == null || stock < 0 || stock == "") {
                         Swal.fire(
                         '¡Ups, no hay insumos suficientes!',
                         'Por favor verifica la cantidad de insumos que tienes disponibles.',
@@ -235,14 +234,35 @@ h3, h4 {text-align: right}
                     }else{
                         let subTotal = cantidad*precioUnitario;
                         let indexProducto = getIndexProducto(idProducto);
-
+                        let masStock;
+                        let masCant;
                         if(indexProducto > -1){
                             $('#tr-'+idProducto).remove();
                             objProducto = arrayProductos[indexProducto];
-                            objProducto.cantidad += cantidad;
-                            objProducto.precioUnitario = precioUnitario;
-                            objProducto.subTotal += subTotal;
                             objProducto.idProducto = idProducto;
+                            objProducto.precioUnitario = precioUnitario;
+                            masCant = objProducto.cantidad + cantidad;
+                            
+                            $.ajax({
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('getStockMas') }}',
+                                data: {'idProducto': idProducto, 'masCant': masCant},
+                                success: function(response){
+                                    masStock = (response);
+                                }
+                            });
+                            
+                            if (masStock == null || masStock < 0 || masStock == "") {
+                                Swal.fire(
+                                '¡Ups, no hay insumos suficientes!',
+                                'Por favor verifica la cantidad de insumos que tienes disponibles.',
+                                'warning'
+                                )
+                            }else {
+                                objProducto.cantidad += cantidad;
+                                objProducto.subTotal += subTotal;
+                            }
                         } else {
                             objProducto = {
                                 cantidad, precioUnitario, subTotal, idProducto
