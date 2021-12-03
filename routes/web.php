@@ -61,6 +61,10 @@ Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getP
 
 Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
 
+Route::get('masStockGet',[PedidoController::class,'getStockMasProducto'])->name('getStockMas');
+
+Route::get('stockeGet',[PedidoController::class,'getStockeProductos'])->name('getStocke');
+
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
 
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
