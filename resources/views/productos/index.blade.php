@@ -129,7 +129,7 @@ Swal.fire({
 <script type="text/javascript">
   $(document).ready(function() {
     tablaProductos= $('#productos').DataTable({ 
-        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "desc" ]]
     
     language: {
         "decimal": "",

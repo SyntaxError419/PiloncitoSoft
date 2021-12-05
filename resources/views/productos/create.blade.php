@@ -73,8 +73,8 @@ h3, h4 {text-align: right}
                     </div>
                     </div>
                     <div>
-                    <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <a href="/productos" class="btn btn-secondary" tabindex="6"><i class="fas fa-backward"></i></a>
+                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
     </form>
 @endsection

@@ -161,7 +161,6 @@ h3, h4 {text-align: right}
         let objInsumo = {};
         
         
-        
         $(document).ready(function(){
             
             $('.id_insumo').select2({
@@ -241,6 +240,19 @@ h3, h4 {text-align: right}
                         }
                         arrayInsumos.push(objInsumo);
                     }
+                    $('#cajaDetallee').append(`
+                        <tr id="tr-${objInsumo.idInsumo }">
+                            <input type=hidden name="idInsumo[]" value="${ objInsumo.idInsumo }">
+                            <input type=hidden name="cantidad[]" value="${ objInsumo.cantidad }">
+                            <td>${insumo}</td>
+                            <td>${objInsumo.cantidad}</td>
+                            
+                            <td>
+                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `);
+                    
                    
                     $('#cajaDetalle').append(`
                         <tr id="tr-${objInsumo.idInsumo }">
