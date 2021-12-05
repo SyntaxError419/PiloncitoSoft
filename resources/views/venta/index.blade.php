@@ -78,7 +78,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaCompras=$('#ventas').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "desc" ]],
+    tablaVentas=$('#ventas').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "desc" ]],
         language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",

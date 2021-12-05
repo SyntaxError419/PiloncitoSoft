@@ -84,6 +84,7 @@ Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 
 
 Route::get('nombrerepetido',[ProductoController::class,'nombrerepetido'])->name('nombrerepetido');
 Route::get('/insudestroy/{id}',[ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::get('insumoProGet',[ProductoController::class,'getInsumoPro'])->name('getInsumoPro');
 Route::get('cambioEstadoProducto/productos/{producto}', 'App\Http\Controllers\ProductoController@cambioEstadoProducto')->name('productos.cambioEstadoProducto');
 Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');        
 Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');

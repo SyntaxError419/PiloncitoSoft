@@ -36,6 +36,8 @@ h3, h4 {text-align: right}
                         </div>
                 </div>
 
+                <input type="hidden" id="idPro" name="idPro" class="form-control" value="{{$productos->id}}" lang="es">
+
                 <div class="row mb-3">
                         <div class="col">
                         <label for="" class="form-label" class="crearPdt">Insumo</label>
@@ -155,11 +157,20 @@ h3, h4 {text-align: right}
             $("form select #id_insumo").each(function() { this.selectedIndex = 0 });
             $("form input[type=text]").each(function() { this.value = '' });
         }
-        
+        let id = $('#idPro').val();
         let arrayInsumos = [];
         let arrayInsumoproductos = $insumoproductos;
         let objInsumo = {};
         
+        $.ajax({
+            type: "GET",
+            async : false,
+            url: '{{ route('getInsumoPro') }}',
+            data: {'id': id},
+            success: function(response){
+                insumosAso = (response);
+            }
+        });
         
         $(document).ready(function(){
             
