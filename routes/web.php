@@ -73,6 +73,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
+Route::get('cancelar', [App\Http\Controllers\CompraController::class, 'cancelar'])->name('cancelar');
 
 Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompra');
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');

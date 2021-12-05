@@ -30,6 +30,13 @@ class CompraController extends Controller
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
         
     }
+     public function Cancelar()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.cancelar', compact('proveedores'))->with('compras', $compras);
+        
+    }
 
     /**
      * Show the form for creating a new resource.
