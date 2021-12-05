@@ -115,7 +115,7 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id) 
     {   
      
         $productos =Producto::find($id);
@@ -199,5 +199,11 @@ class ProductoController extends Controller
         
     }
 
-    
+    public function getInsumoPro (Request $request)
+    {
+        $id=$request->id;
+        $insumoproductos = Insumoproducto::where('id_producto',$id)->join('insumos', 'insumoproductos.id_insumo', 'insumos.id')->select('insumos.nombre_insumo','insumoproductos.cantidad')->get();
+        echo $insumoproductos;
+        
+    }    
 }
