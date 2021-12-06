@@ -56,12 +56,12 @@ window.onload=function(){startTime();}
 <tr>
     
 <!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nit</th>
+<th style=" text-align: center;" scope="col">Nit/Cèdula</th>
 <th style=" text-align: center;" scope="col">Nombre Contacto</th>
-<th style=" text-align: center;" scope="col">Correo</th>
-<th style=" text-align: center;" scope="col">Numero Contacto</th>
+<th style=" text-align: center;" scope="col">Correo C</th>
+<th style=" text-align: center;" scope="col">Nùmero Contacto</th>
 <th style=" text-align: center;" scope="col">Empresa</th>
-<th style=" text-align: center;" scope="col">Direccion Empresa</th>
+<th style=" text-align: center;" scope="col">Direcciòn Empresa</th>
 <th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;"scope="col">Acciones</th>
 </tr>  
