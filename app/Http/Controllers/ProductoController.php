@@ -34,9 +34,9 @@ class ProductoController extends Controller
     {
         $insumos=Insumo::all();
         $insumoproducto=Insumoproducto::all();
+        $productos=DB::table('productos')->select('nombre')->get('nombre');
         
-        return view ('productos.create', compact('insumos', 'insumoproducto'))
-        ->with('insumos', $insumos, 'insumoproducto', $insumoproducto);
+        return view ('productos.create', compact('insumos', 'insumoproducto','productos'))->with('insumos', $insumos, 'insumoproducto', $insumoproducto,'productos', $productos);
     }
 
     /**
@@ -54,52 +54,43 @@ class ProductoController extends Controller
 
     public function save(Request $request){
         $request->validate([ //Validacion que me sea requeridos estos campos//
-            'nombre' => 'required|unique:productos',
+            'nombre' => 'required',
             'precio'=>'required'
-            
+
          ]);
-        $nombre=$request-> nombre;
-        $nombres=DB::table('productos')->select('nombre')->pluck('nombre');
-        foreach ($nombres as $nomb) {
-            if ($nomb==$nombre)  {
-                return redirect('productos/create')->with('malpedido', 'malpedido');
-           
-          }
-          
-        else{  
-            try {
-           DB::beginTransaction();
-           $productos = new Producto();
-           $productos->nombre =$request->get('nombre');
-           $productos->precio =$request->get('precio');
-           $productos->saveorfail();
-           
-           foreach ($request->idInsumo as $key => $value) {
-               insumoproducto::create([
-                   
-                   'id_insumo'=>$value,
-                   'id_producto'=>$productos->id,
-                   'cantidad'=>$request->cantidad [$key],
 
-
-               ]);
-           }
-           DB::commit();
-           return redirect('/productos')->with('success','Producto creado');
-       } catch (Exception $e) {
-           DB::rollBack();
-           return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
-       }
-
-       
-   }
+         if (($request-> id_insumo)==null || ($request ->cantidad)==null) {
+            return redirect('/productos/create')->with('malpedido', 'Debes asociar minimo un insumo correctamente.');
         }
-        
 
-        
+        else{
+
+        try {
+            DB::beginTransaction();
+            $productos = new Producto();
+            $productos->nombre =$request->get('nombre');
+            $productos->precio =$request->get('precio');
+            $productos->saveorfail();
+            
+            foreach ($request->idInsumo as $key => $value) {
+                insumoproducto::create([
+                    
+                    'id_insumo'=>$value,
+                    'id_producto'=>$productos->id,
+                    'cantidad'=>$request->cantidad [$key],
+                ]);
+            }
+            DB::commit();
+            return redirect('productos')->with('creadopdtcorrec','creadopdtcorrec');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect('/productos')->withErrors('Ocurrio un error inesperado, vuelva a intentarlo');
+        }
+    }
+}
          
         
-}
+
 
        
 
@@ -124,15 +115,14 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id) 
     {   
      
         $productos =Producto::find($id);
         
         $insumosproductos=Insumoproducto::all();
-        //$insumoproductos=Insumoproducto::where('id_producto',$id)->get();
         $insumos=Insumo::all();
-        $insumoproductos = Insumoproducto::where('id_producto',$id)->join('insumos', 'insumoproductos.id_insumo', 'insumos.id')->select('insumos.nombre_insumo','insumoproductos.cantidad')->get();
+        $insumoproductos = Insumoproducto::where('id_producto',$id)->join('insumos', 'insumoproductos.id_insumo', 'insumos.id')->select('insumos.nombre_insumo','insumoproductos.cantidad', 'insumoproductos.id')->get();
         return view('productos.edit',compact('insumoproductos','insumos'))->with('productos',$productos,'insumos',$insumos,'insumoproductos',$insumoproductos);
     }
 
@@ -171,10 +161,12 @@ class ProductoController extends Controller
         if ($productoVenta==$id) {
             return redirect('/productos')->with('pdtnoelmdo', 'pdtnoelmdo');
     } else {
-        return redirect('/productos')->with('pdtelmdo', 'pdtelmdo');
+        
         $productos = Producto::find($id);
         $productos ->delete();
-        return redirect('/productos');
+        return redirect('/productos')->with('pdtelmdo', 'pdtelmdo');
+        
+        
     }
       
         
@@ -182,7 +174,6 @@ class ProductoController extends Controller
     public function insudestroy($id)
     {
         $insumoproducto=DB::table('insumoproducto')->select('id')->where('id', '=', $id)->pluck('id')->first();
-       
         $insumoproductos=Insumoproducto::find($id);
         $insumoproductos->delete();
         
@@ -198,5 +189,21 @@ class ProductoController extends Controller
          return redirect()->back();    
     }
 
+    public function nombrerepetido (Request $request)
+    {
 
+        $nombre=$request->nombre;
+        
+        $nombres=DB::table('productos')->select('nombre')->where('nombre', '=', $nombre)->pluck('nombre')->first();
+        return $nombres;
+        
+    }
+
+    public function getInsumoPro (Request $request)
+    {
+        $id=$request->id;
+        $insumoproductos = Insumoproducto::where('id_producto',$id)->join('insumos', 'insumoproductos.id_insumo', 'insumos.id')->select('insumos.nombre_insumo','insumoproductos.cantidad')->get();
+        echo $insumoproductos;
+        
+    }    
 }
