@@ -8,13 +8,14 @@
 <h2>Editar proveedor</h2>
 <div class="card mt-4"> 
 <div class="card-header"> 
-      
+<p class="text-danger"> Campo obligatorio (*).</p>
 <div class="card-body"> 
 <div class="row mb-3"> 
 
 
 <div class="col">
-<label for="" class="form-label">Nit/Cèdula</label>   
+<label for="" class="form-label">Nit/Cèdula</label><label class="text-danger"> *</label>
+  
 <input disabled minlength="10" maxlength="10" onkeypress="return event.charCode>= 48&& event.charCode <=57"  id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
 <!-- @if($errors->has('nit'))
 <span class="error text-danger" for="input-name">{{$errors->first('nit')}}</span>

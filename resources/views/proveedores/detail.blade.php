@@ -5,7 +5,7 @@
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
-<h2 text align="center">Detalle proveedor</h2 >
+<h2 class="pt-3">Detalle proveedor</h2>
 <div class="card mt-4"> 
 <div class="card-header"> 
       
