@@ -80,18 +80,18 @@ window.onload=function(){startTime();}
     <td style="text-align: center;">{{$proveedor->direccionempresa}}</td>
     <td id="resp{{ $proveedor->id }}">
                       @if($proveedor->estado == 1)
-                      Activado
+                      Activo
                           @else
-                     Desactivado
+                     Inactivo
                       @endif
                    </td>
     <td> 
     <!-- <form action="{{ route ('proveedores.destroy',$proveedor->id)}}" method="POST"> -->
 
     @if($proveedor->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
                         @elseif($proveedor->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Desactivar</a>
                         @endif
     
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>
