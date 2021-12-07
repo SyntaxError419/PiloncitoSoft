@@ -17,7 +17,7 @@
 <h1 class="bg text-dark text-center pt-3">Gestión de pedidos</h1>
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-<a href="pedidos/create" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
+
 
         <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">

@@ -67,6 +67,8 @@ Route::get('stockeGet',[PedidoController::class,'getStockeProductos'])->name('ge
 
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
 
+Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->name('exportExcelVentas');
+
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
 Auth::routes();
