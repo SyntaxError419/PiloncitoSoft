@@ -85,7 +85,8 @@
             @csrf
             @method('DELETE')
 <!--                <button  type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>  
- --> 
+ -->                     <a href="{{ route('pdfC',$compra->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
+
             </form>
             
         </td>

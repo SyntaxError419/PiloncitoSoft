@@ -66,6 +66,8 @@ Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient
 
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
+Route::get('pdfC/compras/{compra}', 'App\Http\Controllers\CompraController@genFacC')->name('pdfC');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

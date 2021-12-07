@@ -8,6 +8,7 @@ use App\Models\Proveedores;
 use App\Models\Detallecompra;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use PDF;
 
 
 
@@ -230,4 +231,12 @@ class CompraController extends Controller
          }
            return redirect()->back();    
      }
+     public function genFacC($id){
+        
+        $detallecompras =Detallecompra::where('id_compra',$id);
+        $compras =Compra::find($id);
+        $data = ['detallecompras'=>$detallecompras, 'compras'=>$compras];
+        return PDF::loadView('compra.pdfC', $data)->setPaper('a5', '')->setWarnings(false)->stream("$compras->id.pdfC");
+        
+    }
 }
