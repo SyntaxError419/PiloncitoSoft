@@ -37,6 +37,43 @@ class InsumoController extends Controller
     public function create()
     {
         return view ('insumo.create');
+    } 
+    
+    public  function all(Request $request)
+    { 
+        $insumos = \DB::table('insumos')
+        ->select('insumos.*')
+        ->orderBy('cantidad','DESC')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($insumos),200)->header('Content-type','text/plain');
+    } 
+    public  function all2(Request $request)
+    { 
+        $insumos = \DB::table('insumos')
+        ->select('insumos.*')
+        ->orderBy('cantidad','ASC')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($insumos),200)->header('Content-type','text/plain');
+    } 
+    public  function all3(Request $request)
+    { 
+        $insumos = \DB::table('insumos')
+        ->select('insumos.*')
+        ->orderBy('id','ASC')
+        ->get();
+
+         return response(json_encode($insumos),200)->header('Content-type','text/plain');
+    }
+ 
+    public function Reportes()
+    {
+        $insumos =Insumo::all();
+        return view('insumo.reportes')->with ('insumos',$insumos);
+
     }
 
     /**

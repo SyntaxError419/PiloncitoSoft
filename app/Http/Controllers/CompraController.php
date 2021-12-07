@@ -30,11 +30,29 @@ class CompraController extends Controller
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
         
     }
+    
+    public  function allC(Request $request)
+    { 
+        $compras = \DB::table('compras')
+        ->select('compras.*')
+        ->orderBy('totalcompra','DESC')
+        ->get();
+
+         return response(json_encode($compras),200)->header('Content-type','text/plain');
+    }
+
      public function Cancelar()
     {
          $compras =Compra::where('estado', '!=',1)->get();
          $proveedores=Proveedores::all();
         return view('compra.cancelar', compact('proveedores'))->with('compras', $compras);
+        
+    }
+    public function Reporte()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.reporte', compact('proveedores'))->with('compras', $compras);
         
     }
 

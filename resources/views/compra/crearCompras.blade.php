@@ -56,7 +56,7 @@
         
                                     <h4>Agregar insumos</h4>
                     <div class="row mb-3">
-                            <div class="col">
+                    <div class="col-lg-6">
                                                     
 
                                 <div class="mb-3">
@@ -69,7 +69,7 @@
                                         </select>                         
                                 </div> 
                             </div> 
-                        <div class="col">
+                            <div class="col-lg-6">
 
                                     <div class="form-group">
                                             <label for="">Cantidad  </label>
@@ -79,14 +79,14 @@
                                 </div> 
                     </div> 
                     <div class="row mb-3">
-                            <div class="col">
+                    <div class="col-lg-6">
 
                                     <div class="form-group">
                                             <label for="">Iva</label>
                                             <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">                  
                                     </div>
                             </div>
-                            <div class="col">
+                            <div class="col-lg-6">
 
 
                                     <div class="mb-3">

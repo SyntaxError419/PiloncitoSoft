@@ -20,7 +20,6 @@
 <h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
 
-<a href="/compras"  class="btn btn-primary mb-3"><i class="fas fa-backward"></i></a>
 
 
 @if(Session::has('success'))
@@ -79,6 +78,7 @@
 </tbody>
 </table>
 </div>
+<a href="/compras"  class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
 </div>
 </form>
 
