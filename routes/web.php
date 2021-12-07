@@ -62,7 +62,13 @@ Route::get('priceGet',[PedidoController::class,'getPrecioProducto'])->name('getP
 
 Route::get('stockGet',[PedidoController::class,'getStockProducto'])->name('getStock');
 
+Route::get('masStockGet',[PedidoController::class,'getStockMasProducto'])->name('getStockMas');
+
+Route::get('stockeGet',[PedidoController::class,'getStockeProductos'])->name('getStocke');
+
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
+
+Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->name('exportExcelVentas');
 
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
@@ -89,7 +95,9 @@ Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompr
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
+Route::get('nombrerepetido',[ProductoController::class,'nombrerepetido'])->name('nombrerepetido');
 Route::get('/insudestroy/{id}',[ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::get('insumoProGet',[ProductoController::class,'getInsumoPro'])->name('getInsumoPro');
 Route::get('cambioEstadoProducto/productos/{producto}', 'App\Http\Controllers\ProductoController@cambioEstadoProducto')->name('productos.cambioEstadoProducto');
 Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');        
 Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');

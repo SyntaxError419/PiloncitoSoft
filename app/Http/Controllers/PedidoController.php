@@ -133,9 +133,9 @@ class PedidoController extends Controller
      */
     public function edit($id)
     {
-        $clientes=Cliente::all();
+        $clientes=Cliente::where('estado', '=',1)->get();
         $ventas=Venta::find($id);
-        if ($ventas->pago==1) {
+        if ($ventas->pago==2) {
             return redirect('pedidos')->with('noEditar', 'Este pedido no se puede editar, ya está pago!');
         }
         else {
@@ -180,10 +180,9 @@ class PedidoController extends Controller
     public function destroy($id)
     {
         $venta = Venta::find($id);
-        if ($venta->pago == 1 || $venta->estado > 0) {
+        if ($venta->pago == 1 || $venta->estado != 0) {
             return redirect('pedidos')->with('error', 'El pedido no se ha podido cancelar!');    
         }else {
-
             $venta->update(['cancelado'=>1]); 
             $productId=DB::table('detalleventas')->select('id_producto')->where('id_venta', '=', $venta->id)->get();
             $productosId = array_column($productId->toArray(), 'id_producto');
@@ -282,12 +281,52 @@ class PedidoController extends Controller
         $insumosId = array_column($insumos->toArray(), 'id_insumo');
         
         foreach ($insumosId as $keyy => $valuee) {
-            $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>', ($cantidadDecremento[$keyy]*$cantidad))->pluck('cantidad')->first();
-            if ($insumosCantidad == null || $insumosCantidad == 0) {
+            $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>=', ($cantidadDecremento[$keyy]*$cantidad))->pluck('cantidad')->first();
+            if ($insumosCantidad == null ||  $insumosCantidad < 0) {
                 break;
             }
         }
         echo $insumosCantidad;
+    }
+
+    public function getStockMasProducto(Request $request){
+        $insumosCantidad=0;
+        $idProducto = (int)$request->idProducto;
+        $cantidad = (int)$request->masCant;
+        $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $idProducto)->get();
+        $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $idProducto)->get();
+        $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+        $insumosId = array_column($insumos->toArray(), 'id_insumo');
+        
+        foreach ($insumosId as $keyy => $valuee) {
+            $insumosCantidad=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->where('cantidad', '>=', ($cantidadDecremento[$keyy]*$cantidad))->pluck('cantidad')->first();
+            if ($insumosCantidad == null || $insumosCantidad < 0) {
+                break;
+            }
+        }
+        echo $insumosCantidad;
+    }
+
+
+    public function getStockeProductos(Request $request){
+        $insumo = 0;
+        foreach ($request->arrayProductos as $key => $value) {
+            DB::beginTransaction();
+            $insumos=DB::table('insumoproductos')->select('id_insumo')->where('id_producto', '=', $value["idProducto"])->get();
+            $cantidadde=DB::table('insumoproductos')->select('cantidad')->where('id_producto', '=', $value["idProducto"])->get();
+            $cantidadDecremento = array_column($cantidadde->toArray(), 'cantidad');
+            $insumosId = array_column($insumos->toArray(), 'id_insumo');
+            foreach ($insumosId as $keyy => $valuee) {
+                DB::table('insumos')->where('id', '=', $valuee)->decrement('cantidad', $cantidadDecremento[$keyy]*(int)$request ->arrayProductos[$key]["cantidad"]);
+                $insumo=DB::table('insumos')->select('cantidad')->where('id', '=', $valuee)->pluck('cantidad')->first();
+                if ($insumo < 0) {
+                    DB::rollBack();
+                    break;
+                }
+            }
+        }
+        echo $insumo;
+        DB::rollBack();
     }
 
     public function codId(){

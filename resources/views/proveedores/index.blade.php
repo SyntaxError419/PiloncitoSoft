@@ -56,12 +56,12 @@ window.onload=function(){startTime();}
 <tr>
     
 <!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nit</th>
+<th style=" text-align: center;" scope="col">Nit/Cèdula</th>
 <th style=" text-align: center;" scope="col">Nombre Contacto</th>
-<th style=" text-align: center;" scope="col">Correo</th>
-<th style=" text-align: center;" scope="col">Numero Contacto</th>
+<th style=" text-align: center;" scope="col">Correo C</th>
+<th style=" text-align: center;" scope="col">Nùmero Contacto</th>
 <th style=" text-align: center;" scope="col">Empresa</th>
-<th style=" text-align: center;" scope="col">Direccion Empresa</th>
+<th style=" text-align: center;" scope="col">Direcciòn Empresa</th>
 <th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;"scope="col">Acciones</th>
 </tr>  
@@ -97,11 +97,6 @@ window.onload=function(){startTime();}
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>
   
     <a  href="/proveedores/{{$proveedor->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-    <!-- @csrf
-    @method('DELETE')
-    
-    <button width="5px;" type="submit" class="btn btn-sm btn-danger" onclick="return confirm ('¿Estas seguro que deseas eliminar este registro?')" ><i class="fas fa-trash"></i>Eliminar</button>  -->
-    
 </form>
 
     </td>  
@@ -119,6 +114,26 @@ window.onload=function(){startTime();}
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+
+@if(session('edit') == 'True')
+    <script>
+        Swal.fire(
+        '¡Editado!',
+        'El proveedor ha sido editado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+
+@if(session('guardar') == 'True')
+    <script>
+        Swal.fire(
+        'Guardado!',
+        'El proveedor se ha registrado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
 
 
 <script type="text/javascript">

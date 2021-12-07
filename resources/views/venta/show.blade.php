@@ -76,7 +76,7 @@
                                 <td>{{$fechaestados[$i]->fecha}}</td>
                                 @php($f=5)
                         @else
-                                <td>-</td>
+                                <td>{{$fechaestados[$i]->fecha}}</td>
                         @endif
                         @php($k++)
                     @endfor
