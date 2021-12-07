@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\InsumoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +68,8 @@ Route::get('stockeGet',[PedidoController::class,'getStockeProductos'])->name('ge
 
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
 
+Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->name('exportExcelVentas');
+
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
 Auth::routes();
@@ -77,6 +80,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
+Route::get('cancelar', [App\Http\Controllers\CompraController::class, 'cancelar'])->name('cancelar');
+
+Route::get('reporte', [App\Http\Controllers\CompraController::class, 'reporte'])->name('reporte');
+Route::get('reportes', [App\Http\Controllers\InsumoController::class, 'reportes'])->name('reportes');
+
+Route::post('/reporte/allC/',[CompraController::class,'allC'])->name('allC');
+
+Route::post('/reportes/all/',[InsumoController::class,'all'])->name('all');
+Route::post('/reportes/all2/',[InsumoController::class,'all2'])->name('all2');
+Route::post('/reportes/all3/',[InsumoController::class,'all3'])->name('all3');
 
 Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompra');
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');

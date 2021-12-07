@@ -10,6 +10,8 @@ use App\Models\Producto;
 use App\Models\Fechaestado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Exports\VentasExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VentaController extends Controller
 {
@@ -93,5 +95,10 @@ class VentaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function exportExcelVentas()
+    {
+        return Excel::download(new VentasExport, 'ventas.xlsx');
     }
 }

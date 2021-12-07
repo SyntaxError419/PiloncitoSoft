@@ -17,7 +17,8 @@
 <h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
 <a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-
+<a  href="/cancelar"  class="btn btn-danger mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
+<a  href="/reporte"  class="btn btn-primary mb-3 " style="float: right;">   <i class="far fa-chart-bar"></i></a> 
 
 @if(Session::has('success'))
 <div class="card">
@@ -398,7 +399,7 @@
                                 });
                         
                               Swal.fire(
-                                '¡Compra Desactivada!',
+                                '¡Compra Cancelada!',
                                 '',
                                 'success'
                                 );
