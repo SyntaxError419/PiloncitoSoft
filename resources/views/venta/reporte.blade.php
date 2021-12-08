@@ -60,7 +60,7 @@
 </div>
 
 
-    <h4>Total de ganancias</h4>
+    <h4>Total de ganancias:</h4>
     <p>${{number_format($totalventas)}}</p>
     
 
