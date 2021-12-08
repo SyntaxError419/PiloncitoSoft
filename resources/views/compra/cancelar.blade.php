@@ -6,7 +6,7 @@
 @endsection
 
 @section('contenido')
-@section('title', 'Compras')
+@section('title', 'Cancelar')
 
 <!DOCTYPE html>
 <html>
@@ -14,11 +14,13 @@
 
 
 <body>
+<form action="{{ route('cancelar')}}" method ="POST" >      
+    
+                @csrf
 <h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
-<a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-<a  href="/cancelar"  class="btn btn-danger mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
-<a  href="/reporte"  class="btn btn-primary mb-3 " style="float: right;">   <i class="far fa-chart-bar"></i></a> 
+
+
 
 @if(Session::has('success'))
 <div class="card">
@@ -37,7 +39,9 @@
 @endforeach
 </div>
 @endif
-
+<div class="card-header">
+<h3 class="m-9">Compras canceladas</h3>
+<div class="card-body">
 <table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
     <thead class="bg-primary text-white">  
 <tr> 
@@ -46,7 +50,7 @@
       <th scope="col">Proveedor</th>
       <th scope="col">Total de la compra</th>
       <th scope="col">Estado</th>
-      <th scope="col">Acciones</th>
+      <th scope="col">Opciones</th>
 
 
     </tr>
@@ -63,37 +67,20 @@
                       @if($compra->estado == 1)
                       Activa
                           @else
-                     Inactiva
+                     Cancelada
                       @endif
         </td>
-
-
-
         <td>
-
-            <form action="{{route ('compras.destroy',$compra->id)}}"  class="d-inline formulario-eliminar" method="POST"> 
-
-                        @if($compra->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
-                        @elseif($compra->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$compra->estado}},{{$compra->id}},event)" href="{{ route('compras.cambioEstadoCompra',$compra) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Cancelar</a>
-                        @endif
-             
-<!--             <a href="/compras/{{ $compra->id }}/edit" class="btn btn-sm btn-primary">Editar</a>
- -->            <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-
-            @csrf
-            @method('DELETE')
-<!--                <button  type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>  
- -->                     <a href="{{ route('pdfC',$compra->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>
-
-            </form>
-            
+           <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a> 
         </td>
     </tr>
     @endforeach
 </tbody>
 </table>
+</div>
+<a href="/compras"  class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
+</div>
+</form>
 
 
 
@@ -106,35 +93,6 @@
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 
-@if(session('guardar') == 'True')
-    <script>
-        Swal.fire(
-        'Guardado!',
-        'La compra se ha registrado correctamente.',
-        'success'
-        ) 
-    </script>
-@endif
-
-@if(session('cancelar') == 'True')
-    <script>
-        Swal.fire(
-        '¡Eliminado!',
-        'La compra ha sido eliminada.',
-        'success'
-        ) 
-    </script>
-@endif  
-
-@if(session('error') == 'True')
-    <script>
-        Swal.fire(
-        '¡Error!',
-        'La compra no ha sido desactivada.',
-        'error'
-        ) 
-    </script>
-@endif
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -349,106 +307,9 @@
 
       
 });
-
-                $('.formulario-eliminar').submit(function(e){
-                    e.preventDefault();
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¡No podrás revertir esto!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo eliminar la compra!',
-                        cancelButtonText: 'No,deseo volver '
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            this.submit();
-                        }
-                    })
-                });      
-
-</script>
-
-<script type="text/javascript"> 
-
-
-    function confirmarDesactivar(estado,id,e){ 
-                    e.preventDefault();
-                    if (estado) {
-                        Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¡No podrás revertir esto!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: '¡Sí, deseo cancelar la compra!',     
-                        cancelButtonText: 'No,deseo volver '
-                        }).then((result) => {
-                        if (result.value ==true ) {
-                            $.ajax({
-                                    type: "GET",
-                                    dataType: "json",
-                                    url: 'cambioEstadoCompra/compras/'+id,
-                                    data: {'estado': estado, 'id': id},
-                                    success: function(data){
-                                        $('#resp' + id).html(data.var); 
-                                        console.log(data.var)
-                                    }
-                                    
-                                });
-                        
-                              Swal.fire(
-                                '¡Compra Cancelada!',
-                                '',
-                                'success'
-                                );
-                             window.location.href="/compras";
-
-                        }
-                    })
-                    }else{
-                        Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¡No podrás revertir esto!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo activar la compra!',     
-                        cancelButtonText: 'No,deseo volver '
-                        }).then((result) => {
-                        if (result.value ==true ) {
-                            $.ajax({
-                                    type: "GET",
-                                    dataType: "json",
-                                    //url: '/StatusNoticia',
-                                    url: 'cambioEstadoCompra/compras/'+id,
-                                    data: {'estado': estado, 'id': id},
-                                    success: function(data){
-                                        $('#resp' + id).html(data.var); 
-                                        console.log(data.var)
-                                    
-                                   }
-                                    
-                                });
-                        
-                              Swal.fire(
-                                '¡Compra Activado!',
-                                '',
-                                'success'
-                                );
-                                window.location.href="/compras";
- 
-                        }
-                    })
-                    }  
-
-                }
-    
 </script>
 </body>
 </html> 
 @endsection
 @endsection
+                

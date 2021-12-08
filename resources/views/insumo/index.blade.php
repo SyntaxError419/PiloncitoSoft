@@ -34,6 +34,7 @@
 
 
 <a href="insumos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
+<a href="/reportes"  class="btn btn-primary mb-3 mr-2 " style="float: right;">     <i class="far fa-chart-bar"></i></a> 
 
       
         <table id="insumos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
