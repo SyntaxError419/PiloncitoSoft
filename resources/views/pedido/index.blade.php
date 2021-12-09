@@ -19,7 +19,7 @@
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
 
-        <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+        <table id="pedidos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
           <thead class="bg-primary text-white">
             <tr>
                 <th scope="col">Id. Recibo</th>
@@ -167,7 +167,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaPedidos=$('#pedidos').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+    tablaPedidos=$('#pedidos').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "asc" ]],
         language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",

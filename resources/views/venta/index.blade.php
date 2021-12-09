@@ -16,7 +16,7 @@
 
 <h1 class="bg text-dark text-center pt-3">Gestión de ventas</h1>
 
-<a href="{{ route('exportExcelVentas') }}" style="float:" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
+<a href="{{ route('reporteVenta') }}" style="float:" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
     
     <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
         <thead class="bg-primary text-white">

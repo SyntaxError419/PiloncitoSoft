@@ -72,6 +72,16 @@ Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->na
 
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
+Route::get('ventaReportes', [VentaController::class, 'reportes'])->name('reporteVenta');
+
+Route::post('/reportes/allV/',[VentaController::class,'allV'])->name('allV');
+
+Route::post('/reportes/allV2/',[VentaController::class,'allV2'])->name('allV2');
+
+Route::post('/reportes/allV3/',[VentaController::class,'allV3'])->name('allV3');
+
+Route::post('/reportes/allV4/',[VentaController::class,'allV4'])->name('allV4');
+
 Route::get('pdfC/compras/{compra}', 'App\Http\Controllers\CompraController@genFacC')->name('pdfC');
 
 Auth::routes();

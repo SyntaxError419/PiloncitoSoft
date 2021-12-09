@@ -16,7 +16,7 @@
 <body>
 <form action="{{ route('reporte')}}" method ="POST" >          
  @csrf
-<h1 class="bg text-dark text-center mt">Reporte  de Compras</h1>
+<h1 class="bg text-dark text-center mt">Reporte de Compras</h1>
 
 
 <a href="/compras"  class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>

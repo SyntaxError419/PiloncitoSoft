@@ -62,7 +62,24 @@
 
     <h4>Total de ganancias:</h4>
     <p>${{number_format($totalventas)}}</p>
-    
+<div><br></div>
+
+<div class="row mt-3">
+<div class="col-lg-6">
+    <h4 class="text-danger">Cantidad de productos vendidos:</h4>
+    <tbody>
+        @foreach ($proMasVenNoO as $key => $value)
+        <tr>
+            <td colspan="2">{{$value}}</td>
+            <td colspan="2">{{$proMasVenNuU[$key]}}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</div>
+
+
+
+</div>
 
      <!-- jquery y bootstrap -->
  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   

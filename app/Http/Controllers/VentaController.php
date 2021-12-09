@@ -97,7 +97,80 @@ class VentaController extends Controller
         //
     }
 
-    public function exportExcelVentas()
+    public function Reportes()
+    {
+        $ventas =Venta::all();
+        return view('venta.vistaReporte')->with ('ventas',$ventas);
+    }
+
+    public  function allV(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+        $proMasVenNo = DB::table('ventas as v')
+        ->join('detalleventas as dv', 'v.id' ,'=', 'dv.id_venta')
+        ->join('productos as p', 'p.id' ,'=', 'dv.id_producto')
+        ->selectRaw('p.nombre, sum(dv.cantidad) as coun')
+        ->where('v.cancelado',0)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('dv.id_producto', 'p.nombre')
+        ->orderBy('coun','DESC')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allV2(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $proMenosVenNo = DB::table('ventas as v')
+        ->join('detalleventas as dv', 'v.id' ,'=', 'dv.id_venta')
+        ->join('productos as p', 'p.id' ,'=', 'dv.id_producto')
+        ->selectRaw('p.nombre, sum(dv.cantidad) as coun')
+        ->where('v.cancelado',0)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('p.id', 'p.nombre')
+        ->orderBy('coun','ASC')
+        ->take(3)
+        ->get();
+
+         return response(json_encode($proMenosVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allV3(Request $request)
+    {   
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $pedidoscanc = DB::table('ventas')
+        ->selectRaw('cancelado, count(cancelado = 0) as pedidos')
+        ->whereBetween('fecha', [$desde, $hasta])
+        ->groupBy('cancelado')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
+    }
+
+    public  function allV4(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $pedidoscanc = DB::table('ventas as v')
+        ->selectRaw('v.formaPago, sum(v.total) as total')
+        ->where('v.cancelado',0)
+        ->Where('v.pago',1)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('v.formaPago')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
+    }
+
+    public function exportExcelVentas(Request $request)
     {
         return Excel::download(new VentasExport, 'ventas.xlsx');
     }
