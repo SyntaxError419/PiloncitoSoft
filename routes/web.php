@@ -72,6 +72,8 @@ Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->na
 
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
 
+Route::get('pdfC/compras/{compra}', 'App\Http\Controllers\CompraController@genFacC')->name('pdfC');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
