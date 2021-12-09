@@ -56,14 +56,14 @@ window.onload=function(){startTime();}
 <tr>
     
 <!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nit</th>
+<th style=" text-align: center;" scope="col">Nit/Cèdula</th>
 <th style=" text-align: center;" scope="col">Nombre Contacto</th>
-<th style=" text-align: center;" scope="col">Correo</th>
-<th style=" text-align: center;" scope="col">Numero Contacto</th>
+<th style=" text-align: center;" scope="col">Correo C</th>
+<th style=" text-align: center;" scope="col">Nùmero Contacto</th>
 <th style=" text-align: center;" scope="col">Empresa</th>
-<th style=" text-align: center;" scope="col">Direccion Empresa</th>
+<th style=" text-align: center;" scope="col">Direcciòn Empresa</th>
 <th style=" text-align: center;" scope="col">Estado</th>
-<th style="text-align: center;"scope="col">Acciones</th>
+<th style="text-align: center;" scope="col">Acciones</th>
 </tr>  
 
 </thead>
@@ -80,18 +80,18 @@ window.onload=function(){startTime();}
     <td style="text-align: center;">{{$proveedor->direccionempresa}}</td>
     <td id="resp{{ $proveedor->id }}">
                       @if($proveedor->estado == 1)
-                      Activado
+                      Activo
                           @else
-                     Desactivado
+                     Inactivo
                       @endif
                    </td>
     <td> 
     <!-- <form action="{{ route ('proveedores.destroy',$proveedor->id)}}" method="POST"> -->
 
     @if($proveedor->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar"  >Desactivado</a>
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
                         @elseif($proveedor->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Activado</a>
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Desactivar</a>
                         @endif
     
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>

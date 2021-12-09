@@ -133,6 +133,14 @@ class ProveedoresController extends Controller
      * @return \Illuminate\Http\Response
      */
  
-    
+    public function cambioEstadoProveedor (Proveedores $proveedores)
+    {
+         if($proveedores->estado == 0)  {
+             $proveedores->update(['estado'=>1]);
+         }elseif ($proveedores->estado == 1) {
+             $proveedores->update(['estado'=>0]);
+         }else{}
+         return redirect()->back();    
+    }
 
 }

@@ -1,86 +1,102 @@
-@extends('layouts.plantillabase')   
+@extends('layouts.plantillabase')
 
 @section('css')
+<link href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
-<link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 @endsection
 
-
 @section('contenido')
-<script type="text/javascript" >
-function startTime(){
-today=new Date();
-h=today.getHours();
-m=today.getMinutes();
-s=today.getSeconds();
-m=checkTime(m);
-s=checkTime(s);
-document.getElementById('reloj').innerHTML=h+":"+m+":"+s;
-t=setTimeout('startTime()',500);}
-function checkTime(i)
-{if (i<10) {i="0" + i;}return i;}
-window.onload=function(){startTime();}
-</script>
-<div id="reloj" text align="right" style="font-size:15px;"></div> 
+@section('title', 'Cancelar')
 
-<h1 class="bg text-dark text-center mt">Gestión de USUARIOS</h1>
-
-<br>
-<a href="users/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
-<br>
-<br>
-   
-
-<table id="users" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-<thead class="bg-primary text-white">
+<!DOCTYPE html>
+<html>
+<head>
 
 
-<tr>
+<body>
+<form action="{{ route('cancelar')}}" method ="POST" >      
     
-<!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nombre</th>
-<th style=" text-align: center;" scope="col">Correo</th>
-<th style=" text-align: center;" width="100px" scope="col">Acciones</th>
-</tr>  
+                @csrf
+<h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
+
+
+
+@if(Session::has('success'))
+<div class="card">
+    <div class="alert alert-success" role="alert">
+    {{Session::get('success')}}
+    </div>
+</div>
+@endif
+@if ($errors-> any())
+<div class="class-card">
+@foreach ($errors->all() as $value)
+<div class="alert alert-danger" role="alert">   
+
+    {{$value}}
+    </div>
+@endforeach
+</div>
+@endif
+<div class="card-header">
+<h3 class="m-9">Compras canceladas</h3>
+<div class="card-body">
+<table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
+    <thead class="bg-primary text-white">  
+<tr> 
+      <th scope="col">Numero de recibo</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Proveedor</th>
+      <th scope="col">Total de la compra</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Opciones</th>
+
+
+    </tr>
 </thead>
-
 <tbody>
-@foreach ($users as $user)
-<tr>
-    <!-- <td style="text-align: center;">{{$user->id}}</td> -->
-    <td style="text-align: center;">{{$user->name}}</td>
-    <td style="text-align: center;">{{$user->email}}</td>
 
-    <td> 
-    <form action="{{ route ('users.destroy',$user->id)}}" method="POST">
-    <a  href="/users/{{$user->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>
-  
-   
-    
-    
+@foreach ($compras as $compra)
+    <tr>
+        <td>{{$compra->numReciboCompra}}</td>
+        <td>{{$compra->fecha}}</td>
+        <td>{{$compra->proveedores->nombrecontacto}}</td>
+        <td>${{number_format($compra->totalcompra)}}</td>
+        <td id="resp{{ $compra->id }}">
+                      @if($compra->estado == 1)
+                      Activa
+                          @else
+                     Cancelada
+                      @endif
+        </td>
+        <td>
+           <a href="/compras/{{ $compra->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a> 
+        </td>
+    </tr>
+    @endforeach
+</tbody>
+</table>
+</div>
+<a href="/compras"  class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
+</div>
 </form>
 
-    </td>  
-    
-    </td>
-</tr>
-
-@endforeach
-</tbody>
-
-</table>
 
 
 @section('js')
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
- 
+
+
 <script type="text/javascript">
   $(document).ready(function() {
-    tablaUsuarios=$('#users').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+    tablaCompras=$('#compras').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
         language:{
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
@@ -285,13 +301,15 @@ window.onload=function(){startTime();}
     "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
 } 
 
-    });      
+    });
+    
+
+
+      
 });
 </script>
-
+</body>
+</html> 
 @endsection
-
-
-
-
 @endsection
+                

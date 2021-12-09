@@ -8,6 +8,7 @@ use App\Models\Proveedores;
 use App\Models\Detallecompra;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use PDF;
 
 
 
@@ -28,6 +29,31 @@ class CompraController extends Controller
          $proveedores=Proveedores::all();
 
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
+        
+    }
+    
+    public  function allC(Request $request)
+    { 
+        $compras = \DB::table('compras')
+        ->select('compras.*')
+        ->orderBy('totalcompra','DESC')
+        ->get();
+
+         return response(json_encode($compras),200)->header('Content-type','text/plain');
+    }
+
+     public function Cancelar()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.cancelar', compact('proveedores'))->with('compras', $compras);
+        
+    }
+    public function Reporte()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.reporte', compact('proveedores'))->with('compras', $compras);
         
     }
 
@@ -205,4 +231,12 @@ class CompraController extends Controller
          }
            return redirect()->back();    
      }
+     public function genFacC($id){
+        
+        $detallecompras =Detallecompra::where('id_compra',$id);
+        $compras =Compra::find($id);
+        $data = ['detallecompras'=>$detallecompras, 'compras'=>$compras];
+        return PDF::loadView('compra.pdfC', $data)->setPaper('a5', '')->setWarnings(false)->stream("$compras->id.pdfC");
+        
+    }
 }

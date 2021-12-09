@@ -5,7 +5,7 @@
 <form action="/proveedores/{{$proveedores->id}}" method="POST">
 @csrf
 @method ('PUT')
-<h2 text align="center">Detalle proveedor</h2 >
+<h2 class="pt-3">Detalle proveedor</h2>
 <div class="card mt-4"> 
 <div class="card-header"> 
       
@@ -14,7 +14,7 @@
 
 
 <div class="col">
-<label for="" class="form-label">Nit/Cedula</label>   
+<label for="" class="form-label">Nit/Cèdula</label>   
 <input  disabled   id="nit" name="nit" type="text" class="form-control" value="{{$proveedores->nit}}"> 
 </div>
 
@@ -34,7 +34,7 @@
 
 
 <div class="col">
-<label for="" class="form-label">Numero Contacto</label>   
+<label for="" class="form-label">Nùmero Contacto</label>   
 <input  id="numerocontacto" name="numerocontacto" type="text"  disabled class="form-control" value="{{$proveedores->numerocontacto}}"> 
 </div>
 </div>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="col">
-<label for="" class="form-label">Direccion Empresa</label>   
+<label for="" class="form-label">Direcciòn Empresa</label>   
 <input id="direccionempresa" name="direccionempresa" type="text" class="form-control" disabled value="{{$proveedores->direccionempresa}}"> 
 </div>
    

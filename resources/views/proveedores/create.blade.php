@@ -9,13 +9,13 @@
        <h2 class="pt-3">Crear proveedor</h2>
        <div class="card mt-4"> 
        <div class="card-header"> 
-       <p class="text-danger">* Campo obligatorio.</p>
+       <p class="text-danger"> Campo obligatorio (*).</p>
         <div class="card-body"> 
         <div class="row mb-3"> 
 
                 <div class="col"> 
-                  <label for="" class="form-label">Nit/Cedula</label><label class="text-danger"> *</label>
-                  <input  maxlength="10"  placeholder="Ingrese NIT o Cedula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
+                  <label for="" class="form-label">Nit/Cèdula</label><label class="text-danger"> *</label>
+                  <input maxlength="10"  placeholder="Ingrese NIT o Cùdula" value="{{ old('nit')}}" onkeypress="return event.charCode>= 48&& event.charCode <=57" id="nit" name="nit" type="text" class="form-control" tabindex="1"> 
                   @if($errors->has('nit'))
                   <span class="error text-danger" for="input-name">{{$errors->first('nit')}}</span>
                   @endif
@@ -34,7 +34,7 @@
 
               <div class="row mb-3">
               <div class="col">
-              <label for="" class="form-label">Correo Contacto</label><label class="text-danger"> *</label>   
+              <label for="" class="form-label">Correo C</label><label class="text-danger"> *</label>   
               <input  placeholder="Ingrese el Correo Electronico" value="{{ old('correocontacto')}}"   id="correocontacto" name="correocontacto" type="text" class="form-control" tabindex="3"> 
                @if($errors->has('correocontacto'))
               <span class="error text-danger" for="input-name">{{$errors->first('correocontacto')}}</span>
@@ -44,8 +44,8 @@
                 
                 
               <div class="col">
-              <label for="" class="form-label">Numero Contacto</label><label class="text-danger"> *</label>   
-              <input maxlength="10" placeholder="Ingrese el Numero De telefono" value="{{ old('numerocontacto')}}"    onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text" class="form-control" tabindex="4"> 
+              <label for="" class="form-label">Nùmero Contacto</label><label class="text-danger"> *</label>   
+              <input maxlength="10" placeholder="Ingrese el Nùmero De telefono" value="{{ old('numerocontacto')}}"    onkeypress="return event.charCode>= 48&& event.charCode <=57" id="numerocontacto" name="numerocontacto" type="text" class="form-control" tabindex="4"> 
               @if($errors->has('numerocontacto'))
              <span class="error text-danger" for="input-name">{{$errors->first('numerocontacto')}}</span>
              @endif
@@ -64,8 +64,8 @@
             
 
             <div class="col"> 
-            <label for="" class="form-label">Direccion Empresa</label><label class="text-danger"> *</label>   
-            <input  placeholder="Ingrese La Direccion de la Empresa" value="{{ old('direccionempresa')}}"  id="direccionempresa" name="direccionempresa" type="text" class="form-control" tabindex="6"> 
+            <label for="" class="form-label">Direcciòn Empresa</label><label class="text-danger"> *</label>   
+            <input  placeholder="Ingrese La Direcciòn de la Empresa" value="{{ old('direccionempresa')}}"  id="direccionempresa" name="direccionempresa" type="text" class="form-control" tabindex="6"> 
             @if($errors->has('direccionempresa'))
            <span class="error text-danger" for="input-name">{{$errors->first('direccionempresa')}}</span>
            @endif

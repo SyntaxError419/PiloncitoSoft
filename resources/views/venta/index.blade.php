@@ -16,51 +16,51 @@
 
 <h1 class="bg text-dark text-center pt-3">Gestión de ventas</h1>
 
-<h1 class="bg text-dark text-center pt-4"></h1>
-      
-        <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-          <thead class="bg-primary text-white">
+<a href="{{ route('exportExcelVentas') }}" style="float:" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
+    
+    <table id="ventas" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+        <thead class="bg-primary text-white">
+        <tr>
+            <th scope="col">Id. Recibo</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Forma de pago</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+            @foreach ($ventas as $venta)
             <tr>
-                <th scope="col">Id. Recibo</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Total</th>
-                <th scope="col">Forma de pago</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          
-          <tbody>
-              @foreach ($ventas as $venta)
-              <tr>
-                  <td>{{$venta->id_recibo}}</td>
-                  <td>{{$venta->clientes->nombre}}</td>
-                  <td>{{$venta->fecha}}</td>
-                  <td>${{number_format($venta->total)}}</td> 
-                  <td>{{$venta->formaPago}}</td>
-                  <td>
-                  @if($venta->estado == 0)
-                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary camEstado">Por iniciar</a>
-                    @elseif($venta->estado == 1)
-                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger camEstado">En proceso</a>
-                    @elseif($venta->estado == 2)
-                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning camEstado">Por entregar</a>
-                    @elseif($venta->estado == 3)
-                        <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
-                    @else
-                        <p>Entregado</p>
-                    @endif
-                  </td>
-                  <td>                  
-                    <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
-                    <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>  
+                <td>{{$venta->id_recibo}}</td>
+                <td>{{$venta->clientes->nombre}}</td>
+                <td>{{$venta->fecha}}</td>
+                <td>${{number_format($venta->total)}}</td> 
+                <td>{{$venta->formaPago}}</td>
+                <td>
+                @if($venta->estado == 0)
+                    <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-primary camEstado">Por iniciar</a>
+                @elseif($venta->estado == 1)
+                    <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-danger camEstado">En proceso</a>
+                @elseif($venta->estado == 2)
+                    <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-warning camEstado">Por entregar</a>
+                @elseif($venta->estado == 3)
+                    <a onclick= "return cambioEstado({{$venta->estado}},{{$venta->id}},event)" href="{{ route('pedidos.cambioEstadoPedido',$venta) }}" type="button" class="btn btn-sm btn-success">En entrega</a>
+                @else
+                    <p>Entregado</p>
+                @endif
                 </td>
-               </tr>
-               @endforeach
-           </tbody>
-      </table>
-      <div class="pt-4"></div>
+                <td>                  
+                <a href="/ventas/{{$venta->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+                <a href="{{ route('pdf',$venta->id) }}" target="_blank" class="btn btn-sm btn-info"><i class="fas fa-receipt"></i></a>  
+            </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+<div class="pt-4"></div>
 
 
 
