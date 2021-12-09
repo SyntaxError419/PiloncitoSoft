@@ -1,41 +1,53 @@
 @extends('layouts.plantillabase') 
 
 @section('contenido')
-<h1 text align= "Center">Crear un usuario</h1>
-<br>
-
 <form action="/users" method="POST">
-
 <!-- metodo >> --> @csrf
 
-<div class="mb-3">
-<label for="" class="form-label">Nombre</label>   
+<h2 class="pt-3">Crear usuario</h2>
+       <div class="card mt-4"> 
+       <div class="card-header"> 
+       <p class="text-danger"> Campo obligatorio (*).</p>
+        <div class="card-body"> 
+        <div class="row mb-3"> 
+
+
+
+
+
+
+<div class="col"> 
+<label for="" class="form-label">Nombre</label><label class="text-danger"> *</label>   
 <input id="name" name="name" type="text" class="form-control" tabindex="1"> 
 </div>
 
-
-<div class="mb-3">
-<label for="" class="form-label">Correo</label>   
+<div class="col">
+<label for="" class="form-label">Correo</label><label class="text-danger"> *</label>    
 <input id="email" name="email" type="text" class="form-control" tabindex="2"> 
 </div>
+</div> 
 
-
-<div class="mb-3">
-<label for="" class="form-label">Password</label>   
+<div class="row mb-3">
+<div class="col">
+<label for="" class="form-label">Password</label><label class="text-danger"> *</label>   
 <input id="password" name="password" type="password" class="form-control" tabindex="2"> 
 </div>
 
-<div class="mb-3">
-<label for="" class="form-label">Confirm Password</label>   
+
+<div class="col">
+<label for="" class="form-label">Confirm Password</label><label class="text-danger"> *</label>  
 <input id="password" name="password" type="password" class="form-control" tabindex="2"> 
 </div>
 
+     
+</div> 
+        </div>
+      </div>  
+    </div>     
 
     
-<a href="/users" class="btn btn-danger" tabindex="5"><i class="fas fa-backward"></i> Cancelar</a>
-<button type="refresh" class="btn btn-primary" tabindex="4 "><i class="fas fa-sync-alt"></i> Refrescar</button>
-<button  type="submit" class="btn btn-success"  tabindex="4 "><i class="fas fa-save"></i> Guardar </button>
-
+<a href="/users" class="btn btn-secondary"tabindex="7"><i class="fas fa-backward"></i></a>
+<button style="float: right;"  type="submit"  class="btn btn-success"   tabindex="8"><i class="fas fa-check"></i></button>
 
 </form>
 @endsection

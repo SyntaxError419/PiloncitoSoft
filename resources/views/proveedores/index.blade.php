@@ -63,7 +63,7 @@ window.onload=function(){startTime();}
 <th style=" text-align: center;" scope="col">Empresa</th>
 <th style=" text-align: center;" scope="col">Direcciòn Empresa</th>
 <th style=" text-align: center;" scope="col">Estado</th>
-<th style="text-align: center;"scope="col">Acciones</th>
+<th style="text-align: center;" scope="col">Acciones</th>
 </tr>  
 
 </thead>
