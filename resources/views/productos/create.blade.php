@@ -153,7 +153,7 @@ h3, h4 {text-align: right}
                     e.preventDefault();
                         Swal.fire({
                     title: 'Crear Producto',
-                    text: "¿Está seguro de crear éste producto?",
+                    text: "¿Está seguro de crear este producto?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

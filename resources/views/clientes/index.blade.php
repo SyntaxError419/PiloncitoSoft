@@ -53,11 +53,13 @@
                                             
                       
                       @if($cliente->estado == 0)
-                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-desactivar">Activar</a>
+                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar">Activar</a>
                         @elseif($cliente->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-primary d-inline formulario-activar">Desactivar</a>
+                        <a  onclick= "return confirmarDesactivar({{$cliente->estado}},{{$cliente->id}},event)" href="{{ route('clientes.cambioEstadoCliente',$cliente) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Inactivar</a>
                         @endif
+                        @if($cliente->estado == 1)
                         <a href="/clientes/{{$cliente->id}}/edit" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a> 
+                        @endif
                       <a href="/clientes/{{$cliente->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>       
                             @csrf
                             
@@ -86,7 +88,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     tablaClientes= $('#clientes').DataTable({ 
-        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 4, "asc" ]],
     
     language: {
         "decimal": "",
@@ -135,24 +137,7 @@ $('.mi_checkbox').change(function() {
       
 });
 
-tablaUsuarios = $('#tablaUsuarios').DataTable({  
-    "ajax":{            
-        "url": "bd/crud.php", 
-        "method": 'POST', //usamos el metodo POST
-        "data":{opcion:opcion}, //enviamos opcion 4 para que haga un SELECT
-        "dataSrc":""
-    },
-    "columns":[
-        {"data": "user_id"},
-        {"data": "username"},
-        {"data": "first_name"},
-        {"data": "last_name"},
-        {"data": "gender"},
-        {"data": "password"},
-        {"data": "status"},
-        {"defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='material-icons'>edit</i></button><button class='btn btn-danger btn-sm btnBorrar'><i class='material-icons'>delete</i></button></div></div>"}
-    ]
-});     
+ 
       
  
 

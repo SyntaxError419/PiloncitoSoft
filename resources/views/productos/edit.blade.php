@@ -1,6 +1,10 @@
+
 @extends('layouts.plantillabase')
+
 @section('contenido')
+
 @section('title', 'Producto')
+
 <style type="text/css">
 h1 {text-align: center}
 h2 {text-align: left}
@@ -20,6 +24,7 @@ h3, h4 {text-align: right}
             <p class="text-danger">Campo obligatorio (*).</p>
                 <div class="row mb-3">
                         <div class="col">
+                        <input type="hidden" id="idProd" name="idProd" value="{{ $productos->id}}">
                             <label for="" class="form-label">Nombre</label><label class="text-danger"> *</label>
                             <input id="nombre" name="nombre" class="form-control" value="{{$productos->nombre}}" tabindex="1" lang="es">
                             @if($errors->has('nombre'))
@@ -33,11 +38,13 @@ h3, h4 {text-align: right}
                             @if($errors->has('precio'))
                                 <span class="error text-danger" for="input-name">{{$errors->first('precio')}}</span>
                             @endif
+
+                            
                         </div>
                 </div>
 
-                <input type="hidden" id="idPro" name="idPro" class="form-control" value="{{$productos->id}}" lang="es">
-
+                
+                
                 <div class="row mb-3">
                         <div class="col">
                         <label for="" class="form-label" class="crearPdt">Insumo</label>
@@ -63,6 +70,7 @@ h3, h4 {text-align: right}
                     </div>
                 </div>    
                 <div class="card-body">
+                <label for="cantidad">Deatalle de insumos añadidos</label>
                     <table class="table bg-gray table-bordered shadow-lg mb-2" style="border-radius: 7px;">
                             <thead>
                                 <tr>
@@ -73,27 +81,8 @@ h3, h4 {text-align: right}
                                 </tr>
                             </thead>
                             <tbody >
-                            <tbody class="table bg-white" id="cajaDetallee" >
+                            <tbody class="table bg-white" id="cajaDetalle" >
                             
-                  
-                            @foreach ($insumoproductos as $in)
-              
-                            <tr>
-                            <td>{{$in->nombre_insumo}}</td>
-                            <td>{{$in->cantidad}}</td>
-                            <td>
-                           
-                        <form action="insudestroy/{{$in->id}}" class="d-inline formulario-eliminar" method="GET">
-                  
-                        @csrf
-                        @method('GET')
-                        <button type="submit" class="btn btn-sm btn-danger active"><i class="fas fa-trash"></i></button>
-                    
-                                      
-               </td>
-           </tr>
-           @endforeach
-           
                   
                   
                         </tbody>
@@ -106,24 +95,35 @@ h3, h4 {text-align: right}
            </tbody>
 
            <div class="card-body">
+           <label for="cantidad">Deatalle de insumos existentes</label>
+           
                     <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px">
                             <thead>
                                 <tr>
-                                    <th>Nombre producto</th>
+                                    <th>Insumo</th>
                                     <th>Cantidad</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="table bg-white table-sm" id="cajaDetalle">
-                        
+                            <tbody class="table bg-white table-sm" id="cajaDetallee">
+                                <!--DETALLE INSUMOS ASOCIADOS-->
+                                @foreach($insumoproductos as $ins)
+                                    <tr>
+                                        <td>{{ $ins->nombre_insumo }}
+                                            <input type="hidden" value="{{ $ins->id }}" />
+                                        </td>
+                                        <td>{{ $ins->cantidad }}</td>
+                                        <td><button onclick="eliminarRegistro(event);" type="button" class="btn btn-sm btn-danger active">Eliminar</button></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
            </div>
          
                     <div>
-                    <a href="/productos" class="btn btn-secondary" tabindex="6">Cancelar</a>
-                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7">Guardar</button>
+                    <a href="/productos" class="btn btn-secondary" tabindex="6"><i class="fas fa-backward"></i></a>
+                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
     </form>
 @endsection
@@ -138,7 +138,8 @@ h3, h4 {text-align: right}
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
-    @if(session('malpedido') == 'Debes asociar minimo un insumo correctamente.')
+ 
+@if(session('malpedido') == 'malpedido')
     <script>
         Swal.fire(
         '¡Ups!',
@@ -147,57 +148,131 @@ h3, h4 {text-align: right}
         )
     </script>
     @endif
-
-    
-
-    
    
-     <script>
+    @if(session('malinsu') == 'creadopdtcorrec')
+    <script>
+        Swal.fire(
+            '¡Listo!',
+            'Producto creado',
+            'succes'
+        )
+    </script>
+    @endif 
+
+    @if(session('modcor') == 'modcor')
+    <script>
+        Swal.fire(
+            '¡Listo!',
+            'Producto modificado',
+            'succes'
+        )
+    </script> 
+    @endif 
+     
+    <script>
+        const eliminarRegistro = function(event){
+            
+            const idsop = $(event.target).parent().parent().find('input[type="hidden"]').val();
+            //Eliminas con AJAX el insumo (mandas el id)
+            console.log(idsop);
+            let ids = $(event.target).parent().parent().find('input[type="hidden"]').val();
+            let iPro;
+            
+                        Swal.fire({
+                        title: '¿Está seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',     
+                        cancelButtonText: 'No'
+                        }).then((result) => {
+                        if (result.value ==true ) {
+                            $.ajax({
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('getInsumoPro') }}',
+                                data: {'ids': ids},
+                                success: function(response){
+                                idPro = (response);
+                                } 
+                            });
+                            Swal.fire(
+                                '¡Insumo eliminado!',
+                                '',
+                                'success'
+                                );
+                                
+                                $(event.target).parent().parent().remove();    
+                        }
+                    })
+            //Eliminas la fila de la tabla
+           
+            
+            
+
+                
+                    
+            
+            console.log("#cajaDetallee".val());
+        }
+
     function resetform() {
-            $("form select #id_insumo").each(function() { this.selectedIndex = 0 });
+            $(".id_insumo").each(function() { this.selectedIndex = 0 });
             $("form input[type=text]").each(function() { this.value = '' });
         }
-        let id = $('#idPro').val();
+        
         let arrayInsumos = [];
-        let arrayInsumoproductos = $insumoproductos;
         let objInsumo = {};
         
-        $.ajax({
-            type: "GET",
-            async : false,
-            url: '{{ route('getInsumoPro') }}',
-            data: {'id': id},
-            success: function(response){
-                insumosAso = (response);
-            }
-        });
+        let objInsumoPro = {};
         
-        $(document).ready(function(){
-            
+        
+        $(document).ready(function(){           
             $('.id_insumo').select2({
             placeholder: "Seleccione Insumo"
         });
+
         
+        
+     
         $('.crearPdt').submit(function(e){
-            let prducto = " ";
-            let nombre = $('#nombre').val();
-            console.log(nombre);
+            
             $.ajax({
-                        type: "GET",
-                        async : false,
-                        url: '{{ route('nombrerepetido') }}',
-                        data: {'nombre': nombre},
-                        success: function(response){
-                            prducto = (response);
-                        }
-                       
-                        
-                    });
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('getInsumoPro') }}',
+                                data: {'ids': ids},
+                                success: function(response){
+                                idPro = (response);
+                                } 
+                            });
+           
 
-                    console.log(prducto);   
+            let arrayInsumosPro = [];
+            let idAI=$('#idProd').val() ;
+            $.ajax({
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('getInsumoProList') }}',
+                                data: {'idA': idA},
+                                success: function(response){
+                                    arrayInsumosPro = (response);
+                                } 
+                            });
+                            console.log(arrayInsumosPro.length); 
+                            e.preventDefault();
+                            if ((arrayInsumos.length) < 1 && (arrayInsumosPro.length) < 1) {
                     e.preventDefault();
-
-                    if ($('#nombre').val() == "" || $('#precio').val() == "" || (arrayInsumos.length) < 1 ) {
+                    Swal.fire(
+                        '¡Ups!',
+                        'Debes asociar insumos.',
+                        'warning'
+                        )
+                }   
+                                                             
+                    if ($('#nombre').val() == "" || $('#precio').val() == "" ) {
                     e.preventDefault();
                     Swal.fire(
                         '¡Ups!',
@@ -206,12 +281,14 @@ h3, h4 {text-align: right}
                         )
                 }  
                 e.preventDefault();           
-                 if ($('#nombre').val() != "" && $('#precio').val() != "" && (arrayInsumos.length) > 0 ) {
-                            
+                 if ($('#nombre').val() != "" && $('#precio').val() != "" ) {
+                    if ((arrayInsumos.length) > 0 || (arrayInsumosPro.length) > 0) {
+                        
+                          
                     e.preventDefault();
                         Swal.fire({
-                    title: 'Crear Producto',
-                    text: "¿Está seguro de crear éste producto?",
+                    title: 'Editar producto',
+                    text: "¿Está seguro de editar este producto?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -224,14 +301,19 @@ h3, h4 {text-align: right}
                     }
                     
                     })
-                        
+                }   
                     } 
                     
                 
             
-                
 
             });
+            
+           
+            
+                    
+                });
+               
             $('#agregarInsumo').click(function(){
                 if (parseInt($('#cantidad').val()) > 0 &&  parseInt($('#id_insumo option:selected').val()) > -1) {
                     
@@ -251,19 +333,6 @@ h3, h4 {text-align: right}
                         }
                         arrayInsumos.push(objInsumo);
                     }
-                    $('#cajaDetallee').append(`
-                        <tr id="tr-${objInsumo.idInsumo }">
-                            <input type=hidden name="idInsumo[]" value="${ objInsumo.idInsumo }">
-                            <input type=hidden name="cantidad[]" value="${ objInsumo.cantidad }">
-                            <td>${insumo}</td>
-                            <td>${objInsumo.cantidad}</td>
-                            
-                            <td>
-                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `);
-                    
                    
                     $('#cajaDetalle').append(`
                         <tr id="tr-${objInsumo.idInsumo }">
@@ -273,14 +342,14 @@ h3, h4 {text-align: right}
                             <td>${objInsumo.cantidad}</td>
                             
                             <td>
-                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" ><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger active"  onclick="eliminarInsumo(${objInsumo.idInsumo })" >Eliminar</button>
                             </td>
                         </tr>
                     `);
                     
                 }
             });
-        });
+       
         function eliminarInsumo(idInsumo) {
             //Borrar el elemento del arreglo
             let index = getIndexInsumo(idInsumo);
@@ -304,3 +373,4 @@ h3, h4 {text-align: right}
             return index;
         }
     </script>
+@endsection
