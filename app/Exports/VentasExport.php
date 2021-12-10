@@ -38,7 +38,7 @@ class VentasExport implements FromView
         $proMasVenNu = DB::table('ventas as v')
         ->join('detalleventas as dv', 'v.id' ,'=', 'dv.id_venta')
         ->join('productos as p', 'p.id' ,'=', 'dv.id_producto')
-        ->select(DB::raw('sum(dv.id_producto) as coun', 'p.nombre'))
+        ->select(DB::raw('sum(dv.cantidad) as coun', 'p.nombre'))
         ->where('v.cancelado',0)->groupBy('dv.id_producto', 'p.nombre')
         ->get();
 

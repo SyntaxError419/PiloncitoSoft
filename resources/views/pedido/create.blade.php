@@ -288,6 +288,12 @@ h3, h4 {text-align: right}
                             </tr>
                         `);
                     }
+                }else{
+                    Swal.fire(
+                    '¡Ups!',
+                    'Para agregar productos a tu pedido selecciona un producto y pon la cantidad.',
+                    'warning'
+                    )
                 }
             });
         });
