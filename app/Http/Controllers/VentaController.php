@@ -133,7 +133,7 @@ class VentaController extends Controller
         ->whereBetween('v.fecha', [$desde, $hasta])
         ->groupBy('p.id', 'p.nombre')
         ->orderBy('coun','ASC')
-        ->take(3)
+        ->take(5)
         ->get();
 
          return response(json_encode($proMenosVenNo),200)->header('Content-type','text/plain');

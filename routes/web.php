@@ -82,6 +82,14 @@ Route::post('/reportes/allV3/',[VentaController::class,'allV3'])->name('allV3');
 
 Route::post('/reportes/allV4/',[VentaController::class,'allV4'])->name('allV4');
 
+Route::post('/reportes/allVDash/',[App\Http\Controllers\HomeController::class,'allV'])->name('allVDash');
+
+Route::post('/reportes/allV2Dash/',[App\Http\Controllers\HomeController::class,'allV2'])->name('allV2Dash');
+
+Route::post('/reportes/allV3Dash/',[App\Http\Controllers\HomeController::class,'allV3'])->name('allV3Dash');
+
+Route::post('/reportes/allV4Dash/',[App\Http\Controllers\HomeController::class,'allV4'])->name('allV4Dash');
+
 Route::get('pdfC/compras/{compra}', 'App\Http\Controllers\CompraController@genFacC')->name('pdfC');
 
 Auth::routes();

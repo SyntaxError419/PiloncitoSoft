@@ -177,7 +177,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dash',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -301,6 +301,22 @@ return [
                     'text' => 'Configuración de perfil',
                     'url'  => 'user/profile',
                     'icon' => 'fas fa-fw fa-users-cog',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Reportes',
+            'icon'    => '',
+            'submenu' => [
+                [
+                    'text' => 'Reporte de ventas',
+                    'url'  => 'ventaReportes',
+                    'icon' => '',
+                ],
+                [
+                    'text' => 'Reporte de compras',
+                    'url'  => 'reporte',
+                    'icon' => '',
                 ],
             ],
         ],
