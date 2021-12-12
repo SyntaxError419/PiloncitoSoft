@@ -144,8 +144,8 @@ class ProductoController extends Controller
             $productos= Producto::find($id);
             $productos->nombre =$request->get('nombre');
             $productos->precio =$request->get('precio');
-            
             $productos->save();
+            DB::commit();
             if ($request->idInsumo != null) {
             foreach ($request->idInsumo as $key => $value) {
                 
