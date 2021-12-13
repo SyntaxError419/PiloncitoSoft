@@ -18,7 +18,7 @@
 
 <h1 class="bg text-dark text-center pt-3">Reporte de compras</h1>
 
-<a href="/ventas" class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
+<a href="/compras" class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
 
 <a href="{{ route('exportExcelVentas') }}" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
 <br>
@@ -68,6 +68,19 @@
 @endif
 <div class="card-header">
 <div class="card-body">
+    <div class="row mt-3">
+
+        <div class="col-lg-6">
+        <center><h4>Top 5 insumos más comprados</h4></center>
+        <canvas id="myChart3" width="300" height="300"></canvas>
+        </div>
+
+        <div class="col-lg-6">
+        <center><h4>Top 5 insumos menos comprados</h4></center>
+        <canvas id="myChart4" width="300" height="300"></canvas>
+        </div>
+        
+        </div>
 
         <div class="row mt-3">  
 
@@ -83,20 +96,7 @@
 
         </div>
 
-        <div class="row mt-3">
-
-        <div class="col-lg-6">
-        <center><h4>Ventas realizadas vs pedidos cancelados</h4></center>
-        <canvas id="myChart3" width="300" height="300"></canvas>
-        </div>
-
-        <div class="col-lg-6">
-        <center><h4>Ingresos en efectivo vs ingresos en trasnferencia</h4></center>
-        <canvas id="myChart4" width="300" height="300"></canvas>
-        </div>
-        
-        </div>
-
+    
 </div>
 </div>
 <div class="pt-5"></div>
@@ -211,9 +211,8 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos3.push(arreglo[x].cancelado);
-                                        valores3.push(arreglo[x].pedidos);
-
+                                        insumos3.push(arreglo[x].nombre_insumo);
+                                        valores3.push(arreglo[x].coun);
                                     }
                                     generarGrafica3();
                                     });
@@ -233,8 +232,8 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos4.push(arreglo[x].formaPago);
-                                        valores4.push(arreglo[x].total);
+                                        insumos4.push(arreglo[x].nombre_insumo);
+                                        valores4.push(arreglo[x].coun);
 
                                     }
                                     generarGrafica4();
@@ -300,7 +299,7 @@
                                         data: {
                                             labels: insumos2,
                                             datasets: [{
-                                                label: 'Cantidad de productos vendidos',
+                                                label: 'Cantidad de insumos vendidos',
                                                 data: valores2,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -332,13 +331,13 @@
                     }
 
                     function generarGrafica3(){
-                    const ctx = document.getElementById('myChart3').getContext('2d');
+                                    const ctx = document.getElementById('myChart3').getContext('2d');
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
-                                            labels: ['Pedidos exitosos','Pedidos cancelados'],
+                                            labels: insumos3,
                                             datasets: [{
-                                                label: 'Cantidad',
+                                                label: 'Cantidad de insumos comprados',
                                                 data: valores3,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -367,16 +366,16 @@
                                             }
                                         }
                                     });
-                                }
+                    }
 
                     function generarGrafica4(){
                     const ctx = document.getElementById('myChart4').getContext('2d');
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
-                                        data: { 
+                                        data: {
                                             labels: insumos4,
                                             datasets: [{
-                                                label: 'Ingresos',
+                                                label: 'Cantidad de insumos comprados',
                                                 data: valores4,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',

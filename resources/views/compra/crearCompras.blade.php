@@ -201,28 +201,42 @@ $(document).ready(function(){
 
 $('.tomarC').submit(function(e){
                 e.preventDefault();
-                if ($('#id_proveedor option:selected').val() == "" &&  $('#id_insumo option:selected').val() == "") {
+                if ($('#id_proveedor option:selected').val() == "" &&  $('#numReciboCompra').val() == "" && $('#id_insumo option:selected').val() == "") {
                 Swal.fire(
-                '¡Oops, Selecciona un proveedor  e insumo de la lista!',
-                'Realiza la compra correctamente agregando un proveedor e insumo a la lista.',
+                '¡Ups!',
+                'Realiza la compra correctamente agregando un proveedor, un numero de recibo y un insumo a la lista.',
+                'warning'
+                )
+            }  else if ($('#numReciboCompra').val() == "" ) {
+                Swal.fire(
+                '¡Ups, Ingresa  un número de recibo!',
+                'Realiza la compra correctamente ingresando un número de recibo.',
+                'warning'
+                )
+            } 
+              else if ($('#fecha').val() == "" ) {
+                Swal.fire(
+                '¡Ups, Ingresa  una fecha!',
+                'Realiza la compra correctamente ingresando una fecha.',
                 'warning'
                 )
             }  
                else if ($('#id_proveedor option:selected').val() == "" ) {
                 Swal.fire(
-                '¡Oops, Selecciona un proveedor de la lista!',
+                '¡Ups, Selecciona un proveedor de la lista!',
                 'Realiza la compra correctamente agregando un proveedor a la lista.',
                 'warning'
                 )
-            }  else if ($('#id_insumo option:selected').val() == "" ) {
+            }
+              else if ($('#id_insumo option:selected').val() == "" ) {
                 Swal.fire(
-                '¡Oops, selecciona un insumo de la lista!',
+                '¡Ups, selecciona un insumo de la lista!',
                 'Realiza la compra nuevamente agregando un insumo a la lista.',
                 'warning'
                 )
             }    else if ((arrayid_insumo.length) < 1) {
                 Swal.fire(
-                '¡Oops, agrega insumos al pedido!',
+                '¡Ups, agrega insumos a la  compra!',
                 'Realiza la compra nuevamente agregando insumos  a la compra.',
                 'warning'
                 )

@@ -271,34 +271,39 @@ class CompraController extends Controller
          return response(json_encode($proMenosVenNo),200)->header('Content-type','text/plain');
     } 
     public  function allC3(Request $request)
-    {   
+    { 
         $hasta=$request->hasta;
         $desde=$request->desde;
-
-        $pedidoscanc = DB::table('ventas')
-        ->selectRaw('cancelado, count(cancelado = 0) as pedidos')
-        ->whereBetween('fecha', [$desde, $hasta])
-        ->groupBy('cancelado')
+        $proMasVenNo = DB::table('compras as v')
+        ->join('detallecompras as dv', 'v.id' ,'=', 'dv.id_compra')
+        ->join('insumos as p', 'p.id' ,'=', 'dv.id_insumo')
+        ->selectRaw('p.nombre_insumo, sum(dv.cantidad) as coun')
+        ->where('v.estado',1)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('dv.id_insumo', 'p.nombre_insumo')
+        ->orderBy('coun','DESC')
         ->take(5)
         ->get();
 
-         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
-    }
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
 
     public  function allC4(Request $request)
     { 
         $hasta=$request->hasta;
         $desde=$request->desde;
-
-        $pedidoscanc = DB::table('ventas as v')
-        ->selectRaw('v.formaPago, sum(v.total) as total')
-        ->where('v.cancelado',0)
-        ->Where('v.pago',1)
+        $proMasVenNo = DB::table('compras as v')
+        ->join('detallecompras as dv', 'v.id' ,'=', 'dv.id_compra')
+        ->join('insumos as p', 'p.id' ,'=', 'dv.id_insumo')
+        ->selectRaw('p.nombre_insumo, sum(dv.cantidad) as coun')
+        ->where('v.estado',1)
         ->whereBetween('v.fecha', [$desde, $hasta])
-        ->groupBy('v.formaPago')
+        ->groupBy('dv.id_insumo', 'p.nombre_insumo')
+        ->orderBy('coun','ASC')
         ->take(5)
         ->get();
 
-         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
-    }
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+
 }

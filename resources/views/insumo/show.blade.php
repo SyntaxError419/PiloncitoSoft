@@ -34,7 +34,7 @@
 
     @if ($insumo->estado == 1)
                       
-    <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Activado" disabled="true">  
+    <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Activo" disabled="true">  
     
      @else
     <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Desactivado" disabled="true">  
