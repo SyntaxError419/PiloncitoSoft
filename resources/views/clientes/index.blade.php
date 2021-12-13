@@ -18,13 +18,14 @@
 
 
 <table id="clientes" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-<a href="clientes/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>     
+<a href="clientes/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>  
+<a  href="https://www.youtube.com/watch?v=e8tsKF8GzZo&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=7" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a>    
 <thead class="bg-primary text-white">
             <tr>
                 
                 <th scope="col">Nombre</th>
-                <th scope="col">Cedula</th>
-                <th scope="col">Direccion</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Dirección</th>
                 <th scope="col">Contacto</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>

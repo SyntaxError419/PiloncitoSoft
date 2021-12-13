@@ -15,10 +15,8 @@
 @csrf
 <body>
      
- @csrf
+
 <h1 class="bg text-dark text-center pt-3">Reporte de ventas</h1>
-
-
 
 <a href="/ventas" class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
 
@@ -415,4 +413,3 @@
 </html> 
 @endsection
 @endsection
-                

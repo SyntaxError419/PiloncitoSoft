@@ -12,6 +12,7 @@
 <body>
 <table id="productos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
 <a href="productos/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>     
+<a  href="https://www.youtube.com/watch?v=q0luI0lq5y0&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=3" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 <thead class="bg-primary text-white">
             <tr>
                

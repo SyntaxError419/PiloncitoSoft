@@ -101,7 +101,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
 Route::get('cancelar', [App\Http\Controllers\CompraController::class, 'cancelar'])->name('cancelar');
-
+Route::post('/reportes/allC/',[CompraController::class,'allC'])->name('allC');
+Route::post('/reportes/allC2/',[CompraController::class,'allC2'])->name('allC2');
+Route::post('/reportes/allC3/',[CompraController::class,'allC3'])->name('allC3');
+Route::post('/reportes/allC4/',[CompraController::class,'allC4'])->name('allC4');
 Route::get('reporte', [App\Http\Controllers\CompraController::class, 'reporte'])->name('reporte');
 Route::get('reportes', [App\Http\Controllers\InsumoController::class, 'reportes'])->name('reportes');
 

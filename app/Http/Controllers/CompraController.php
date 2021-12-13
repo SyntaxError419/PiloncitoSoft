@@ -32,7 +32,7 @@ class CompraController extends Controller
         
     }
     
-    public  function allC(Request $request)
+    public  function allCC(Request $request)
     { 
         $compras = \DB::table('compras')
         ->select('compras.*')
@@ -238,5 +238,67 @@ class CompraController extends Controller
         $data = ['detallecompras'=>$detallecompras, 'compras'=>$compras];
         return PDF::loadView('compra.pdfC', $data)->setPaper('a5', '')->setWarnings(false)->stream("$compras->id.pdfC");
         
+    }
+
+    public  function allC(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+        $proMasVenNo = DB::table('compras as c')
+        ->selectRaw('sum(c.totalcompra) as Egresos, (Select sum(total) from ventas where cancelado = 0 and pago = 1) as Ingresos')
+        ->where('c.estado',1)
+        ->whereBetween('c.fecha', [$desde, $hasta])
+        ->take(5)
+        ->get();
+    
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allC2(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $proMenosVenNo = DB::table('detalleventas as vd')
+        ->join('insumoproductos as ip', 'vd.id_producto' ,'=', 'ip.id_producto')
+        ->join('insumos as i', 'i.id' ,'=', 'ip.id_insumo')
+        ->join('ventas as v', 'v.id' ,'=', 'vd.id_venta')
+        ->selectRaw('i.nombre_insumo as Insumo, sum(vd.cantidad*ip.cantidad) as Cantidad')
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('i.nombre_insumo')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($proMenosVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allC3(Request $request)
+    {   
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $pedidoscanc = DB::table('ventas')
+        ->selectRaw('cancelado, count(cancelado = 0) as pedidos')
+        ->whereBetween('fecha', [$desde, $hasta])
+        ->groupBy('cancelado')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
+    }
+
+    public  function allC4(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $pedidoscanc = DB::table('ventas as v')
+        ->selectRaw('v.formaPago, sum(v.total) as total')
+        ->where('v.cancelado',0)
+        ->Where('v.pago',1)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('v.formaPago')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($pedidoscanc),200)->header('Content-type','text/plain');
     }
 }
