@@ -17,7 +17,7 @@
 <form action="{{ route('cancelar')}}" method ="POST" >      
     
                 @csrf
-<h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
+<h1 class="bg text-dark text-center mt">Compras canceladas</h1>
 
 
 
@@ -39,9 +39,6 @@
 @endforeach
 </div>
 @endif
-<div class="card-header">
-<h3 class="m-9">Compras canceladas</h3>
-<div class="card-body">
 <table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
     <thead class="bg-primary text-white">  
 <tr> 
@@ -77,9 +74,7 @@
     @endforeach
 </tbody>
 </table>
-</div>
 <a href="/compras"  class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
-</div>
 </form>
 
 

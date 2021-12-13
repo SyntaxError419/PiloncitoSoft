@@ -19,6 +19,8 @@
 <a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 <a  href="https://www.youtube.com/watch?v=i0xbV9PzjzI&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=6" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right">   <i class="fas fa-info" ></i></a> 
 <a  href="/reporte"  class="btn btn-primary mb-3 " style="float: right;">   <i class="far fa-chart-bar"></i></a> 
+<a  href="/cancelar"  class="btn btn-danger mb-3 mr-1  " style="float: right;">   <i class="fas fa-fw fa-boxes "></i></a> 
+
 
 @if(Session::has('success'))
 <div class="card">
@@ -41,7 +43,7 @@
 <table id="compras" class="table table-striped shadow-lg mt-4"  style="width:100%">
     <thead class="bg-primary text-white">  
 <tr> 
-      <th scope="col">Numero de recibo</th>
+      <th scope="col">Número de recibo</th>
       <th scope="col">Fecha</th>
       <th scope="col">Proveedor</th>
       <th scope="col">Total de la compra</th>
@@ -360,7 +362,7 @@
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: '¡Sí, deseo eliminar la compra!',
-                        cancelButtonText: 'No,deseo volver '
+                        cancelButtonText: 'No, deseo volver '
                         }).then((result) => {
                         if (result.isConfirmed) {
                             this.submit();
