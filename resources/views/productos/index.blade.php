@@ -39,12 +39,13 @@
                    </td>
                    <td>
                    <form action="{{ route('productos.destroy',$producto->id) }}" class="d-inline formulario-eliminar" method="POST">
-                      
+
                    @if($producto->estado == 0)
                         <a  onclick= "return confirmarDesactivar({{$producto->estado}},{{$producto->id}},event)" href="{{ route('productos.cambioEstadoProducto',$producto) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar">Activar</a>
                         @elseif($producto->estado == 1) 
                         <a  onclick= "return confirmarDesactivar({{$producto->estado}},{{$producto->id}},event)" href="{{ route('productos.cambioEstadoProducto',$producto) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Inactivar</a>
                         @endif
+                        <a href="/productos/{{ $producto->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
 
                         @if($producto->estado == 1)
                         <a href="/productos/{{$producto->id}}/edit" class="btn btn-sm btn-primary" data-id="{{ $producto->id }}"><i class="fas fa-pen"></i></a> 
@@ -115,7 +116,7 @@ Swal.fire({
         Swal.fire(
             '¡Listo!',
             'Producto creado',
-            'succes'
+            'success'
         )
     </script>
     @endif
@@ -125,7 +126,7 @@ Swal.fire({
         Swal.fire(
             '¡Listo!',
             'Producto modificado',
-            'succes'
+            'success'
         )
     </script>
     @endif

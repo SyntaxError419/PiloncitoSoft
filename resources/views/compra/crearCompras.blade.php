@@ -56,10 +56,7 @@
         
                                     <h4>Agregar insumos</h4>
                     <div class="row mb-3">
-                    <div class="col-lg-6">
-                                                    
-
-                                <div class="mb-3">
+                            <div class="col-lg-6">
                                     <label for="id_insumo">Insumo  </label>
                                         <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  tabindex="4" lang="es">
                                             <option></option>
@@ -67,32 +64,22 @@
                                             <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
                                             @endforeach
                                         </select>                         
-                                </div> 
                             </div> 
                             <div class="col-lg-6">
-
-                                    <div class="form-group">
                                             <label for="">Cantidad  </label>
                                             <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"    tabindex="5" placeholder="Ingrese una cantidad mayor a 1">                                   
-                                    </div>
-
-                                </div> 
+                            
+                            </div> 
                     </div> 
                     <div class="row mb-3">
                     <div class="col-lg-6">
 
-                                    <div class="form-group">
                                             <label for="">Iva</label>
                                             <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">                  
-                                    </div>
                             </div>
                             <div class="col-lg-6">
-
-
-                                    <div class="mb-3">
                                         <label for="" class="form-label">Precio Unitario   *</label>
                                         <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" class="form-control" tabindex="7"  placeholder="Ingrese un precio unitario mayor a 1">                                 
-                                    </div>
                                 </div>
                     </div>
                                 <button type="button" id="agregarInsumo" class="btn btn-secondary" tabindex="8">Agregar</button>

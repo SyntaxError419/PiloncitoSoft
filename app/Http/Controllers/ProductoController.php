@@ -106,8 +106,14 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+     
+        $productos =Producto::find($id);
+        
+        $insumosproductos=Insumoproducto::all();
+        $insumos=Insumo::where('estado', '=',1)->get();;
+        $insumoproductos = Insumoproducto::where('id_producto',$id)->join('insumos', 'insumoproductos.id_insumo', 'insumos.id')->select('insumos.nombre_insumo','insumoproductos.cantidad', 'insumoproductos.id')->get();
+        return view('productos.show',compact('insumoproductos','insumos'))->with('productos',$productos,'insumos',$insumos,'insumoproductos',$insumoproductos);
     }
 
     /**

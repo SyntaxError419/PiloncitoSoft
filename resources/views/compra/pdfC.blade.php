@@ -39,7 +39,7 @@
                         
                         </div>
                         <div class="row mb-3" id="header">
-                            <h4 for="" id="header" class="form-label">Numero de recibo:</h4>
+                            <h4 for="" id="header" class="form-label">Número de recibo:</h4>
                             {{$compras->numReciboCompra}}
                             <br>
                             
