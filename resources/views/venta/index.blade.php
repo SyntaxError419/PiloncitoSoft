@@ -18,7 +18,7 @@
 
 <a href="pedidos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
 
-<a  href="https://www.youtube.com/watch?v=8Q5ocgBmGnA&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=1" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 
 <a href="{{ route('reporteVenta') }}" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
     

@@ -46,7 +46,7 @@ window.onload=function(){startTime();}
 
 <br>
 <a href="proveedores/create"   class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
-<a  href="https://www.youtube.com/watch?v=U-wPGyqULMg&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=2" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 <br>
    
 

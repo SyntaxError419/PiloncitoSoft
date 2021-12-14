@@ -17,7 +17,7 @@
 <h1 class="bg text-dark text-center mt">Gestión de Compras</h1>
 
 <a href="compras/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
-<a  href="https://www.youtube.com/watch?v=i0xbV9PzjzI&list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e&index=6" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right">   <i class="fas fa-info" ></i></a> 
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right">   <i class="fas fa-info" ></i></a> 
 <a  href="/reporte"  class="btn btn-primary mb-3 " style="float: right;">   <i class="far fa-chart-bar"></i></a> 
 <a  href="/cancelar"  class="btn btn-danger mb-3 mr-1  " style="float: right;">   <i class="fas fa-fw fa-boxes "></i></a> 
 
