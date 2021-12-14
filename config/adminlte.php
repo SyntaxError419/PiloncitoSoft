@@ -279,7 +279,7 @@ return [
             ],
         ],
         [
-            'text'    => 'Gestión de usuarios',
+            'text'    => 'Gestión Usuarios',
             'icon'    => '',
             'submenu' => [
           
