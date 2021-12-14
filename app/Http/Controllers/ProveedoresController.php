@@ -38,7 +38,7 @@ class ProveedoresController extends Controller
     public function store(Request $request)
     {
         $request->validate([ //Validacion que me sea requeridos estos campos//
-           'nit' => 'required|unique:proveedores|min:10||max:10|',
+           'nit' => 'required|unique:proveedores|min:5||max:10|',
            'nombrecontacto'=>'required',
            'correocontacto'=>'required|email',//validacion que me contenga el campo como tipo email es decir que tenga @//
            'numerocontacto'=>'required|min:7||max:10|',
