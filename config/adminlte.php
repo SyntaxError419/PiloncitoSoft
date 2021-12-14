@@ -279,24 +279,16 @@ return [
             ],
         ],
         [
-            'text'    => 'Configuración',
+            'text'    => 'Gestión de usuarios',
             'icon'    => '',
             'submenu' => [
-                [
-                    'text' => 'Roles',
-                    'url'  => '#',
-                    'icon' => 'fas fa-fw fa-street-view',
-                ],
+          
                 [
                     'text' => 'Usuarios',
                     'url'  => 'users',
                     'icon' => 'fas fa-fw fa-users',
                 ],
-                [
-                    'text' => 'Acceso',
-                    'url'  => '#',
-                    'icon' => 'fas fa-fw fa-cogs',
-                ],
+     
                 [
                     'text' => 'Configuración de perfil',
                     'url'  => 'user/profile',
