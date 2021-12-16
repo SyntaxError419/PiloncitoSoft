@@ -177,7 +177,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dash',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -279,23 +279,17 @@ return [
             ],
         ],
         [
-            'text'    => 'Gestion de usuarios',
+            'text'    => 'Reportes',
             'icon'    => '',
             'submenu' => [
-                [    'text' => 'Acceso',
-                     'url'  => '#',
-                     'icon' => 'fas fa-fw fa-cogs',
-                    
+                [
+                    'url'  => 'ventaReportes',
+                    'icon' => '',
                 ],
                 [
-                    'text' => 'Usuarios',
-                    'url'  => 'users',
-                    'icon' => 'fas fa-fw fa-users',
-                ],
-                [
-                    'text' => 'Configuración de perfil',
-                    'url'  => 'user/profile',
-                    'icon' => 'fas fa-fw fa-users-cog',
+                    'text' => 'Reporte de compras',
+                    'url'  => 'reporte',
+                    'icon' => '',
                 ],
             ],
         ],

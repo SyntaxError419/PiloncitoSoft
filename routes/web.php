@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\InsumoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,7 +68,29 @@ Route::get('stockeGet',[PedidoController::class,'getStockeProductos'])->name('ge
 
 Route::get('clientGet',[PedidoController::class,'getClientee'])->name('getClient');
 
+Route::get('excelVentasExport',[VentaController::class,'exportExcelVentas'])->name('exportExcelVentas');
+
 Route::get('pdf/pedidos/{venta}', 'App\Http\Controllers\PedidoController@genFac')->name('pdf');
+
+Route::get('ventaReportes', [VentaController::class, 'reportes'])->name('reporteVenta');
+
+Route::post('/reportes/allV/',[VentaController::class,'allV'])->name('allV');
+
+Route::post('/reportes/allV2/',[VentaController::class,'allV2'])->name('allV2');
+
+Route::post('/reportes/allV3/',[VentaController::class,'allV3'])->name('allV3');
+
+Route::post('/reportes/allV4/',[VentaController::class,'allV4'])->name('allV4');
+
+Route::post('/reportes/allVDash/',[App\Http\Controllers\HomeController::class,'allV'])->name('allVDash');
+
+Route::post('/reportes/allV2Dash/',[App\Http\Controllers\HomeController::class,'allV2'])->name('allV2Dash');
+
+Route::post('/reportes/allV3Dash/',[App\Http\Controllers\HomeController::class,'allV3'])->name('allV3Dash');
+
+Route::post('/reportes/allV4Dash/',[App\Http\Controllers\HomeController::class,'allV4'])->name('allV4Dash');
+
+Route::get('pdfC/compras/{compra}', 'App\Http\Controllers\CompraController@genFacC')->name('pdfC');
 
 Auth::routes();
 
@@ -77,14 +100,29 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('insumos','App\Http\Controllers\InsumoController');
 Route::resource('compras','App\Http\Controllers\CompraController');
+Route::get('cancelar', [App\Http\Controllers\CompraController::class, 'cancelar'])->name('cancelar');
+Route::post('/reportes/allC/',[CompraController::class,'allC'])->name('allC');
+Route::post('/reportes/allC2/',[CompraController::class,'allC2'])->name('allC2');
+Route::post('/reportes/allC3/',[CompraController::class,'allC3'])->name('allC3');
+Route::post('/reportes/allC4/',[CompraController::class,'allC4'])->name('allC4');
+Route::get('reporte', [App\Http\Controllers\CompraController::class, 'reporte'])->name('reporte');
+Route::get('reportes', [App\Http\Controllers\InsumoController::class, 'reportes'])->name('reportes');
+
+Route::post('/reporte/allC/',[CompraController::class,'allC'])->name('allC');
+
+Route::post('/reportes/all/',[InsumoController::class,'all'])->name('all');
+Route::post('/reportes/all2/',[InsumoController::class,'all2'])->name('all2');
+Route::post('/reportes/all3/',[InsumoController::class,'all3'])->name('all3');
 
 Route::get('/crearCompras',[CompraController::class,'create'])->name('crearCompra');
 Route::post('/compras/guardar/compra',[CompraController::class,'save'])->name('guardarCompra');
 Route::post('/guardarproducto',[App\Http\Controllers\ProductoController::class, 'save'])->name('guardarproducto');
 
 Route::get('nombrerepetido',[ProductoController::class,'nombrerepetido'])->name('nombrerepetido');
-Route::get('/insudestroy/{id}',[ProductoController::class,'insudestroy'])->name('insudestroy');
+Route::get('insuget',[ProductoController::class,'getInsumoProList'])->name('getInsumoProList');
 Route::get('insumoProGet',[ProductoController::class,'getInsumoPro'])->name('getInsumoPro');
+Route::get('getInsumoProList/productos','App\Http\Controllers\ProductoController@getInsumoProList')->name('getInsumoProList');
+Route::get('getInsumoPro/productos','App\Http\Controllers\ProductoController@getInsumoPro')->name('getInsumoPro');
 Route::get('cambioEstadoProducto/productos/{producto}', 'App\Http\Controllers\ProductoController@cambioEstadoProducto')->name('productos.cambioEstadoProducto');
 Route::get('cambioEstadoCliente/clientes/{cliente}', 'App\Http\Controllers\ClienteController@cambioEstadoCliente')->name('clientes.cambioEstadoCliente');        
 Route::get('cambioEstadoInsumo/insumos/{insumo}', 'App\Http\Controllers\InsumoController@cambioEstadoInsumo')->name('insumos.cambioEstadoInsumo');

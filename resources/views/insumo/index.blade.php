@@ -34,6 +34,7 @@
 
 
 <a href="insumos/create" class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 
       
         <table id="insumos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">

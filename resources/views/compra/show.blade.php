@@ -47,7 +47,7 @@
                                     <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Activado" disabled="true">  
                                     
                                     @else
-                                    <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Desactivado" disabled="true">  
+                                    <input id="estado" name="estado" type="text" step="any"  class="form-control"  value="Inactivo" disabled="true">  
                                     @endif
 
                                 </div>

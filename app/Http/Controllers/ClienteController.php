@@ -111,7 +111,7 @@ class ClienteController extends Controller
     {
         $request->validate([ //Validacion que me sea requeridos estos campos//
             'nombre' => 'required',
-            'cedula'=>'required |unique:clientes',
+            'cedula'=>'required ',
             'direccion'=>'required',
             'contacto'=>'required'
             

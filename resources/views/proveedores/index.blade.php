@@ -46,6 +46,7 @@ window.onload=function(){startTime();}
 
 <br>
 <a href="proveedores/create"   class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 <br>
    
 
@@ -56,12 +57,12 @@ window.onload=function(){startTime();}
 <tr>
     
 <!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nit/Cèdula</th>
+<th style=" text-align: center;" scope="col">Nit/Cédula</th>
 <th style=" text-align: center;" scope="col">Nombre Contacto</th>
 <th style=" text-align: center;" scope="col">Correo C</th>
 <th style=" text-align: center;" scope="col">Nùmero Contacto</th>
 <th style=" text-align: center;" scope="col">Empresa</th>
-<th style=" text-align: center;" scope="col">Direcciòn Empresa</th>
+<th style=" text-align: center;" scope="col">Dirección Empresa</th>
 <th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;" scope="col">Acciones</th>
 </tr>  
@@ -91,7 +92,7 @@ window.onload=function(){startTime();}
     @if($proveedor->estado == 0)
                         <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar"  >Activar</a>
                         @elseif($proveedor->estado == 1) 
-                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Desactivar</a>
+                        <a  onclick= "return confirmarDesactivar({{$proveedor->estado}},{{$proveedor->id}},event)" href="{{ route('proveedores.cambioEstadoProveedor',$proveedor) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Inactivar</a>
                         @endif
     
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>

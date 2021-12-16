@@ -6,7 +6,7 @@
 @endsection
 
 @section('contenido')
-
+@section('title', 'Reporte')
 
 <!DOCTYPE html>
 <html>
@@ -15,11 +15,38 @@
 @csrf
 <body>
      
- @csrf
-<h1 class="bg text-dark text-center pt-3">PiloncitoSoft</h1>
 
+<h1 class="bg text-dark text-center pt-3">Reporte de compras</h1>
 
+<a href="/compras" class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
+
+<a href="{{ route('exportExcelVentas') }}" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
+<br>
+<form id="myForm" action="pedidosventaReportes" method ="POST" class="tomarP">
+     
+    <label class="text">Selecciones un rango de fechas:</label>
+    <div class="row mt-1">
+    <div class="col-lg-2">
+        <label for="desde">Desde</label>
+        <input type="date" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="desde" id="desde" tabindex="4" placeholder="Ingrese la fecha inicial">
+        @if($errors->has('Desde'))
+        <span class="error text-danger" for="input-name">{{$errors->first('Desde')}}</span>
+        @endif
+    </div>
+    <div class="col-lg-2">
+        <label for="hasta">Hasta</label>
+        <input type="date" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="hasta" id="hasta" tabindex="4" placeholder="Ingrese la fecha final">
+        @if($errors->has('Hasta'))
+        <span class="error text-danger" for="input-name">{{$errors->first('Hasta')}}</span>
+        @endif
+    </div>
+    <div class="col-lg-2 mt-4">
+    <button style="float: ;" type="submit" class="btn btn-success btn-mt-1"  tabindex="7"><i class="fas fa-check"></i></button>
+    </div>
+</div>
+</form>
     <div class="pt-4"></div>
+
 
 
 @if(Session::has('success'))
@@ -41,38 +68,40 @@
 @endif
 <div class="card-header">
 <div class="card-body">
-
-        <div class="row mt-3">  
-
-        <div class="col-lg-6">                                                
-        <center><h4>Top 5 productos más vendidos</h4></center>
-        <canvas id="myChart" width="300" height="300"></canvas>
-        </div>
+    <div class="row mt-3">
 
         <div class="col-lg-6">
-        <center><h4>Top 5 productos menos vendidos</h4></center>
-        <canvas id="myChart2" width="300" height="300"></canvas>
-        </div>
-
-        </div>
-
-        <div class="row mt-3">
-
-        <div class="col-lg-6">
-        <center><h4>Ventas realizadas vs pedidos cancelados</h4></center>
+        <center><h4>Top 5 insumos más comprados</h4></center>
         <canvas id="myChart3" width="300" height="300"></canvas>
         </div>
 
         <div class="col-lg-6">
-        <center><h4>Ingresos en efectivo vs ingresos en trasnferencia</h4></center>
+        <center><h4>Top 5 insumos menos comprados</h4></center>
         <canvas id="myChart4" width="300" height="300"></canvas>
         </div>
         
         </div>
 
+        <div class="row mt-3">  
+
+        <div class="col-lg-6">                                                
+        <center><h4>Ingresos vs egresos</h4></center>
+        <canvas id="myChart" width="300" height="300"></canvas>
+        </div>
+
+        <div class="col-lg-6">
+        <center><h4>Insumos consumidos</h4></center>
+        <canvas id="myChart2" width="300" height="300"></canvas>
+        </div>
+
+        </div>
+
+    
 </div>
 </div>
 <div class="pt-5"></div>
+
+
 
 
 @section('js')
@@ -100,13 +129,36 @@
                     let hasta;
 
                 $( document ).ready(function() {
-
+                    $('.tomarP').submit(function(e){
+                    e.preventDefault();
+                    if ($('#desde').val() == "" || $('#hasta').val() == "" || $('#desde').val() == null || $('#hasta').val() == null || $('#desde').val() == '' || $('#hasta').val() == '') {
+                        Swal.fire(  
+                        '¡Ups!',
+                        'Selecciona fecha de inicio y fin para los reportes',
+                        'warning'
+                        )
+                    }else{Swal.fire({
+                        title: '¿Estás seguro de de haber seleccionado las fechas deseadas?',
+                        text: "¡No podrás revertir éste cambio!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo crear el reporte!',
+                        cancelButtonText: 'No crear reporte'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            desde = $('#desde').val();
+                            hasta = $('#hasta').val();
+                            console.log(desde);
                             $.ajax({
-                                    url: '/reportes/allVDash',
+                                    url: '/reportes/allC',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                       
                                     }
                                 }).done(function(res){
@@ -114,19 +166,22 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos.push(arreglo[x].nombre);
-                                        valores.push(arreglo[x].coun);
+                                        insumos.push(arreglo[x].Egresos, arreglo[x].Ingresos);
+                                        valores.push(arreglo[x].Egresos, arreglo[x].Ingresos);
 
                                     }
                                     generarGrafica();
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV2Dash',
+                                    url: '/reportes/allC2',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                        
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -134,19 +189,21 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos2.push(arreglo[x].nombre);
-                                        valores2.push(arreglo[x].coun);
+                                        insumos2.push(arreglo[x].Insumo);
+                                        valores2.push(arreglo[x].Cantidad);
 
                                     }
                                     generarGrafica2();
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV3Dash',
+                                    url: '/reportes/allC3',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -154,19 +211,20 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos3.push(arreglo[x].cancelado);
-                                        valores3.push(arreglo[x].pedidos);
-
+                                        insumos3.push(arreglo[x].nombre_insumo);
+                                        valores3.push(arreglo[x].coun);
                                     }
                                     generarGrafica3();
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV4Dash',
+                                    url: '/reportes/allC4',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -174,13 +232,26 @@
                                     console.log(arreglo); 
                                     for(var x=0;x<arreglo.length;x++){
                                     
-                                        insumos4.push(arreglo[x].formaPago);
-                                        valores4.push(arreglo[x].total);
+                                        insumos4.push(arreglo[x].nombre_insumo);
+                                        valores4.push(arreglo[x].coun);
 
                                     }
                                     generarGrafica4();
-                                    });    
-
+                                    });
+                                
+                                $.ajax({
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('exportExcelVentas') }}',
+                                data: {},
+                                success: function(response){
+                                    resp = (response);
+                                }
+                            });
+                            window.location.href="/excelVentasExport";      
+                        }
+                    })}
+                });
             });
 
                 function generarGrafica(){
@@ -188,9 +259,9 @@
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
-                                            labels: insumos,
+                                            labels: ['Egresos','Ingresos'],
                                             datasets: [{
-                                                label: 'Cantidad de productos vendidos',
+                                                label: 'Cantidad en pesos',
                                                 data: valores,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -228,7 +299,7 @@
                                         data: {
                                             labels: insumos2,
                                             datasets: [{
-                                                label: 'Cantidad de productos vendidos',
+                                                label: 'Cantidad de insumos vendidos',
                                                 data: valores2,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -260,13 +331,13 @@
                     }
 
                     function generarGrafica3(){
-                    const ctx = document.getElementById('myChart3').getContext('2d');
+                                    const ctx = document.getElementById('myChart3').getContext('2d');
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
-                                            labels: ['Pedidos exitosos','Pedidos cancelados'],
+                                            labels: insumos3,
                                             datasets: [{
-                                                label: 'Cantidad',
+                                                label: 'Cantidad de insumos comprados',
                                                 data: valores3,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -295,16 +366,16 @@
                                             }
                                         }
                                     });
-                                }
+                    }
 
                     function generarGrafica4(){
                     const ctx = document.getElementById('myChart4').getContext('2d');
                                     const myChart = new Chart(ctx, {
                                         type: 'bar',
-                                        data: { 
+                                        data: {
                                             labels: insumos4,
                                             datasets: [{
-                                                label: 'Ingresos',
+                                                label: 'Cantidad de insumos comprados',
                                                 data: valores4,
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
@@ -341,4 +412,3 @@
 </html> 
 @endsection
 @endsection
-                

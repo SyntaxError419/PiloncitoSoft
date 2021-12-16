@@ -8,6 +8,7 @@ use App\Models\Proveedores;
 use App\Models\Detallecompra;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use PDF;
 
 
 
@@ -28,6 +29,31 @@ class CompraController extends Controller
          $proveedores=Proveedores::all();
 
         return view('compra.index', compact('proveedores'))->with('compras', $compras);
+        
+    }
+    
+    public  function allCC(Request $request)
+    { 
+        $compras = \DB::table('compras')
+        ->select('compras.*')
+        ->orderBy('totalcompra','DESC')
+        ->get();
+
+         return response(json_encode($compras),200)->header('Content-type','text/plain');
+    }
+
+     public function Cancelar()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.cancelar', compact('proveedores'))->with('compras', $compras);
+        
+    }
+    public function Reporte()
+    {
+         $compras =Compra::where('estado', '!=',1)->get();
+         $proveedores=Proveedores::all();
+        return view('compra.reporte', compact('proveedores'))->with('compras', $compras);
         
     }
 
@@ -205,4 +231,79 @@ class CompraController extends Controller
          }
            return redirect()->back();    
      }
+     public function genFacC($id){
+        
+        $detallecompras =Detallecompra::where('id_compra',$id);
+        $compras =Compra::find($id);
+        $data = ['detallecompras'=>$detallecompras, 'compras'=>$compras];
+        return PDF::loadView('compra.pdfC', $data)->setPaper('a5', '')->setWarnings(false)->stream("$compras->id.pdfC");
+        
+    }
+
+    public  function allC(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+        $proMasVenNo = DB::table('compras as c')
+        ->selectRaw('sum(c.totalcompra) as Egresos, (Select sum(total) from ventas where cancelado = 0 and pago = 1) as Ingresos')
+        ->where('c.estado',1)
+        ->whereBetween('c.fecha', [$desde, $hasta])
+        ->take(5)
+        ->get();
+    
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allC2(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+
+        $proMenosVenNo = DB::table('detalleventas as vd')
+        ->join('insumoproductos as ip', 'vd.id_producto' ,'=', 'ip.id_producto')
+        ->join('insumos as i', 'i.id' ,'=', 'ip.id_insumo')
+        ->join('ventas as v', 'v.id' ,'=', 'vd.id_venta')
+        ->selectRaw('i.nombre_insumo as Insumo, sum(vd.cantidad*ip.cantidad) as Cantidad')
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('i.nombre_insumo')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($proMenosVenNo),200)->header('Content-type','text/plain');
+    } 
+    public  function allC3(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+        $proMasVenNo = DB::table('compras as v')
+        ->join('detallecompras as dv', 'v.id' ,'=', 'dv.id_compra')
+        ->join('insumos as p', 'p.id' ,'=', 'dv.id_insumo')
+        ->selectRaw('p.nombre_insumo, sum(dv.cantidad) as coun')
+        ->where('v.estado',1)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('dv.id_insumo', 'p.nombre_insumo')
+        ->orderBy('coun','DESC')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+
+    public  function allC4(Request $request)
+    { 
+        $hasta=$request->hasta;
+        $desde=$request->desde;
+        $proMasVenNo = DB::table('compras as v')
+        ->join('detallecompras as dv', 'v.id' ,'=', 'dv.id_compra')
+        ->join('insumos as p', 'p.id' ,'=', 'dv.id_insumo')
+        ->selectRaw('p.nombre_insumo, sum(dv.cantidad) as coun')
+        ->where('v.estado',1)
+        ->whereBetween('v.fecha', [$desde, $hasta])
+        ->groupBy('dv.id_insumo', 'p.nombre_insumo')
+        ->orderBy('coun','ASC')
+        ->take(5)
+        ->get();
+
+         return response(json_encode($proMasVenNo),200)->header('Content-type','text/plain');
+    } 
+
 }

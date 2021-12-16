@@ -6,7 +6,7 @@
 @endsection
 
 @section('contenido')
-
+@section('title', 'Reporte')
 
 <!DOCTYPE html>
 <html>
@@ -15,11 +15,38 @@
 @csrf
 <body>
      
- @csrf
-<h1 class="bg text-dark text-center pt-3">PiloncitoSoft</h1>
 
+<h1 class="bg text-dark text-center pt-3">Reporte de ventas</h1>
 
+<a href="/ventas" class="btn btn-secondary mb-3"><i class="fas fa-backward"></i></a>
+
+<a href="{{ route('exportExcelVentas') }}" style="float: right" class="btn btn-primary mb-3"><i class="fas fa-chart-bar"></i></a>
+<br>
+<form id="myForm" action="pedidosventaReportes" method ="POST" class="tomarP">
+     
+    <label class="text">Selecciones un rango de fechas:</label>
+    <div class="row mt-1">
+    <div class="col-lg-2">
+        <label for="desde">Desde</label>
+        <input type="date" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="desde" id="desde" tabindex="4" placeholder="Ingrese la fecha inicial">
+        @if($errors->has('Desde'))
+        <span class="error text-danger" for="input-name">{{$errors->first('Desde')}}</span>
+        @endif
+    </div>
+    <div class="col-lg-2">
+        <label for="hasta">Hasta</label>
+        <input type="date" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="hasta" id="hasta" tabindex="4" placeholder="Ingrese la fecha final">
+        @if($errors->has('Hasta'))
+        <span class="error text-danger" for="input-name">{{$errors->first('Hasta')}}</span>
+        @endif
+    </div>
+    <div class="col-lg-2 mt-4">
+    <button style="float: ;" type="submit" class="btn btn-success btn-mt-1"  tabindex="7"><i class="fas fa-check"></i></button>
+    </div>
+</div>
+</form>
     <div class="pt-4"></div>
+
 
 
 @if(Session::has('success'))
@@ -75,6 +102,8 @@
 <div class="pt-5"></div>
 
 
+
+
 @section('js')
 
 <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -100,13 +129,36 @@
                     let hasta;
 
                 $( document ).ready(function() {
-
+                    $('.tomarP').submit(function(e){
+                    e.preventDefault();
+                    if ($('#desde').val() == "" || $('#hasta').val() == "" || $('#desde').val() == null || $('#hasta').val() == null || $('#desde').val() == '' || $('#hasta').val() == '') {
+                        Swal.fire(  
+                        '¡Ups!',
+                        'Selecciona fecha de inicio y fin para los reportes',
+                        'warning'
+                        )
+                    }else{Swal.fire({
+                        title: '¿Estás seguro de de haber seleccionado las fechas deseadas?',
+                        text: "¡No podrás revertir éste cambio!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, deseo crear el reporte!',
+                        cancelButtonText: 'No crear reporte'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            desde = $('#desde').val();
+                            hasta = $('#hasta').val();
+                            console.log(desde);
                             $.ajax({
-                                    url: '/reportes/allVDash',
+                                    url: '/reportes/allV',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                       
                                     }
                                 }).done(function(res){
@@ -122,11 +174,14 @@
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV2Dash',
+                                    url: '/reportes/allV2',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                        
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -142,11 +197,13 @@
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV3Dash',
+                                    url: '/reportes/allV3',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -162,11 +219,13 @@
                                     });
 
                                     $.ajax({
-                                    url: '/reportes/allV4Dash',
+                                    url: '/reportes/allV4',
                                     method:'POST',
                                     data:{
                                             id:1,
-                                            _token:$('input[name="_token"]').val()
+                                            _token:$('input[name="_token"]').val(),
+                                            desde:desde,
+                                            hasta:hasta
                                             
                                     }
                                 }).done(function(res){
@@ -179,8 +238,21 @@
 
                                     }
                                     generarGrafica4();
-                                    });    
-
+                                    });
+                                
+                                $.ajax({
+                                type: "GET",
+                                async : false,
+                                url: '{{ route('exportExcelVentas') }}',
+                                data: {},
+                                success: function(response){
+                                    resp = (response);
+                                }
+                            });
+                            window.location.href="/excelVentasExport";      
+                        }
+                    })}
+                });
             });
 
                 function generarGrafica(){
@@ -341,4 +413,3 @@
 </html> 
 @endsection
 @endsection
-                

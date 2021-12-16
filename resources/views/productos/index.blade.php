@@ -10,20 +10,9 @@
 <head>
 <h1 class="bg text-dark text-center pt-2">Gestión Productos</h1>
 <body>
-@if(Session::has('success'))
-<div class="alert alert-success" role="alert">
-    {{Session::get('success')}}
-</div>
-@endif
-@if ($errors-> any())
-@foreach ($errors->all() as $value)
-<div class="alert alert-danger" role="alert">   
-    {{$value}}
-    </div>
-@endforeach
-@endif
 <table id="productos" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
 <a href="productos/create" class="btn btn-primary mb-3" ><i class="fas fa-plus"></i></a>     
+<a  href="https://youtube.com/playlist?list=PLMNr6bGzQSBEuJKzL9CjBqUHg1AJIvr1e" target="_blank" class="btn btn-secondary mb-3 ml-1" style="float: right;">   <i class="fas fa-info" ></i></a> 
 <thead class="bg-primary text-white">
             <tr>
                
@@ -50,14 +39,19 @@
                    </td>
                    <td>
                    <form action="{{ route('productos.destroy',$producto->id) }}" class="d-inline formulario-eliminar" method="POST">
-                      
+
                    @if($producto->estado == 0)
                         <a  onclick= "return confirmarDesactivar({{$producto->estado}},{{$producto->id}},event)" href="{{ route('productos.cambioEstadoProducto',$producto) }}" type="button" class="btn btn-sm btn-success d-inline formulario-desactivar">Activar</a>
                         @elseif($producto->estado == 1) 
                         <a  onclick= "return confirmarDesactivar({{$producto->estado}},{{$producto->id}},event)" href="{{ route('productos.cambioEstadoProducto',$producto) }}" type="button" class="btn btn-sm btn-danger d-inline formulario-activar">Inactivar</a>
                         @endif
+                        <a href="/productos/{{ $producto->id }}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+
+                        @if($producto->estado == 1)
+                        <a href="/productos/{{$producto->id}}/edit" class="btn btn-sm btn-primary" data-id="{{ $producto->id }}"><i class="fas fa-pen"></i></a> 
+                        @endif
                       
-                      <a href="/productos/{{$producto->id}}/edit" class="btn btn-sm btn-primary" data-id="{{ $producto->id }}"><i class="fas fa-pen"></i></a>        
+                             
                             @csrf
                             @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -69,17 +63,28 @@
            </tbody>
       </table>
         
-      @if(session('pdtnoelmdo') == 'pdtnoelmdo')
-<script>
+
+
+      @section('js')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+
+      @if(session('pdtnoelmdo') == 'Realiza el pedido correctamente.')
+    <script>
         Swal.fire(
         '¡Ups!',
-        'El producto no puede ser eliminado, ya se ha vendido.',
+        'Producto en uso',
         'warning'
         )
     </script>
 @endif
 
-@if(session('pdtelmdo') == 'pdtelmdo')
+@if(session('pdtelmdo') == 'Realiza el pedido correctamente.')
 <script>
         Swal.fire(
         '¡Listo!',
@@ -111,25 +116,29 @@ Swal.fire({
         Swal.fire(
             '¡Listo!',
             'Producto creado',
-            'succes'
+            'success'
+        )
+    </script>
+    @endif
+
+    @if(session('modcor') == 'modcor')
+    <script>
+        Swal.fire(
+            '¡Listo!',
+            'Producto modificado',
+            'success'
         )
     </script>
     @endif
               
          
-@section('js')
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
+
+
 
 <script type="text/javascript">
   $(document).ready(function() {
     tablaProductos= $('#productos').DataTable({ 
-        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "desc" ]]
+        "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]], "order": [[ 2, "asc" ]],
     
     language: {
         "decimal": "",
@@ -155,6 +164,8 @@ Swal.fire({
 });
 });
     
+</script>
+<script type="text/javascript">
 function confirmarDesactivar(estado,id,e){ 
                     e.preventDefault();
                     if (estado) {
@@ -234,7 +245,7 @@ function confirmarDesactivar(estado,id,e){
 
       
 
-</script>
+
 </body>
 </html> 
 @endsection

@@ -12,7 +12,7 @@ h4 {display: inline}
 h3, h4 {text-align: right}
 .lcd{text-align: right}
 </style>
-<h2 class="pt-3">Editar producto</h2>
+<h2 class="pt-3">Detalles del producto</h2>
     <div class="card-body">
         <div class="card">
          
@@ -21,80 +21,28 @@ h3, h4 {text-align: right}
         @method('PUT') 
             @csrf
             <div class="card-header">
-            <p class="text-danger">Campo obligatorio (*).</p>
                 <div class="row mb-3">
                         <div class="col">
                         <input type="hidden" id="idProd" name="idProd" value="{{ $productos->id}}">
-                            <label for="" class="form-label">Nombre</label><label class="text-danger"> *</label>
-                            <input id="nombre" name="nombre" class="form-control" value="{{$productos->nombre}}" tabindex="1" lang="es">
+                            <label for="" class="form-label">Nombre</label>
+                            <input   id="nombre" name="nombre" class="form-control" value="{{$productos->nombre}}" tabindex="1" lang="es" disabled="true">
                             @if($errors->has('nombre'))
                                 <span class="error text-danger" for="input-name">{{$errors->first('nombre')}}</span>
                             @endif
                         </div>
 
                         <div class="col">
-                            <label for="" class="form-label">Precio</label><label class="text-danger"> *</label>
-                            <input id="precio" name="precio" type="number" value="{{$productos->precio}}" onkeypress="return event.charCode>= 48 && event.charCode <=57" step="any" class="form-control" tabindex="2" >
+                            <label for="" class="form-label">Precio</label>
+                            <input id="precio" name="precio" type="number" value="{{$productos->precio}}" onkeypress="return event.charCode>= 48 && event.charCode <=57" step="any" class="form-control" tabindex="2" disabled="true" >
                             @if($errors->has('precio'))
                                 <span class="error text-danger" for="input-name">{{$errors->first('precio')}}</span>
                             @endif
 
                             
                         </div>
-                </div>
-
-                
-                
-                <div class="row mb-3">
-                        <div class="col">
-                        <label for="" class="form-label" class="crearPdt">Insumo</label>
-                            <select name="id_insumo" class="id_insumo form-control" value=" " tabindex="3" id="id_insumo" lang="es">
-                                <option></option>
-                                @foreach($insumos as $i)
-                                <option value="{{ $i->id }}">{{ $i->nombre_insumo }}</option>
-                                @endforeach
-                            </select>
-                            
                         </div>
-
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="cantidad">Cantidad</label>
-                                <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control"  tabindex="4" name="cantidad" id="cantidad" placeholder="Ingrese la cantidad">
-                        
-                            </div>
                         </div>
-                        <div>
-                        <button type="button" id="agregarInsumo" class="btn btn-secondary mt" style="float: left">Agregar</button>
-                        </div>
-                    </div>
-                </div>    
-                <div class="card-body">
-                <label for="cantidad">Detalle de insumos añadidos</label>
-                    <table class="table bg-gray table-bordered shadow-lg mb-2" style="border-radius: 7px;">
-                            <thead>
-                                <tr>
-                                    <th>Insumo</th>
-                                    <th>Cantidad</th>
-                                    <th>Acciones</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody >
-                            <tbody class="table bg-white" id="cajaDetalle" >
-                            
-                  
-                  
-                        </tbody>
-                        </table>    
-                            
-                    </div>
-
-                <tbody>
-             
-           </tbody>
-
-           <div class="card-body">
+                        <div class="card-body">
            <label for="cantidad">Detalle de insumos existentes</label>
            
                     <table class=" table-bordered table bg-gray shadow-lg mb-4" style="border-radius: 8px">
@@ -102,7 +50,6 @@ h3, h4 {text-align: right}
                                 <tr>
                                     <th>Insumo</th>
                                     <th>Cantidad</th>
-                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table bg-white table-sm" id="cajaDetallee">
@@ -113,18 +60,29 @@ h3, h4 {text-align: right}
                                             <input type="hidden" value="{{ $ins->id }}" />
                                         </td>
                                         <td>{{ $ins->cantidad }}</td>
-                                        <td><button onclick="eliminarRegistro(event);" type="button" class="btn btn-sm btn-danger active">Eliminar</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
            </div>
-         
                     <div>
                     <a href="/productos" class="btn btn-secondary" tabindex="6"><i class="fas fa-backward"></i></a>
-                    <button style="float: right;" type="submit" class="btn btn-primary" tabindex="7"><i class="fas fa-check"></i></button>
                     </div>
+                </div>
+
+                
+                
+        
+                        </div>
+               
+       
+                <tbody>
+             
+           </tbody>
+
+         
+         
     </form>
 @endsection
 

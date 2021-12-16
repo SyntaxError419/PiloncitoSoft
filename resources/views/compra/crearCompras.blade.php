@@ -22,7 +22,7 @@
                                 <div class="col">
                                                     
                                         <label for="" class="form-label "  >Proveedor </label><label class="text-danger"> *</label>
-                                        <select  class="id_proveedor form-control b-4"  name="id_proveedor" id="id_proveedor" tabindex="1"  >
+                                        <select  class="id_proveedor form-control b-4"  name="id_proveedor" id="id_proveedor" tabindex="1"  lang="es" >
                                         <option ></option>
                                         @foreach ($proveedores as $proveedor)
                                             <option value="{{$proveedor-> id}} " >
@@ -56,43 +56,30 @@
         
                                     <h4>Agregar insumos</h4>
                     <div class="row mb-3">
-                            <div class="col">
-                                                    
-
-                                <div class="mb-3">
+                            <div class="col-lg-6">
                                     <label for="id_insumo">Insumo  </label>
-                                        <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  tabindex="4">
+                                        <select  class="id_insumo form-control" name="id_insumo" id="id_insumo"  tabindex="4" lang="es">
                                             <option></option>
                                             @foreach ($insumos as $insumo)
                                             <option value="{{$insumo ->id }}"> {{$insumo->nombre_insumo}}</option>
                                             @endforeach
                                         </select>                         
-                                </div> 
                             </div> 
-                        <div class="col">
-
-                                    <div class="form-group">
+                            <div class="col-lg-6">
                                             <label for="">Cantidad  </label>
                                             <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="cantidad" id="cantidad"    tabindex="5" placeholder="Ingrese una cantidad mayor a 1">                                   
-                                    </div>
-
-                                </div> 
+                            
+                            </div> 
                     </div> 
                     <div class="row mb-3">
-                            <div class="col">
+                    <div class="col-lg-6">
 
-                                    <div class="form-group">
                                             <label for="">Iva</label>
                                             <input  onkeypress="return event.charCode>= 48&& event.charCode <=57"  type="text" class="form-control" name="iva" id="iva"  tabindex="6"  placeholder="Ingrese el porcentaje de iva correspondiente">                  
-                                    </div>
                             </div>
-                            <div class="col">
-
-
-                                    <div class="mb-3">
+                            <div class="col-lg-6">
                                         <label for="" class="form-label">Precio Unitario   *</label>
                                         <input   onkeypress="return event.charCode>= 48&& event.charCode <=57" id="precio_unitario" name="precio_unitario" type="text" step="any" class="form-control" tabindex="7"  placeholder="Ingrese un precio unitario mayor a 1">                                 
-                                    </div>
                                 </div>
                     </div>
                                 <button type="button" id="agregarInsumo" class="btn btn-secondary" tabindex="8">Agregar</button>
@@ -159,7 +146,13 @@
     </script>
 @endif
 
-<script >
+<script>
+        function resetform() {
+/*             $('#id_insumo').each(function() { this.selectedIndex = 0 });
+ */         $("#cantidad[type=text]").each(function() { this.value = '' });
+            $("#iva[type=text]").each(function() { this.value = '' });
+            $("#precio_unitario[type=text]").each(function() { this.value = '' });
+        }
 
       const formatterDolar = new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -192,6 +185,66 @@
         }
 $(document).ready(function(){
 
+
+$('.tomarC').submit(function(e){
+                e.preventDefault();
+                if ($('#id_proveedor option:selected').val() == "" &&  $('#numReciboCompra').val() == "" && $('#id_insumo option:selected').val() == "") {
+                Swal.fire(
+                '¡Ups!',
+                'Realiza la compra correctamente agregando un proveedor, un numero de recibo y un insumo a la lista.',
+                'warning'
+                )
+            }  else if ($('#numReciboCompra').val() == "" ) {
+                Swal.fire(
+                '¡Ups, Ingresa  un número de recibo!',
+                'Realiza la compra correctamente ingresando un número de recibo.',
+                'warning'
+                )
+            } 
+              else if ($('#fecha').val() == "" ) {
+                Swal.fire(
+                '¡Ups, Ingresa  una fecha!',
+                'Realiza la compra correctamente ingresando una fecha.',
+                'warning'
+                )
+            }  
+               else if ($('#id_proveedor option:selected').val() == "" ) {
+                Swal.fire(
+                '¡Ups, Selecciona un proveedor de la lista!',
+                'Realiza la compra correctamente agregando un proveedor a la lista.',
+                'warning'
+                )
+            }
+              else if ($('#id_insumo option:selected').val() == "" ) {
+                Swal.fire(
+                '¡Ups, selecciona un insumo de la lista!',
+                'Realiza la compra nuevamente agregando un insumo a la lista.',
+                'warning'
+                )
+            }    else if ((arrayid_insumo.length) < 1) {
+                Swal.fire(
+                '¡Ups, agrega insumos a la  compra!',
+                'Realiza la compra nuevamente agregando insumos  a la compra.',
+                'warning'
+                )
+            }  else{
+
+                Swal.fire({
+                    title: '¿Estás seguro de crear esta compra?',
+                    text: "¡No podrás revertir éste cambio!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Sí, deseo crear la compra!',
+                    cancelButtonText: 'No crear la compra'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })}
+            });
+
 $('#agregarInsumo').click(function(){
     if (parseInt($('#cantidad').val()) > 0 && parseInt($('#precio_unitario').val()) > 0 &&  parseInt($('#id_insumo option:selected').val()) > -1) {
 
@@ -202,6 +255,7 @@ $('#agregarInsumo').click(function(){
     let precio_unitario = parseInt($('#precio_unitario').val());
     let subtotal =cantidad *precio_unitario;
     let precio_total = (subtotal*iva)+subtotal;
+    resetform();
 
     if (arrayid_insumo.includes(id_insumo)) {
         $('#tr-'+id_insumo).remove();
@@ -270,25 +324,6 @@ $('#agregarInsumo').click(function(){
     
 });
 
-$(document).ready(function(){
-    $('.tomarC').submit(function(e){
-                e.preventDefault();
-                Swal.fire({
-                    title: '¿Estás seguro de tomar esta Compra?',
-                    text: "¡No podrás revertir éste cambio!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, deseo crear la compra!',
-                    cancelButtonText: 'No crear la compra'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                })
-            });
-});
 
 
 function confirmarEditar(e)
@@ -408,24 +443,6 @@ function actualizarSubtotal(id_insumo)
     $($("#subtotal-"+id_insumo).parent()).children("td.precioTotal").text(precio_total)
 }
 
-
-$('.tomarC').submit(function(e){
-                e.preventDefault();
-                Swal.fire({
-                    title: '¿Estás seguro de crear esta compra?',
-                    text: "¡No podrás revertir éste cambio!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '¡Sí, deseo crear la compra!',
-                    cancelButtonText: 'No crear la compra'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                })
-            });
             
 </script>
 
