@@ -7,25 +7,25 @@
 
 
 @section('contenido')
-<script type="text/javascript" >
-function startTime(){
-today=new Date();
-h=today.getHours();
-m=today.getMinutes();
-s=today.getSeconds();
-m=checkTime(m);
-s=checkTime(s);
-document.getElementById('reloj').innerHTML=h+":"+m+":"+s;
-t=setTimeout('startTime()',500);}
-function checkTime(i)
-{if (i<10) {i="0" + i;}return i;}
-window.onload=function(){startTime();}
-</script>
-<div id="reloj" text align="right" style="font-size:15px;"></div> 
 
-<h1 class="bg text-dark text-center mt">Gestión de USUARIOS</h1>
 
-<br>
+<h1 class="bg text-dark text-center mt">Gestión de usuarios</h1>
+
+@if(Session::has('success'))
+<div class="alert alert-success" role="alert">
+    {{Session::get('success')}}
+</div>
+@endif
+@if ($errors-> any())
+
+@foreach ($errors->all() as $value)
+<div class="alert alert-danger" role="alert">   
+    {{$value}}
+    </div>
+@endforeach
+
+@endif
+
 <a href="users/create"  class="btn btn-primary mb-3"><i class="fas fa-plus"></i></a>  <!--Boton crear-->
 <br>
 <br>
@@ -78,6 +78,26 @@ window.onload=function(){startTime();}
 <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"></script>
  
+@if(session('guardar') == 'True')
+    <script>
+        Swal.fire(
+        'Guardado!',
+        'El usuario se ha registrado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+
+@if(session('edit') == 'True')
+    <script>
+        Swal.fire(
+        '¡Editado!',
+        'El usuario ha sido editado correctamente.',
+        'success'
+        ) 
+    </script>
+@endif
+
 <script type="text/javascript">
   $(document).ready(function() {
     tablaUsuarios=$('#users').DataTable({ "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],

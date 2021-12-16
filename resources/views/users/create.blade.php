@@ -48,6 +48,19 @@
     
 <a href="/users" class="btn btn-secondary"tabindex="7"><i class="fas fa-backward"></i></a>
 <button style="float: right;"  type="submit"  class="btn btn-success"   tabindex="8"><i class="fas fa-check"></i></button>
-
 </form>
+@section('js')
+
+
+@if(session('errorregistro') == 'errorregistro')
+    <script>
+        Swal.fire(
+        '¡Oops!',
+        'El nombre del usuario ya se encuentra registrado.',
+        'error'
+        ) 
+    </script>
+@endif
+
+@endsection
 @endsection

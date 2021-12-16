@@ -35,15 +35,18 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $users= new User();
+       try{ $users= new User();
         $users->name=$request->get('name');
         $users->email=$request->get('email');
         $users->password=$request->get('password');
 
 
         $users->save();
+        return redirect('/users')->with('guardar','True');
 
-        return redirect('/users');
+        }catch (QueryException $e) {
+         return redirect('/users/create')->with('errorregistro','errorregistro');
+        }
     }
 
     /**
