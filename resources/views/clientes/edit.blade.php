@@ -1,9 +1,9 @@
 
 @extends('layouts.plantillabase')
 @section('contenido')
-@section('title', 'Cliente')
+@section('title', 'Mi núcleo familiar')
 
-    <h2 class="pt-3">Editar cliente</h2>
+    <h2 class="pt-3">Editar pariente</h2>
     <div class="card mt-4">
     <div class="card-header">
     <form action="/clientes/{{$cliente->id}}" method="POST" class="crearClt">
@@ -15,21 +15,49 @@
             <div class="row mb-3"> 
 
                 <div class="col"> 
-                  <label for="" class="block font-medium text-sm text-gray-700" >Nombre</label>
+                  <label for="" class="block font-medium text-sm text-gray-700" >Nombres</label>
                   <label for="" class="error text-danger" >*</label>
                   <input id="nombre" name="nombre" type="text" class="form-control" value="{{$cliente->nombre}}" tabindex="1" >
                   @if($errors->has('nombre'))
                     <span class="error text-danger" for="input-name">{{$errors->first('nombre')}}</span>
                    @endif
                 </div>
+
+
+                <div class="col"> 
+                  <label for="" class="block font-medium text-sm text-gray-700" >Apedillos</label>
+                  <label for="" class="error text-danger" >*</label>
+                  <input id="apellidos" name="apellidos" type="text" class="form-control" value="{{$cliente->apellidos}}" tabindex="2" >
+                  @if($errors->has('nombre'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('apellidos')}}</span>
+                   @endif
+                </div>
+                </div>
+
+                <div class="row mb-3"> 
+                <div class="col">
+                            <label for="" class="form-label">Tipo de documento</label><label class="text-danger">*</label>
+                            <select name="estado" id="estado" class="form-control" tabindex="3" required="required">
+                            @if($cliente->tipodocumento == 0)
+                            <option value=0>Registro civil</option>
+                            <option value=1>Tarjeta de identidad</option>
+                            <option value=2>Cédula de ciudadanía</option>
+                            @elseif($cliente->estado == 1)
+                            <option value=1>Tarjeta de identidad</option>
+                            <option value=2>Cédula de ciudadanía</option>
+                            @elseif($cliente->estado == 2)
+                            <option value=2>Cédula de ciudadanía</option>
+                            @endif
+                            </select>
+                        </div>
   
             
                 <div class="col">
-                  <label for="" class="block font-medium text-sm text-gray-700">Cédula</label>
+                  <label for="" class="block font-medium text-sm text-gray-700">Número de documento</label>
                   <label for="" class="error text-danger" >*</label>
-                  <input id="cedula" name="cedula" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  class="form-control" value="{{$cliente->cedula}}" tabindex="2">
-                  @if($errors->has('cedula'))
-                   <span class="error text-danger" for="input-name">{{$errors->first('cedula')}}</span>
+                  <input id="numerodocumento" name="numerodocumento" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  class="form-control" value="{{$cliente->numerodocumento}}" tabindex="2">
+                  @if($errors->has('numerodocumento'))
+                   <span class="error text-danger" for="input-name">{{$errors->first('numerodocumento')}}</span>
                   @endif
                 </div>
 
@@ -40,19 +68,19 @@
             <div class="row mb-3">
                 <div class="col">  
  
-                  <label for="" class="block font-medium text-sm text-gray-700">Dirección</label>
+                  <label for="" class="block font-medium text-sm text-gray-700">Edad</label>
                   <label for="" class="error text-danger" >*</label>
-                  <input list="direccion" name="direccion" type="text" class="form-control" value="{{$cliente->direccion}}" tabindex="3" >
-                  @if($errors->has('direccion'))
-                    <span class="error text-danger" for="input-name">{{$errors->first('direccion')}}</span>
+                  <input list="edad" name="edad" type="text" class="form-control" value="{{$cliente->edad}}" tabindex="3" >
+                  @if($errors->has('edad'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('edad')}}</span>
                   @endif
                 </div>
                 <div class="col"> 
-                  <label for="" class="form-label">Contacto</label>
+                  <label for="" class="form-label">Correo</label>
                   <label for="" class="error text-danger" >*</label>
-                  <input list="contacto" name="contacto" type="text" class="form-control" value="{{$cliente->contacto}}" tabindex="4" >
-                  @if($errors->has('contacto'))
-                    <span class="error text-danger" for="input-name">{{$errors->first('contacto')}}</span>
+                  <input list="correo" name="correo" type="text" class="form-control" value="{{$cliente->correo}}" tabindex="4" >
+                  @if($errors->has('correo'))
+                    <span class="error text-danger" for="input-name">{{$errors->first('correo')}}</span>
                   @endif
                 </div>
 

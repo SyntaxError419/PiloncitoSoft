@@ -45,9 +45,11 @@ class ClienteController extends Controller
     {
         $request->validate([ //Validacion que me sea requeridos estos campos//
             'nombre' => 'required',
-            'cedula'=>'required |unique:clientes',
-            'direccion'=>'required',
-            'contacto'=>'required'
+            'numerodocumento'=>'required |unique:clientes',
+            'apellidos'=>'required',
+            'genero'=>'required',
+            'edad'=>'required',
+            'tipodocumento'=>'required'
             
          ]);
 
@@ -56,9 +58,13 @@ class ClienteController extends Controller
             $clientes = new Cliente();
         
         $clientes->nombre = $request->get('nombre');
-        $clientes->cedula = $request->get('cedula');
-        $clientes->direccion = $request->get('direccion');
-        $clientes->contacto = $request->get('contacto');
+        $clientes->apellidos = $request->get('apellidos');
+        $clientes->tipodocumento = $request->get('tipodocumento');
+        $clientes->numerodocumento = $request->get('numerodocumento');
+        $clientes->genero = $request->get('genero');
+        $clientes->edad = $request->get('edad');
+        $clientes->correo = $request->get('correo');
+        $clientes->parentesco = $request->get('parentesco');
 
         $clientes->saveOrFail();
         
@@ -67,7 +73,7 @@ class ClienteController extends Controller
         return redirect('/clientes');
         } catch (QueryException $e) {
             DB::rollBack();
-            echo '<script language="javascript">alert("Cedula ya registrada, por favor verifica");window.location.href="/clientes/create"</script>';
+            echo '<script language="javascript">alert("Documento ya registrado, por favor verifica");window.location.href="/clientes/create"</script>';
             
 
         }

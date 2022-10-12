@@ -7,11 +7,11 @@
 @endsection
 
 @section('contenido')
-@section('title', 'Clientes')
+@section('title', 'Mi núcleo familiar')
 <!DOCTYPE html>
 <html>
 <head>
-<h1 class="bg text-dark text-center pt-2">Gestión de clientes</h1>
+<h1 class="bg text-dark text-center pt-2">Mi núcleo familiar</h1>
 
 
 <body>
@@ -23,10 +23,14 @@
 <thead class="bg-primary text-white">
             <tr>
                 
-                <th scope="col">Nombre</th>
-                <th scope="col">Cédula</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Contacto</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Tipo de documento</th>
+                <th scope="col">Número de documento</th>
+                <th scope="col">Género</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Correo electrónico</th>
+                <th scope="col">Parentesco</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
@@ -37,9 +41,32 @@
               <tr>
                  
                   <td>{{$cliente->nombre}}</td>
-                  <td>{{$cliente->cedula}}</td>
-                  <td>{{$cliente->direccion}}</td>
-                  <td>{{$cliente->contacto}}</td>
+                  <td>{{$cliente->apellidos}}</td>
+                  <!-- <td>{{$cliente->tipodocumento}}</td> -->
+                  <td>
+                      @if($cliente->tipodocumento == 0)
+                      <a>Registro civil</a>
+                          @elseif($cliente->tipodocumento == 1)
+                      <a>Tarjeta de identidad</a>
+                      @elseif($cliente->tipodocumento == 2)
+                      <a>Cédula de ciudadanía</a>
+                      @endif
+                   </td>
+
+                  <td>{{$cliente->numerodocumento}}</td>
+
+                  <!-- <td>{{$cliente->genero}}</td> -->
+                  <td>
+                      @if($cliente->genero == 0)
+                      <a>Femenino</a>
+                          @else
+                      <a>Masculino</a>
+                      @endif
+                   </td>
+
+                  <td>{{$cliente->edad}}</td>
+                  <td>{{$cliente->correo}}</td>
+                  <td>{{$cliente->parentesco}}</td>
                   
                   <td id="resp{{ $cliente->id }}">
                       @if($cliente->estado == 1)

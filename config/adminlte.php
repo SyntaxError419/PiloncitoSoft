@@ -12,7 +12,7 @@ return [
     */
 
     'title' => '',
-    'title_prefix' => 'PiloncitoSoft | ',
+    'title_prefix' => 'Mi Salud | ',
     'title_postfix' => '',
 
     /*
@@ -34,12 +34,12 @@ return [
     |
     */
 
-    'logo' => '<b>Piloncito</b>Soft',
+    'logo' => 'Mi<b>Salud</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'PiloncitoSoft',
+    'logo_img_alt' => 'Mi Salud',
 
     /*
     |--------------------------------------------------------------------------

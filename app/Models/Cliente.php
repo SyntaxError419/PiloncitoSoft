@@ -9,7 +9,7 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre','direccion','cedula','contacto','estado'];
+    protected $fillable = ['nombre','apellidos','numerodocumento','tipodocumento','estado','correo','edad','parentesco','genero'];
 
     public function ventas(){
         return $this->hasMany(Venta::class, 'id');

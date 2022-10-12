@@ -16,7 +16,7 @@
 <body>
      
  @csrf
-<h1 class="bg text-dark text-center pt-3">PiloncitoSoft</h1>
+<h1 class="bg text-dark text-center pt-3">Mi Salud</h1>
 
 
     <div class="pt-4"></div>
