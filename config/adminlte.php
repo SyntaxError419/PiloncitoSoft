@@ -12,7 +12,7 @@ return [
     */
 
     'title' => '',
-    'title_prefix' => 'PiloncitoSoft | ',
+    'title_prefix' => 'Mi Salud | ',
     'title_postfix' => '',
 
     /*
@@ -34,12 +34,12 @@ return [
     |
     */
 
-    'logo' => '<b>Piloncito</b>Soft',
+    'logo' => '<b>Mi</b>Salud',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'PiloncitoSoft',
+    'logo_img_alt' => 'Mi Salud',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,51 +231,38 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'    => 'Gestión Compras',
+            'text'    => 'Gestión Exámenes',
             'icon'    => '',
             'submenu' => [
                 [
-                    'text' => 'Proveedores',
+                    'text' => 'Medicos',
                     'url'  => 'proveedores',
-                    'icon' => 'fas fa-fw fa-truck-loading',
+                    'icon' => 'fas fa-fw ',
                 ],
                 [
-                    'text' => 'Insumos',
+                    'text' => 'Exámenes Medicos',
                     'url'  => 'insumos',
-                    'icon' => 'fas fa-fw fa-cheese',
+                    'icon' => 'fas fa-fw ',
                 ],
-                [
-                    'text' => 'Compras',
-                    'url'  => 'compras',
-                    'icon' => 'fas fa-fw fa-boxes',
-                ],
+               
             ],
         ],
+        
         [
-            'text' => 'Productos',
-            'url'  => 'productos',
-            'icon' => '',
-            'label_color' => 'red',
-        ],
-        [
-            'text'    => 'Gestión Ventas',
+            'text'    => 'Gestión Grupo Familiar',
             'icon'    => '',
             'submenu' => [
                 [
-                    'text' => 'Clientes',
+                    'text' => 'Mi núcleo familiar',
                     'url'  => 'clientes',
-                    'icon' => 'fas fa-fw fa-user-tag',
+                    'icon' => 'fas fa-fw ',
                 ],
                 [
-                    'text' => 'Pedidos',
+                    'text' => 'Indicadores de Salud',
                     'url'  => 'pedidos',
-                    'icon' => 'fas fa-fw fa-clipboard-list',
+                    'icon' => 'fas fa-fw ',
                 ],
-                [
-                    'text' => 'Ventas',
-                    'url'  => 'ventas',
-                    'icon' => 'fas fa-fw fa-hand-holding-usd',
-                ],
+                
             ],
         ],
         [
@@ -285,22 +272,22 @@ return [
                 [
                     'text' => 'Roles',
                     'url'  => '#',
-                    'icon' => 'fas fa-fw fa-street-view',
+                    'icon' => 'fas fa-fw ',
                 ],
                 [
                     'text' => 'Usuarios',
                     'url'  => 'users',
-                    'icon' => 'fas fa-fw fa-users',
+                    'icon' => 'fas fa-fw ',
                 ],
                 [
                     'text' => 'Acceso',
                     'url'  => '#',
-                    'icon' => 'fas fa-fw fa-cogs',
+                    'icon' => 'fas fa-fw ',
                 ],
                 [
                     'text' => 'Configuración de perfil',
                     'url'  => 'user/profile',
-                    'icon' => 'fas fa-fw fa-users-cog',
+                    'icon' => 'fas fa-fw',
                 ],
             ],
         ],

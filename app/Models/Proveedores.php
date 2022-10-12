@@ -9,6 +9,9 @@ class Proveedores extends Model
 {
     
     use HasFactory;
+
+    protected $fillable = ['estado'] ;
+
     public function compras(){
         return $this->hasMany(Compra::class, 'id');
         }

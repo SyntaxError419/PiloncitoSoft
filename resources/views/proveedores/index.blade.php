@@ -7,7 +7,7 @@
 
 
 @section('contenido')
-@section('title', 'Proveedores')
+@section('title', 'Medicos')
 <!-- <script type="text/javascript" >
 function startTime(){
 today=new Date();
@@ -24,7 +24,7 @@ window.onload=function(){startTime();}
 </script>
 <div id="reloj" text align="right" style="font-size:15px;"></div>  -->
 
-<h1 class="bg text-dark text-center mt">Gestión de Proveedores</h1>
+<h1 class="bg text-dark text-center mt">Gestión de Medicos</h1>
 
 
 @if(Session::has('success'))
@@ -56,12 +56,13 @@ window.onload=function(){startTime();}
 <tr>
     
 <!-- <th style=" text-align: center;" scope="col" >Id</th> -->
-<th style=" text-align: center;" scope="col">Nit</th>
-<th style=" text-align: center;" scope="col">Nombre Contacto</th>
+
+<th style=" text-align: center;" scope="col">Nombre </th>
 <th style=" text-align: center;" scope="col">Correo</th>
-<th style=" text-align: center;" scope="col">Numero Contacto</th>
-<th style=" text-align: center;" scope="col">Empresa</th>
-<th style=" text-align: center;" scope="col">Direccion Empresa</th>
+<th style=" text-align: center;" scope="col">Numero </th>
+<th style=" text-align: center;" scope="col">Especialidad </th>
+<th style=" text-align: center;" scope="col">Hospital</th>
+<th style=" text-align: center;" scope="col">Direccion Hospital</th>
 <th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;"scope="col">Acciones</th>
 </tr>  
@@ -72,12 +73,13 @@ window.onload=function(){startTime();}
 @foreach ($proveedores as $proveedor)
 <tr>
     <!-- <td style="text-align: center;">{{$proveedor->id}}</td> -->
-    <td style="text-align: center;">{{$proveedor->nit}}</td>
-    <td style="text-align: center;">{{$proveedor->nombrecontacto}}</td>
-    <td style="text-align: center;">{{$proveedor->correocontacto}}</td>
-    <td style="text-align: center;">{{$proveedor->numerocontacto}}</td>
-    <td style="text-align: center;">{{$proveedor->empresa}}</td>
-    <td style="text-align: center;">{{$proveedor->direccionempresa}}</td>
+    
+    <td style="text-align: center;">{{$proveedor->nombre}}</td>
+    <td style="text-align: center;">{{$proveedor->correo}}</td>
+    <td style="text-align: center;">{{$proveedor->numero}}</td>
+    <td style="text-align: center;">{{$proveedor->especialidad}}</td>
+    <td style="text-align: center;">{{$proveedor->hospital}}</td>
+    <td style="text-align: center;">{{$proveedor->direccionhospital}}</td>
     <td id="resp{{ $proveedor->id }}">
                       @if($proveedor->estado == 1)
                       Activado
@@ -96,7 +98,7 @@ window.onload=function(){startTime();}
     
     <a  href="/proveedores/{{$proveedor->id}}/edit"  class="btn btn-sm btn-primary"  ><i class="fas fa-pen"></i></i></a>
   
-    <a  href="/proveedores/{{$proveedor->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a>
+    <!-- <a  href="/proveedores/{{$proveedor->id}}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></a> -->
     <!-- @csrf
     @method('DELETE')
     
@@ -341,7 +343,7 @@ function confirmarDesactivar(estado,id,e){
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo desactivar el proveedor!',     
+                        confirmButtonText: '¡Sí, deseo desactivar el medico!',     
                         cancelButtonText: 'No,deseo volver '
                         }).then((result) => {
                         if (result.value ==true ) {
@@ -376,7 +378,7 @@ function confirmarDesactivar(estado,id,e){
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: '¡Sí, deseo activar el proveedor!',     
+                        confirmButtonText: '¡Sí, deseo activar el medico!',     
                         cancelButtonText: 'No,deseo volver '
                         }).then((result) => {
                         if (result.value ==true ) {
@@ -395,7 +397,7 @@ function confirmarDesactivar(estado,id,e){
                                 });
                         
                               Swal.fire(
-                                '¡Proveedor activado!',
+                                'Medico activado!',
                                 '',
                                 'success'
                                 );
