@@ -62,7 +62,7 @@ window.onload=function(){startTime();}
 <th style=" text-align: center;" scope="col">Numero </th>
 <th style=" text-align: center;" scope="col">Especialidad </th>
 <th style=" text-align: center;" scope="col">Hospital</th>
-<th style=" text-align: center;" scope="col">Direccion Hospital</th>
+<th style=" text-align: center;" scope="col">Dirección Hospital</th>
 <th style=" text-align: center;" scope="col">Estado</th>
 <th style="text-align: center;"scope="col">Acciones</th>
 </tr>  
